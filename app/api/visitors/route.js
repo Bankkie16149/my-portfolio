@@ -77,6 +77,12 @@ export async function PATCH(request) {
 export async function GET(request) {
   try {
     const supabase = await createClient();
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user || user.email !== 'hoing11111@gmail.com') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     
     const { data: visitors, error } = await supabase
       .from('VisitorLog')
@@ -96,6 +102,12 @@ export async function GET(request) {
 export async function DELETE(request) {
   try {
     const supabase = await createClient();
+
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user || user.email !== 'hoing11111@gmail.com') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     
     const { error } = await supabase
       .from('VisitorLog')

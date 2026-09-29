@@ -1,8 +1,32 @@
 'use client'
 
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { createClient } from '@/utils/supabase/client'
 
 export default function AdminClientLayout({ user, children }) {
+  const [liveCount, setLiveCount] = useState(0)
+
+  useEffect(() => {
+    const fetchLiveCount = async () => {
+      const supabase = createClient()
+      // Active in the last 5 minutes
+      const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000).toISOString()
+      
+      const { count } = await supabase
+        .from('VisitorLog')
+        .select('*', { count: 'exact', head: true })
+        .gte('visitedAt', fiveMinutesAgo)
+
+      if (count !== null) setLiveCount(count)
+    }
+
+    fetchLiveCount()
+    // Optional: Refresh every 30 seconds
+    const interval = setInterval(fetchLiveCount, 30000)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div className="bg-[#f4fbf9] font-sans text-slate-800 antialiased min-h-screen flex flex-col">
       {/* Top Navigation Bar */}
@@ -28,7 +52,7 @@ export default function AdminClientLayout({ user, children }) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
               </span>
-              <span>กำลังดูหน้าเว็บ: <strong className="text-teal-900 font-bold">Live</strong> (Real-time)</span>
+              <span>กำลังดูหน้าเว็บ: <strong className="text-teal-900 font-bold">{liveCount} คน</strong></span>
             </div>
           </div>
           
