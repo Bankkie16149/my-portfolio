@@ -45,7 +45,7 @@ export default function SkillsSection() {
   ];
 
   return (
-    <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft">
+    <section id="section-skills" className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft">
       <div className="flex items-center gap-3 pb-6 border-b border-teal-50 mb-8">
         <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
           <FaLaptopCode className="text-[20px]" />

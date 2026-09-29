@@ -4,6 +4,7 @@ import Navbar from "@/app/components/Navbar";
 import SkillsSection from "@/app/components/SkillsSection";
 import ProjectCard from "@/app/components/Projectcard";
 import InternshipSection from '@/app/components/InternshipSection';
+import { useEffect } from "react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { profileData, projectsData, internshipsData, educationData } from "@/app/data/portfolio";
 import { FaLinkedin } from "react-icons/fa";
@@ -15,6 +16,42 @@ export default function Home() {
   const projects = projectsData || [];
   const internships = internshipsData || [];
 
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const sectionId = entry.target.id;
+          let sectionName = "หน้าแรก (Home Overview)";
+          
+          if (sectionId === 'section-hero') sectionName = "หน้าแรก (Home Overview)";
+          if (sectionId === 'section-about') sectionName = "ประวัติการศึกษา & แนะนำตัว (About)";
+          if (sectionId === 'section-education') sectionName = "ประวัติการศึกษา (Education)";
+          if (sectionId === 'section-skills') sectionName = "ทักษะ & ผลงาน Front-end";
+          if (sectionId === 'section-projects') sectionName = "โปรเจกต์ของฉัน (Projects)";
+          if (sectionId === 'section-internship') sectionName = "ประสบการณ์ & การฝึกงาน (Internship)";
+
+          const visitorId = sessionStorage.getItem('visitorId');
+          if (visitorId) {
+            fetch('/api/visitors', {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: visitorId, sectionViewed: sectionName })
+            }).catch(e => console.log(e));
+          }
+        }
+      });
+    }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+
+    setTimeout(() => {
+      document.querySelectorAll('section[id^="section-"]').forEach(section => {
+        observer.observe(section);
+      });
+    }, 1000); // Give DOM time to render
+
+    return () => observer.disconnect();
+  }, []);
+
+
   return (
     <div className="bg-[#f4fbf9] min-h-screen text-slate-800 font-sans selection:bg-teal-500/30">
       <Navbar />
@@ -22,7 +59,7 @@ export default function Home() {
       <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 space-y-12">
         
         {/* HERO SECTION */}
-        <section className="bg-white rounded-2xl p-8 md:p-12 border border-teal-900/10 shadow-card-soft relative overflow-hidden">
+        <section id="section-hero" className="bg-white rounded-2xl p-8 md:p-12 border border-teal-900/10 shadow-card-soft relative overflow-hidden">
           {/* Decorative Teal/Cyan soft blur glow */}
           <div className="absolute -right-16 -top-16 w-80 h-80 bg-teal-100/70 rounded-full blur-3xl pointer-events-none opacity-60"></div>
           <div className="absolute -left-10 -bottom-10 w-60 h-60 bg-cyan-100/50 rounded-full blur-2xl pointer-events-none opacity-40"></div>
@@ -73,7 +110,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* เกี่ยวกับฉัน */}
-          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
+          <section id="section-about" className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 pb-6 border-b border-teal-50">
                 <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
@@ -113,7 +150,7 @@ export default function Home() {
           </section>
 
           {/* การศึกษา */}
-          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
+          <section id="section-education" className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
             <div>
               <div className="flex items-center gap-3 pb-6 border-b border-teal-50">
                 <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center border border-cyan-100/80">
@@ -152,7 +189,7 @@ export default function Home() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
           {/* โปรเจกต์ของฉัน */}
-          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
+          <section id="section-projects" className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
             <div className="flex items-center gap-3 pb-6 border-b border-teal-50 mb-6">
               <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
                 <span className="material-symbols-outlined text-[22px]">folder_special</span>
@@ -188,7 +225,7 @@ export default function Home() {
           </section>
 
           {/* การฝึกงาน */}
-          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
+          <section id="section-internship" className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
             <div className="flex items-center gap-3 pb-6 border-b border-teal-50 mb-6">
               <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
                 <span className="material-symbols-outlined text-[22px]">work_outline</span>

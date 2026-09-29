@@ -70,6 +70,21 @@ export default function AdminDashboard() {
   const safariPct = Math.round((safari / originTotal) * 100);
   const directPct = Math.round((direct / originTotal) * 100);
 
+  const sectionCounts = logs.reduce((acc, log) => {
+    const sec = log.sectionViewed || 'หน้าแรก (Home Overview)';
+    acc[sec] = (acc[sec] || 0) + 1;
+    return acc;
+  }, {});
+  let mostViewedSection = 'กำลังเก็บข้อมูล...';
+  let maxSectionCount = 0;
+  for (const [sec, count] of Object.entries(sectionCounts)) {
+    if (count > maxSectionCount) {
+      maxSectionCount = count;
+      mostViewedSection = sec;
+    }
+  }
+
+
   return (
     <div className="space-y-8 animate-in fade-in zoom-in-95 duration-500">
       
@@ -149,9 +164,11 @@ export default function AdminDashboard() {
             </div>
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-xl font-display font-bold text-slate-900 truncate">Skills & Frameworks</span>
+            <span className="text-lg font-display font-bold text-slate-900 truncate">
+              {mostViewedSection}
+            </span>
           </div>
-          <div className="mt-2 text-xs text-slate-400">ตามด้วยผลงาน และ การศึกษา</div>
+          <div className="mt-2 text-xs text-slate-400">อัปเดตอัตโนมัติตามการเลื่อนหน้าจอ</div>
         </div>
       </div>
 
@@ -297,7 +314,7 @@ export default function AdminDashboard() {
                         </div>
                       </td>
                       <td className="py-3.5 px-6">
-                        <span className="font-medium text-slate-900">หน้าแรก (Home Overview)</span>
+                        <span className="font-medium text-slate-900">{log.sectionViewed || "หน้าแรก (Home Overview)"}</span>
                       </td>
                       <td className="py-3.5 px-6 text-slate-600">
                         <div className="flex items-center gap-1.5">
