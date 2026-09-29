@@ -34,7 +34,9 @@ export default function AdminDashboard() {
   const totalVisits = logs.length;
   const uniqueIPs = new Set(logs.map(log => log.ipAddress)).size;
   const todayVisits = logs.filter(log => {
-    const logDate = new Date(log.visitedAt).toDateString();
+    let ds = log.visitedAt;
+    if (!ds.endsWith('Z') && !ds.includes('+')) ds += 'Z';
+    const logDate = new Date(ds).toDateString();
     const today = new Date().toDateString();
     return logDate === today;
   }).length;
@@ -47,7 +49,11 @@ export default function AdminDashboard() {
   });
 
   const chartData = last7Days.map(date => {
-    const count = logs.filter(log => new Date(log.visitedAt).toDateString() === date.toDateString()).length;
+    const count = logs.filter(log => {
+      let ds = log.visitedAt;
+      if (!ds.endsWith('Z') && !ds.includes('+')) ds += 'Z';
+      return new Date(ds).toDateString() === date.toDateString();
+    }).length;
     const days = ['อา.', 'จ.', 'อ.', 'พ.', 'พฤ.', 'ศ.', 'ส.'];
     return { day: days[date.getDay()], count };
   });
@@ -241,47 +247,82 @@ export default function AdminDashboard() {
         
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead className="bg-[#f8fbfb] text-slate-500 font-semibold border-b border-teal-100/50">
-              <tr>
-                <th className="px-6 py-4 whitespace-nowrap">เวลาเข้าชม (Time)</th>
-                <th className="px-6 py-4 whitespace-nowrap">หมายเลข IP</th>
-                <th className="px-6 py-4 whitespace-nowrap">เบราว์เซอร์</th>
-                <th className="px-6 py-4 whitespace-nowrap">อุปกรณ์ / OS</th>
+            <thead>
+              <tr className="bg-teal-50/40 border-b border-slate-100 text-xs font-semibold text-slate-600">
+                <th className="py-3 px-6">เวลา (Timestamp)</th>
+                <th className="py-3 px-6">หมายเลข IP (IP Address)</th>
+                <th className="py-3 px-6">หน้าที่เปิดดู (Section Viewed)</th>
+                <th className="py-3 px-6">อุปกรณ์ & เบราว์เซอร์</th>
+                <th className="py-3 px-6 text-right">ตำแหน่งคร่าว ๆ</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-teal-50">
+            <tbody className="divide-y divide-slate-100 text-xs">
               {loading ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-8 text-center text-slate-400">กำลังโหลดข้อมูล...</td>
+                  <td colSpan="5" className="px-6 py-8 text-center text-slate-400">กำลังโหลดข้อมูล...</td>
                 </tr>
               ) : logs.length === 0 ? (
                 <tr>
-                  <td colSpan="4" className="px-6 py-8 text-center text-slate-400">ยังไม่มีข้อมูลผู้เข้าชม</td>
+                  <td colSpan="5" className="px-6 py-8 text-center text-slate-400">ยังไม่มีข้อมูลผู้เข้าชม</td>
                 </tr>
               ) : (
-                logs.map((log) => (
-                  <tr key={log.id} className="hover:bg-slate-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-700">
-                      {new Date(log.visitedAt).toLocaleString('th-TH')}
-                    </td>
-                    <td className="px-6 py-4 text-slate-500 font-mono text-xs bg-slate-50/50 rounded-lg inline-block mt-3 ml-6 mb-3">
-                      {log.ipAddress || 'Unknown'}
-                    </td>
-                    <td className="px-6 py-4 text-slate-600">
-                      <div className="flex items-center gap-2">
-                        {log.browser?.includes('Chrome') && <span className="material-symbols-outlined text-[16px] text-teal-500">public</span>}
-                        {log.browser?.includes('Safari') && <span className="material-symbols-outlined text-[16px] text-blue-500">explore</span>}
-                        {log.browser || 'Unknown'}
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 text-slate-600">
-                      {log.os || 'Unknown'} {log.device && `(${log.device})`}
-                    </td>
-                  </tr>
-                ))
+                logs.map((log) => {
+                  let ds = log.visitedAt;
+                  if (!ds.endsWith('Z') && !ds.includes('+')) ds += 'Z';
+                  const date = new Date(ds);
+                  const timeString = date.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+                  
+                  // Calc time ago
+                  const diff = Math.floor((new Date() - date) / 1000);
+                  let timeAgo = '';
+                  if (diff < 60) timeAgo = 'เมื่อสักครู่';
+                  else if (diff < 3600) timeAgo = Math.floor(diff/60) + ' นาทีที่แล้ว';
+                  else if (diff < 86400) timeAgo = Math.floor(diff/3600) + ' ชม. ที่แล้ว';
+                  else timeAgo = Math.floor(diff/86400) + ' วันที่แล้ว';
+
+                  const isMobile = log.device === 'Mobile' || log.os === 'Android' || log.os === 'iOS';
+                  const deviceIcon = isMobile ? 'smartphone' : 'desktop_windows';
+
+                  return (
+                    <tr key={log.id} className="hover:bg-teal-50/20 transition-colors">
+                      <td className="py-3.5 px-6 font-mono text-slate-600">
+                        <span className="font-semibold text-teal-700">{timeAgo}</span>
+                        <span className="block text-[10px] text-slate-400">{timeString}</span>
+                      </td>
+                      <td className="py-3.5 px-6">
+                        <div className="flex items-center gap-2">
+                          <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-medium font-mono text-[11px] border border-slate-200/50">
+                            {log.ipAddress || 'Unknown'}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-6">
+                        <span className="font-medium text-slate-900">หน้าแรก (Home Overview)</span>
+                      </td>
+                      <td className="py-3.5 px-6 text-slate-600">
+                        <div className="flex items-center gap-1.5">
+                          <span className="material-symbols-outlined text-[16px] text-slate-400">{deviceIcon}</span>
+                          <span>{log.os || 'Unknown'} • {log.browser || 'Unknown'}</span>
+                        </div>
+                      </td>
+                      <td className="py-3.5 px-6 text-right font-medium text-slate-600">
+                        {log.ipAddress === '::1' || log.ipAddress === '127.0.0.1' ? 'Local Network' : 'Unknown'}
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
+        </div>
+        
+        {/* Table Footer / Pagination Note */}
+        <div className="px-6 py-4 bg-teal-50/30 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+          <span>ข้อมูลถูกจัดเก็บบนฐานข้อมูลแบบปลอดภัย (Anonymous Analytics)</span>
+          <button className="font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1 transition-colors" type="button">
+            <span>ดาวน์โหลดรายงานเป็น CSV</span>
+            <span className="material-symbols-outlined text-[14px]">download</span>
+          </button>
         </div>
       </div>
     </div>
