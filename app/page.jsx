@@ -4,263 +4,242 @@ import Navbar from "@/app/components/Navbar";
 import SkillsSection from "@/app/components/SkillsSection";
 import ProjectCard from "@/app/components/Projectcard";
 import InternshipSection from '@/app/components/InternshipSection';
-
-// 1. นำเข้า Hook 
 import { useLanguage } from "@/app/context/LanguageContext";
-import { useState, useEffect } from "react";
-
-// Icons
-import { FaSchool, FaBookReader, FaGraduationCap, FaUniversity, FaCalendarAlt, FaLinkedin } from "react-icons/fa";
-import { RiAccountCircleLine, RiAdminFill } from "react-icons/ri";
-import { IoMdPhonePortrait } from "react-icons/io";
-import { MdAttachEmail } from "react-icons/md";
-import { PiProjectorScreenFill } from "react-icons/pi";
-import { CgWorkAlt } from "react-icons/cg";
+import { profileData, projectsData, internshipsData, educationData } from "@/app/data/portfolio";
+import { FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
-  // 2. เรียกใช้ Hook เพื่อดึงค่าภาษาปัจจุบัน
   const { language } = useLanguage();
-
-  const [projects, setProjects] = useState([]);
-  const [internships, setInternships] = useState([]);
-  const [profile, setProfile] = useState(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [projRes, intRes, profRes] = await Promise.all([
-          fetch(`/api/projects`),
-          fetch(`/api/internships`),
-          fetch(`/api/profile`)
-        ]);
-        
-        if (projRes.ok) {
-          const data = await projRes.json();
-          setProjects(data);
-        }
-        if (intRes.ok) {
-          const data = await intRes.json();
-          setInternships(data);
-        }
-        if (profRes.ok) {
-          const data = await profRes.json();
-          if (data.id) setProfile(data);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-    fetchData();
-  }, []);
+  const profile = profileData;
+  const educations = educationData || [];
+  const projects = projectsData || [];
+  const internships = internshipsData || [];
 
   return (
-    <>
+    <div className="bg-[#f4fbf9] min-h-screen text-slate-800 font-sans selection:bg-teal-500/30">
       <Navbar />
 
-      {/* ส่วนแนะนำตัว (Hero Section) */}
-      <div className="flex items-center justify-center bg-white dark:bg-zinc-900 px-10 pt-16 pb-20 transition-colors duration-300">
-        <div className="flex flex-col md:flex-row items-center gap-12 max-w-6xl w-full">
-          <div className="relative w-60 h-60 flex-shrink-0">
-            <Image
-              src="/20241009_083423_368.JPG"
-              alt="Profile"
-              fill
-              className="rounded-full object-cover shadow-xl"
-            />
-          </div>
-          <div className="text-gray-800 dark:text-gray-100">
-            <h1 className="text-4xl font-semibold mb-4">
-              {language === 'th' ? "สวัสดีครับ" : "Hello,"}
-            </h1>
-            <h3 className="text-xl leading-relaxed">
-              {language === 'th' ? "ผมชื่อ" : "My name is"}{" "}
-              <span className="font-bold text-blue-600 dark:text-blue-400">
-                {profile?.name || (language === 'th' ? "นายธนกร ทิพย์วารีรัตนะ" : "Tanakorn Tipwarreerattana")}
-              </span>
-              <br/>
-              {profile?.bio || (language === 'th' 
-                ? "โดยผมมีความสนใจทางด้านการพัฒนาด้านเว็บแอพพลิเคชั่นทางด้าน Front-end เพราะผมมีทักษะทางด้านการดีไซน์และการใช้ framework ทางด้าน front-end เป็นหลักและพร้อมเรียนรู้ framework ใหม่ๆในอนาคตครับ"
-                : "I am interested in Front-end web application development because I have skills in design and using Front-end frameworks, and I am ready to learn new frameworks in the future."
-              )}
-            </h3>
-          </div>
-        </div>
-      </div>
-
-      {/* ส่วน About Me & Education */}
-      <div className="bg-gray-50 dark:bg-zinc-800 px-10 py-16 transition-colors duration-300" id="aboutme">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 space-y-12">
+        
+        {/* HERO SECTION */}
+        <section className="bg-white rounded-2xl p-8 md:p-12 border border-teal-900/10 shadow-card-soft relative overflow-hidden">
+          {/* Decorative Teal/Cyan soft blur glow */}
+          <div className="absolute -right-16 -top-16 w-80 h-80 bg-teal-100/70 rounded-full blur-3xl pointer-events-none opacity-60"></div>
+          <div className="absolute -left-10 -bottom-10 w-60 h-60 bg-cyan-100/50 rounded-full blur-2xl pointer-events-none opacity-40"></div>
           
-          {/* ABOUT ME */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-300 border-b pb-2 flex items-center gap-3">
-              <RiAccountCircleLine className="text-blue-600 text-3xl" />
-              <span className="text-gray-600 dark:text-gray-300">
-                {language === 'th' ? "เกี่ยวกับฉัน" : "ABOUT ME"}
-              </span>
-            </h2>
-            <div className="space-y-7 text-lg text-gray-700 dark:text-gray-300">
-              <p className="flex items-center gap-3">
-                <RiAdminFill className="text-black dark:text-white text-3xl" />
-                <span>
-                  <strong>{language === 'th' ? "ชื่อ :" : "Name :"}</strong>{" "}
-                  {profile?.name || (language === 'th' ? "นายธนกร ทิพย์วารีรัตนะ" : "Tanakorn Tipwarreerattana")}
-                </span>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
+            {/* Left: Headings and Intro */}
+            <div className="lg:col-span-7 space-y-5">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-semibold shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                <span>{language === 'th' ? "Front-end Developer Portfolio" : "Front-end Developer Portfolio"}</span>
+              </div>
+              <div className="space-y-2">
+                <h2 className="text-3xl font-display font-semibold text-slate-800 flex items-center gap-2">
+                  <span>{language === 'th' ? "สวัสดีครับ" : "Hello"}</span>
+                  <span className="text-2xl">👋</span>
+                </h2>
+                <h1 className="text-3xl md:text-4xl font-display font-bold text-slate-900 tracking-tight leading-tight">
+                  {language === 'th' ? "ผมชื่อ" : "I'm"} <span className="text-teal-600">{language === 'th' ? profile.name : profile.nameEn}</span>
+                </h1>
+              </div>
+              <p className="text-slate-600 text-base md:text-lg leading-relaxed font-normal bg-[#f7fcfb] p-5 rounded-2xl border border-teal-100/70">
+                {language === 'th' ? profile.bio : profile.bioEn}
               </p>
-              <p className="flex items-center gap-3">
-                <FaBookReader className="text-black dark:text-white text-3xl" />
-                <span>
-                  <strong>{language === 'th' ? "คณะ :" : "Faculty :"}</strong>{" "}
-                  {language === 'th' ? "เทคโนโลยีสารสนเทศและการสื่อสาร" : "Faculty of ICT"}
-                </span>
-              </p>
-              <p className="flex items-center gap-3">
-                <IoMdPhonePortrait className="text-black dark:text-white text-3xl" />
-                <span>
-                  <strong>{language === 'th' ? "เบอร์โทร :" : "Phone :"}</strong> 083-251-1456
-                </span>
-              </p>
-              <p className="flex items-center gap-3">
-                <MdAttachEmail className="text-black dark:text-white text-3xl" />
-                <span>
-                  <strong>{language === 'th' ? "อีเมล :" : "Email :"}</strong> {profile?.email || "tanakorn.tip@student.mahidol.edu"}
-                </span>
-              </p>
-              <p className="flex items-center gap-3">
-                <a
-                  href="https://www.linkedin.com/in/tanakorn-tipwarreerattana-1a6053364?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3"
-                >
-                  <FaLinkedin className="text-black dark:text-white text-3xl cursor-pointer" />
-                  <span>
-                    <strong>LinkedIn :</strong> {profile?.name || "Tanakorn Tipwarreerattana"}
-                  </span>
+              <div className="flex flex-wrap items-center gap-4 pt-2">
+                <a className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm font-semibold shadow-sm hover:shadow-teal-glow transition duration-200" href={profile.linkedin} rel="noopener noreferrer" target="_blank">
+                  <span>LinkedIn Profile</span>
+                  <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
                 </a>
-              </p>
+                <a className="inline-flex items-center gap-2 px-5 py-2.5 bg-teal-50/70 text-teal-800 border border-teal-200/70 rounded-xl text-sm font-medium hover:bg-teal-100/80 transition" href={`mailto:${profile.email}`}>
+                  <span className="material-symbols-outlined text-[18px] text-teal-600">mail</span>
+                  <span>ติดต่ออีเมล</span>
+                </a>
+              </div>
+            </div>
+            {/* Right: Profile Image */}
+            <div className="lg:col-span-5 flex justify-center lg:justify-end">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-tr from-teal-500 to-cyan-400 rounded-3xl blur-md opacity-30 group-hover:opacity-45 transition duration-300"></div>
+                <div className="relative w-64 h-64 sm:w-72 sm:h-72 md:w-80 md:h-80 rounded-2xl overflow-hidden bg-white border-4 border-white shadow-xl">
+                  <Image alt="Profile" className="w-full h-full object-cover object-top hover:scale-105 transition duration-500" src="/20241009_083423_368.JPG" fill />
+                </div>
+              </div>
             </div>
           </div>
+        </section>
 
-          {/* EDUCATION */}
-          <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-lg p-8 hover:shadow-xl transition-all">
-            <h2 className="text-2xl font-semibold mb-6 text-gray-300 border-b pb-2 flex items-center gap-3">
-              <FaGraduationCap className="text-blue-600 text-3xl" />
-              <span className="text-gray-600 dark:text-gray-300">
-                {language === 'th' ? "การศึกษา" : "EDUCATION"}
-              </span>
-            </h2>
-            <div className="space-y-6 text-lg text-gray-700 dark:text-gray-300">
-              
-              {/* High School */}
-              <div className="border-l-4 border-purple-400 pl-4">
-                <p className="flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-white">
-                  <FaSchool className="text-purple-600" />
-                  {language === 'th' ? "โรงเรียนเทพศิรินทร์ นนทบุรี" : "Debsirin Nonthaburi School"}
-                </p>
-                <p className="ml-8 text-gray-600 dark:text-gray-400">
-                  {language === 'th' ? "แผนการเรียน ภาษาอังกฤษ – คณิตศาสตร์" : "English - Mathematics Program"}
-                </p>
-                <p className="ml-8 flex items-center gap-2 text-gray-500 mt-1 text-sm">
-                  <FaCalendarAlt /> 2560 – 2566
-                </p>
-              </div>
-
-              {/* University */}
-              <div className="border-l-4 border-indigo-500 pl-4">
-                <p className="flex items-center gap-2 text-xl font-semibold text-gray-900 dark:text-white">
-                  <FaUniversity className="text-indigo-600" />
-                  {language === 'th' ? "มหาวิทยาลัยมหิดล" : "Mahidol University"}
-                </p>
-                <p className="ml-8 text-gray-600 dark:text-gray-400">
-                  {language === 'th' 
-                    ? "คณะเทคโนโลยีสารสนเทศและการสื่อสาร — สาขาวิทยาการและเทคโนโลยีดิจิทัล" 
-                    : "Faculty of ICT — D.S.T. (Digital Science and Technology)"}
-                </p>
-                <p className="ml-8 flex items-center gap-2 text-gray-500 mt-1 text-sm">
-                  <FaCalendarAlt /> {language === 'th' ? "2567 – ปัจจุบัน" : "2024 – Present"}
-                </p>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <SkillsSection />
-
-      {/* MY PROJECT SECTION */}
-      <section className="bg-gray-50 dark:bg-zinc-800 px-10 py-20 flex flex-col items-center transition-colors duration-300">
-        <div className="max-w-6xl w-full space-y-10">
-          <h2 className="text-3xl font-semibold text-gray-800 dark:text-white mb-10 border-b-4 border-blue-500 inline-flex items-center gap-3 pb-2">
-            <PiProjectorScreenFill className="text-blue-500" />
-            {language === 'th' ? "โปรเจกต์ของฉัน" : "MY PROJECTS"}
-          </h2>
+        {/* Two-column Section: About Me & Education */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
+          {/* เกี่ยวกับฉัน */}
+          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 pb-6 border-b border-teal-50">
+                <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
+                  <span className="material-symbols-outlined text-[22px]">person</span>
+                </div>
+                <div>
+                  <h2 className="text-xl font-display font-bold text-slate-900">{language === 'th' ? "เกี่ยวกับฉัน" : "About Me"}</h2>
+                  <p className="text-xs text-slate-400 font-mono">Personal Information</p>
+                </div>
+              </div>
+              <div className="divide-y divide-teal-50/70 mt-4">
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "ชื่อ" : "Name"}</span>
+                  <span className="text-base font-semibold text-slate-800">{language === 'th' ? profile.name : profile.nameEn}</span>
+                </div>
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "คณะ" : "Faculty"}</span>
+                  <span className="text-base font-medium text-slate-800 text-right">{language === 'th' ? profile.faculty : profile.facultyEn}</span>
+                </div>
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "เบอร์โทร" : "Phone"}</span>
+                  <a className="text-base font-mono font-medium text-teal-600 hover:text-teal-700 hover:underline" href={`tel:${profile.phone}`}>{profile.phone}</a>
+                </div>
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "อีเมล" : "Email"}</span>
+                  <a className="text-sm md:text-base font-medium text-teal-600 hover:text-teal-700 hover:underline truncate" href={`mailto:${profile.email}`}>{profile.email}</a>
+                </div>
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span className="text-sm font-medium text-slate-400">LinkedIn</span>
+                  <a className="inline-flex items-center gap-1.5 text-base font-medium text-teal-600 hover:text-teal-700" href={profile.linkedin} rel="noopener noreferrer" target="_blank">
+                    <span>Tanakorn Tipwarreerattana</span>
+                    <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
 
-          {/* วนลูปเรียกใช้ ProjectCard */}
-          {projects.map((project) => {
-            const type = project.tags?.[0] || 'website';
+          {/* การศึกษา */}
+          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-3 pb-6 border-b border-teal-50">
+                <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center border border-cyan-100/80">
+                  <span className="material-symbols-outlined text-[22px]">school</span>
+                </div>
+                <div>
+                  <h2 className="text-xl font-display font-bold text-slate-900">{language === 'th' ? "การศึกษา" : "Education"}</h2>
+                  <p className="text-xs text-slate-400 font-mono">Education History</p>
+                </div>
+              </div>
+              <div className="mt-8 relative pl-6 border-l-2 border-teal-200/80 space-y-8">
+                {educations.map((edu, idx) => (
+                  <div key={edu.id} className="relative">
+                    <span className={`absolute -left-[31px] top-1 w-3.5 h-3.5 rounded-full ring-4 ring-white shadow-sm ${idx === 0 ? 'bg-teal-600' : 'bg-slate-300'}`}></span>
+                    <div className="bg-[#f7fcfb] p-4 rounded-xl border border-teal-100/70">
+                      <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-medium mb-1.5 ${idx === 0 ? 'bg-teal-100/80 text-teal-800' : 'bg-slate-100 text-slate-700'}`}>
+                        {language === 'th' ? edu.yearsTh : edu.yearsEn}
+                      </span>
+                      <h3 className="text-base font-bold text-slate-900">
+                        {language === 'th' ? edu.schoolTh : edu.schoolEn}
+                      </h3>
+                      <p className="text-sm text-slate-600 mt-0.5">
+                        {language === 'th' ? edu.degreeTh : edu.degreeEn}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <SkillsSection />
+
+        {/* Two-column: โปรเจกต์ของฉัน & การฝึกงาน */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          
+          {/* โปรเจกต์ของฉัน */}
+          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
+            <div className="flex items-center gap-3 pb-6 border-b border-teal-50 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
+                <span className="material-symbols-outlined text-[22px]">folder_special</span>
+              </div>
+              <div>
+                <h2 className="text-xl font-display font-bold text-slate-900">{language === 'th' ? "โปรเจกต์ของฉัน" : "My Projects"}</h2>
+                <p className="text-xs text-slate-400 font-mono">My Projects</p>
+              </div>
+            </div>
             
-            let defaultLink = '#';
-            let defaultButtonText = '';
-            let targetType = type;
+            <div className="flex-1 flex flex-col gap-6">
+              {projects.map((project) => {
+                const type = project.tags?.[0] || 'website';
+                let defaultLink = project.projectUrl || project.githubUrl || '#';
+                let defaultButtonText = type === 'github' ? "View on GitHub" : (language === 'th' ? "เยี่ยมชมเว็บไซต์" : "Visit Website");
+                
+                return (
+                  <ProjectCard
+                    key={project.id}
+                    id={project.id}
+                    title={project.title}
+                    imageSrc={project.imageUrl || project.image}
+                    images={project.images}
+                    description={project.description}
+                    link={defaultLink}
+                    buttonText={defaultButtonText}
+                    type={type}
+                    status={project.tags?.[1] || 'success'}
+                  />
+                );
+              })}
+            </div>
+          </section>
 
-            if (type === 'internal') {
-              defaultLink = `/projects/${project.id}`;
-              defaultButtonText = language === 'th' ? "อ่านรายละเอียด" : "Read Details";
-            } else if (type === 'github') {
-              defaultLink = project.githubUrl || project.projectUrl || '#';
-              defaultButtonText = "View on GitHub";
-            } else {
-              // website
-              defaultLink = project.projectUrl || project.githubUrl || '#';
-              defaultButtonText = language === 'th' ? "เยี่ยมชมเว็บไซต์" : "Visit Website";
-            }
+          {/* การฝึกงาน */}
+          <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
+            <div className="flex items-center gap-3 pb-6 border-b border-teal-50 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
+                <span className="material-symbols-outlined text-[22px]">work_outline</span>
+              </div>
+              <div>
+                <h2 className="text-xl font-display font-bold text-slate-900">{language === 'th' ? "การฝึกงาน" : "Internship"}</h2>
+                <p className="text-xs text-slate-400 font-mono">Internship & Cooperative Education</p>
+              </div>
+            </div>
+            
+            <div className="flex-1 flex flex-col gap-6">
+              {/* Ready for internship banner */}
+              <div className="p-6 rounded-xl bg-gradient-to-br from-teal-50/70 to-cyan-50/50 border border-teal-100">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100/90 text-teal-800 text-xs font-semibold">
+                    <span className="w-2 h-2 rounded-full bg-teal-600 animate-pulse"></span>
+                    <span>{language === 'th' ? "พร้อมสำหรับการฝึกงาน / สหกิจศึกษา" : "Available for Internship"}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900">
+                    {language === 'th' ? "สนใจร่วมฝึกงานในตำแหน่ง Front-end Developer" : "Looking for Front-end Developer Internship"}
+                  </h3>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {language === 'th' ? "พร้อมนำทักษะการออกแบบและพัฒนาส่วนต่อประสาน (UI) ด้วย modern web framework มาประยุกต์ใช้ในการทำงานจริง พร้อมเรียนรู้และเติบโตไปร่วมกับทีมพัฒนาซอฟต์แวร์" : "Ready to apply UI design and modern web framework skills in a real-world environment, and eager to learn and grow with the software development team."}
+                  </p>
+                </div>
+                <div className="pt-6 flex flex-wrap items-center justify-between gap-3 border-t border-teal-100/80 mt-4">
+                  <span className="text-xs font-medium text-slate-500">{language === 'th' ? "ติดต่อได้ทางอีเมลและโทรศัพท์" : "Contact via email or phone"}</span>
+                  <a className="inline-flex items-center gap-1.5 px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-semibold hover:bg-teal-700 transition shadow-sm" href={`mailto:${profile.email}`}>
+                    <span className="material-symbols-outlined text-[16px]">send</span>
+                    <span>{language === 'th' ? "ส่งข้อความติดต่อ" : "Send Message"}</span>
+                  </a>
+                </div>
+              </div>
 
-            return (
-              <ProjectCard
-                key={project.id}
-                id={project.id}
-                title={project.title}
-                imageSrc={project.imageUrl || project.image}
-                description={project.description}
-                link={defaultLink}
-                buttonText={defaultButtonText}
-                type={targetType}
-                status={project.tags?.[1] || 'success'}
-              />
-            );
-          })}
+              {internships.map((internship) => (
+                <InternshipSection 
+                  key={internship.id}
+                  id={internship.id}
+                  role={internship.role}
+                  company={internship.company}
+                  duration={`${internship.startDate} - ${internship.endDate}`}
+                  responsibilities={internship.description?.split('\n') || []}
+                  techStack={[]}
+                  logoSrc={internship.imageUrl}
+                />
+              ))}
+            </div>
+          </section>
+
         </div>
-      </section>
-
-      {/* INTERNSHIP SECTION */}
-      <section className="bg-white dark:bg-zinc-900 px-10 py-10 flex flex-col items-center transition-colors duration-300">
-        <div className="max-w-6xl w-full">
-          <h2 className="text-3xl font-semibold text-gray-800 dark:text-white mb-10 border-b-4 border-blue-500 inline-flex items-center gap-3 pb-2">
-            <CgWorkAlt className="text-blue-500 size-9" />
-            {language === 'th' ? "การฝึกงาน" : "INTERNSHIP"}
-          </h2>
-          
-          {/* วนลูปเรียกใช้ InternshipSection ที่เราแปลงเป็น Card แล้ว */}
-          <div className="w-full space-y-8">
-            {internships.map((internship) => (
-              <InternshipSection 
-                key={internship.id}
-                id={internship.id}
-                role={internship.role}
-                company={internship.company}
-                duration={`${internship.startDate} - ${internship.endDate}`}
-                responsibilities={internship.description?.split('\n') || []}
-                techStack={[]}
-                logoSrc={internship.imageUrl || "/internship/logo exzy.jpg"}
-              />
-            ))}
-          </div>
-          
-        </div>
-      </section>
-    </>
+      </main>
+    </div>
   );
 }

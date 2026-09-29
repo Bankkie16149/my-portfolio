@@ -1,25 +1,31 @@
-import { Kanit } from "next/font/google";
+import { Plus_Jakarta_Sans, Kanit } from "next/font/google";
 import "./globals.css";
-// 1. นำเข้า LanguageProvider
 import { LanguageProvider } from "@/app/context/LanguageContext"; 
 import VisitorTracker from "@/app/components/VisitorTracker";
+
+const jakarta = Plus_Jakarta_Sans({
+  variable: "--font-jakarta",
+  subsets: ["latin"],
+});
 
 const kanit = Kanit({
   variable: "--font-kanit",
   subsets: ["latin", "thai"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata = {
-  title: "My Portfolio",
-  description: "Tanakorn Portfolio",
+  title: "TK MY PORTFOLIO",
+  description: "Tanakorn Tipwarreerattana - Front-end Developer Portfolio",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="th">
-      <body className={`${kanit.variable} font-sans antialiased`}>
-        {/* 2. ครอบ children ด้วย Provider */}
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0&display=swap" rel="stylesheet" />
+      </head>
+      <body className={`${jakarta.variable} ${kanit.variable} font-sans antialiased`}>
         <LanguageProvider>
           <VisitorTracker />
           {children}

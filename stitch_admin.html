@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+
+<html lang="th"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MY PORTFOLIO / Admin Analytics</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "surface-container-lowest": "#ffffff",
+            "tertiary-container": "#00855b",
+            "on-primary": "#ffffff",
+            "outline": "#6d7a77",
+            "surface-dim": "#d2d9f4",
+            "tertiary-fixed-dim": "#4edea3",
+            "surface-bright": "#faf8ff",
+            "primary-container": "#008378",
+            "on-secondary-container": "#006172",
+            "primary": "#00685f",
+            "inverse-on-surface": "#eef0ff",
+            "on-primary-fixed": "#00201d",
+            "tertiary-fixed": "#6ffbbe",
+            "surface": "#faf8ff",
+            "on-tertiary-fixed-variant": "#005236",
+            "on-secondary": "#ffffff",
+            "surface-container-low": "#f2f3ff",
+            "error": "#ba1a1a",
+            "secondary-fixed": "#acedff",
+            "surface-container": "#eaedff",
+            "on-surface": "#131b2e",
+            "surface-variant": "#dae2fd",
+            "surface-container-high": "#e2e7ff",
+            "on-error-container": "#93000a",
+            "surface-container-highest": "#dae2fd",
+            "primary-fixed": "#89f5e7",
+            "inverse-primary": "#6bd8cb",
+            "outline-variant": "#bcc9c6",
+            "on-surface-variant": "#3d4947",
+            "on-tertiary-container": "#f5fff6",
+            "tertiary": "#006947",
+            "error-container": "#ffdad6",
+            "on-background": "#131b2e",
+            "secondary-container": "#57dffe",
+            "on-tertiary-fixed": "#002113",
+            "surface-tint": "#006a61",
+            "on-secondary-fixed-variant": "#004e5c",
+            "inverse-surface": "#283044",
+            "primary-fixed-dim": "#6bd8cb",
+            "on-primary-fixed-variant": "#005049",
+            "secondary-fixed-dim": "#4cd7f6",
+            "on-error": "#ffffff",
+            "on-secondary-fixed": "#001f26",
+            "on-primary-container": "#f4fffc",
+            "secondary": "#00687a",
+            "on-tertiary": "#ffffff",
+            "background": "#faf8ff",
+            teal: {
+              50: '#f0fdfa',
+              100: '#ccfbf1',
+              200: '#99f6e4',
+              500: '#14b8a6',
+              600: '#0d9488',
+              700: '#0f766e',
+              800: '#115e59'
+            },
+            cyan: {
+              50: '#ecfeff',
+              100: '#cffafe',
+              500: '#06b6d4',
+              600: '#0891b2',
+              700: '#0e7490'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          },
+          boxShadow: {
+            subtle: '0 4px 20px -2px rgba(13, 148, 136, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.03)'
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #f4fbf9;
+        color: #131b2e;
+      }
+    }
+  </style>
+</head>
+<body class="bg-[#f4fbf9] font-sans text-slate-800 antialiased min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-teal-900/10">
+<div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+<!-- Left: Logo & Context -->
+<div class="flex items-center gap-4">
+<a class="flex items-center gap-2 group" href="#">
+<div class="w-8 h-8 rounded-lg bg-teal-600 text-white flex items-center justify-center font-display font-bold text-sm shadow-sm group-hover:bg-teal-700 transition-colors">
+            TK
+          </div>
+<div class="flex items-center gap-2 text-sm">
+<span class="font-display font-bold text-slate-900 tracking-tight">MY PORTFOLIO</span>
+<span class="text-teal-200">/</span>
+<span class="font-medium text-slate-500">Admin Analytics</span>
+</div>
+</a>
+<!-- Live Active Counter Badge -->
+<div class="hidden sm:inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-medium">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-teal-600"></span>
+</span>
+<span>กำลังดูหน้าเว็บ: <strong class="text-teal-900 font-bold">4 คน</strong> (Real-time)</span>
+</div>
+</div>
+<!-- Right: Action Button & Profile -->
+<div class="flex items-center gap-4">
+<a class="inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-teal-900 bg-teal-50/80 hover:bg-teal-100 hover:text-teal-950 rounded-lg transition-colors border border-teal-200/60" href="#">
+<span class="material-symbols-outlined text-[16px] text-teal-700">arrow_back</span>
+<span>กลับสู่หน้าหลัก</span>
+</a>
+<div class="h-5 w-[1px] bg-teal-100"></div>
+<!-- Admin Profile -->
+<div class="flex items-center gap-2.5">
+<img alt="Tanakorn Admin" class="w-8 h-8 rounded-full object-cover ring-2 ring-teal-500/25 shadow-sm" src="https://lh3.googleusercontent.com/aida/AEtjO1Ubr260AgQfCrPZGGs6XPegbcsYQqsbEOkG9zTVEQmWPOA6-UhQ-hGCtxpwp4G337gVnQ8K4wmwjlkkldaN6liAf-xV0BymIyBV0r0kLm_ulUARPe8eKPJ0xbaqwHoXJKeAdlh0nbftIE6rVPZL3BhyIzGVmd0elEoYwcQ-OAOMx9oGhtHF9R6_PztBb2qROxM1g1eUblNkrY7L_AIAOfKSoa5bsGRr3lP7sbfJL5ZNneqq-pBKsbgwZF0"/>
+<div class="hidden md:block text-left">
+<div class="text-xs font-semibold text-slate-900 leading-tight">Tanakorn T.</div>
+<div class="text-[10px] text-teal-700 font-medium">Admin Owner</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Content Container -->
+<main class="max-w-7xl mx-auto px-6 py-8 space-y-8">
+<!-- Page Header & Period Selector -->
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+<div>
+<h1 class="text-2xl font-display font-bold text-slate-900 tracking-tight">สถิติผู้เข้าชมพอร์ตโฟลิโอ</h1>
+<p class="text-sm text-slate-500 mt-1">สรุปข้อมูลความสนใจ สถิติการเยี่ยมชม และช่องทางที่พาคนมายังเว็บไซต์ของคุณ</p>
+</div>
+<div class="flex items-center gap-2">
+<div class="inline-flex p-1 bg-white border border-teal-900/10 rounded-xl shadow-subtle">
+<button class="px-3.5 py-1.5 text-xs font-semibold rounded-lg bg-teal-600 text-white shadow-xs" type="button">วันนี้</button>
+<button class="px-3.5 py-1.5 text-xs font-medium text-slate-600 hover:text-teal-700 hover:bg-teal-50/50 rounded-lg transition-colors" type="button">7 วันที่ผ่านมา</button>
+<button class="px-3.5 py-1.5 text-xs font-medium text-slate-600 hover:text-teal-700 hover:bg-teal-50/50 rounded-lg transition-colors" type="button">30 วัน</button>
+</div>
+<button class="p-2 text-slate-500 hover:text-teal-700 bg-white border border-teal-900/10 rounded-xl shadow-subtle transition-colors hover:bg-teal-50/40" title="รีเฟรชข้อมูล" type="button">
+<span class="material-symbols-outlined text-[18px]">refresh</span>
+</button>
+</div>
+</div>
+<!-- 4 Key Metrics Overview Cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+<!-- Card 1: Total Visitors -->
+<div class="bg-white rounded-2xl p-5 border border-teal-900/10 shadow-subtle hover:border-teal-500/30 transition-all">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-medium text-slate-500">ผู้เข้าชมทั้งหมด (Total)</span>
+<div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">groups</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="text-3xl font-display font-bold text-slate-900">1,428</span>
+<span class="inline-flex items-center gap-0.5 text-xs font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200/50">
+<span class="material-symbols-outlined text-[14px]">trending_up</span> +18.4%
+          </span>
+</div>
+<div class="mt-2 text-xs text-slate-400">เปรียบเทียบกับ 7 วันก่อนหน้า</div>
+</div>
+<!-- Card 2: Unique Visitors -->
+<div class="bg-white rounded-2xl p-5 border border-teal-900/10 shadow-subtle hover:border-cyan-500/30 transition-all">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-medium text-slate-500">ผู้เข้าชมไม่ซ้ำ (Unique)</span>
+<div class="w-9 h-9 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">person_outline</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="text-3xl font-display font-bold text-slate-900">892</span>
+<span class="inline-flex items-center text-xs font-medium text-cyan-800 bg-cyan-50 px-2 py-0.5 rounded-full border border-cyan-200/50">
+            62.4% ของทั้งหมด
+          </span>
+</div>
+<div class="mt-2 text-xs text-slate-400">ผู้เยี่ยมชมคนใหม่สะสม</div>
+</div>
+<!-- Card 3: Avg Time on Site -->
+<div class="bg-white rounded-2xl p-5 border border-teal-900/10 shadow-subtle hover:border-teal-500/30 transition-all">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-medium text-slate-500">เวลาเฉลี่ยบนเว็บ</span>
+<div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="text-3xl font-display font-bold text-slate-900">2m 45s</span>
+<span class="inline-flex items-center text-xs font-semibold text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200/50">
+            ความสนใจสูง
+          </span>
+</div>
+<div class="mt-2 text-xs text-slate-400">เปิดอ่านรายละเอียดอย่างละเอียด</div>
+</div>
+<!-- Card 4: Most Viewed Section -->
+<div class="bg-white rounded-2xl p-5 border border-teal-900/10 shadow-subtle hover:border-teal-500/30 transition-all">
+<div class="flex items-center justify-between mb-3">
+<span class="text-xs font-medium text-slate-500">ส่วนที่คนสนใจมากที่สุด</span>
+<div class="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">star_outline</span>
+</div>
+</div>
+<div class="flex items-baseline justify-between">
+<span class="text-xl font-display font-bold text-slate-900 truncate">Skills &amp; Frameworks</span>
+<span class="text-xs font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full">84%</span>
+</div>
+<div class="mt-2 text-xs text-slate-400">ตามด้วยผลงาน และ การศึกษา</div>
+</div>
+</div>
+<!-- Traffic Trends & Traffic Sources Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Traffic Trends Line / Area Chart (Col 8) -->
+<div class="lg:col-span-8 bg-white rounded-2xl p-6 border border-teal-900/10 shadow-subtle flex flex-col justify-between">
+<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between pb-4 border-b border-slate-100 gap-2">
+<div>
+<h2 class="text-base font-display font-bold text-slate-900">กราฟสถิติการเข้าชมรายวัน</h2>
+<p class="text-xs text-slate-500">แนวโน้มจำนวนครั้งที่เปิดดูเว็บไซต์ในสัปดาห์นี้</p>
+</div>
+<div class="flex items-center gap-4 text-xs font-medium text-slate-500">
+<span class="inline-flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-teal-600"></span> ผู้ชมรวม
+            </span>
+<span class="inline-flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-cyan-300"></span> Unique IPs
+            </span>
+</div>
+</div>
+<!-- SVG Line/Area Chart -->
+<div class="py-6">
+<div class="relative w-full h-56">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 600 180">
+<defs>
+<lineargradient id="chartGradient" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#0d9488" stop-opacity="0.25"></stop>
+<stop offset="100%" stop-color="#14b8a6" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Grid lines -->
+<line stroke="#f1f5f9" stroke-dasharray="3,3" stroke-width="1" x1="0" x2="600" y1="30" y2="30"></line>
+<line stroke="#f1f5f9" stroke-dasharray="3,3" stroke-width="1" x1="0" x2="600" y1="80" y2="80"></line>
+<line stroke="#f1f5f9" stroke-dasharray="3,3" stroke-width="1" x1="0" x2="600" y1="130" y2="130"></line>
+<line stroke="#e2e8f0" stroke-width="1" x1="0" x2="600" y1="170" y2="170"></line>
+<!-- Filled Area -->
+<path d="M 0,145 C 50,135 100,120 150,110 C 200,100 240,125 300,85 C 360,45 420,95 480,60 C 530,30 560,25 600,15 L 600,170 L 0,170 Z" fill="url(#chartGradient)"></path>
+<!-- Main Stroke Line -->
+<path d="M 0,145 C 50,135 100,120 150,110 C 200,100 240,125 300,85 C 360,45 420,95 480,60 C 530,30 560,25 600,15" fill="none" stroke="#0d9488" stroke-linecap="round" stroke-width="3"></path>
+<!-- Data Dots -->
+<circle cx="150" cy="110" fill="#ffffff" r="4" stroke="#0d9488" stroke-width="2.5"></circle>
+<circle cx="300" cy="85" fill="#ffffff" r="4" stroke="#0d9488" stroke-width="2.5"></circle>
+<circle cx="480" cy="60" fill="#ffffff" r="4" stroke="#0d9488" stroke-width="2.5"></circle>
+<circle cx="600" cy="15" fill="#0d9488" r="5" stroke="#ffffff" stroke-width="2.5"></circle>
+</svg>
+</div>
+<!-- X-Axis Labels -->
+<div class="flex justify-between text-xs font-medium text-slate-500 pt-2 px-1">
+<span>จันทร์ (142)</span>
+<span>อังคาร (180)</span>
+<span>พุธ (210)</span>
+<span>พฤหัส (195)</span>
+<span>ศุกร์ (280)</span>
+<span>เสาร์ (310)</span>
+<span class="font-bold text-teal-700">อาทิตย์ (428 พีค)</span>
+</div>
+</div>
+<div class="flex items-center justify-between p-3 bg-teal-50/50 rounded-xl text-xs text-slate-700 border border-teal-100">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px] text-teal-600">insights</span>
+<span>ช่วงพีคสูงสุด: วันนี้เวลา 14:15 น. มีการเปิดดูจากกลุ่ม Tech Recruiters ในกรุงเทพฯ</span>
+</div>
+<span class="font-mono text-teal-800 font-medium">ตอบสนองไว (99.8%)</span>
+</div>
+</div>
+<!-- Traffic Sources Card (Col 4) -->
+<div class="lg:col-span-4 bg-white rounded-2xl p-6 border border-teal-900/10 shadow-subtle flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between pb-3 border-b border-slate-100">
+<div>
+<h2 class="text-base font-display font-bold text-slate-900">ช่องทางที่มา (Traffic Origin)</h2>
+<p class="text-xs text-slate-500 mt-0.5">ผู้เข้าชมเดินทางมาจากที่ไหน</p>
+</div>
+<span class="text-xs font-semibold text-teal-700 font-mono">1,428 sessions</span>
+</div>
+<!-- Segment Bar -->
+<div class="w-full h-3 bg-slate-100 rounded-full flex overflow-hidden gap-0.5 my-5">
+<div class="bg-teal-600 h-full" style="width: 48%;" title="LinkedIn: 48%"></div>
+<div class="bg-cyan-500 h-full" style="width: 24%;" title="Direct: 24%"></div>
+<div class="bg-emerald-500 h-full" style="width: 18%;" title="Search Engine: 18%"></div>
+<div class="bg-amber-500 h-full" style="width: 10%;" title="Mahidol Network: 10%"></div>
+</div>
+<!-- Channel List -->
+<div class="space-y-3">
+<div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-teal-50/40 transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-teal-600"></span>
+<div>
+<div class="text-xs font-semibold text-slate-800">LinkedIn Profile</div>
+<div class="text-[11px] text-slate-400">ลิงก์จากโปรไฟล์ &amp; เรซูเม่</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-bold text-slate-900 font-mono">685</div>
+<div class="text-[11px] font-semibold text-teal-700">48%</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-teal-50/40 transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-cyan-500"></span>
+<div>
+<div class="text-xs font-semibold text-slate-800">Direct / PDF Link</div>
+<div class="text-[11px] text-slate-400">สแกน QR หรือเปิด URL โดยตรง</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-bold text-slate-900 font-mono">342</div>
+<div class="text-[11px] font-semibold text-cyan-700">24%</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-teal-50/40 transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+<div>
+<div class="text-xs font-semibold text-slate-800">Google Search</div>
+<div class="text-[11px] text-slate-400">ค้นหาชื่อ "ธนกร ทิพย์วารีรัตนะ"</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-bold text-slate-900 font-mono">257</div>
+<div class="text-[11px] font-semibold text-emerald-600">18%</div>
+</div>
+</div>
+<div class="flex items-center justify-between p-2.5 rounded-xl hover:bg-teal-50/40 transition-colors">
+<div class="flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+<div>
+<div class="text-xs font-semibold text-slate-800">Mahidol ICT Network</div>
+<div class="text-[11px] text-slate-400">เครือข่ายภายในมหาวิทยาลัย</div>
+</div>
+</div>
+<div class="text-right">
+<div class="text-xs font-bold text-slate-900 font-mono">144</div>
+<div class="text-[11px] font-semibold text-amber-600">10%</div>
+</div>
+</div>
+</div>
+</div>
+<div class="pt-4 border-t border-slate-100 text-center">
+<span class="text-xs text-slate-400 font-medium">บันทึกผ่าน Web Telemetry อัปเดตอัตโนมัติ</span>
+</div>
+</div>
+</div>
+<!-- Recent Visitor Logs Table -->
+<div class="bg-white rounded-2xl border border-teal-900/10 shadow-subtle overflow-hidden">
+<!-- Section Header -->
+<div class="p-6 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center">
+<span class="material-symbols-outlined text-[20px]">history</span>
+</div>
+<div>
+<h2 class="text-base font-display font-bold text-slate-900">บันทึกผู้เข้าชมล่าสุด (Recent Visitor Log)</h2>
+<p class="text-xs text-slate-500">รายการคนที่เปิดเข้าดูพอร์ตโฟลิโอของคุณแบบเรียลไทม์</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-xs text-slate-500 font-mono">แสดง 5 รายการล่าสุด</span>
+</div>
+</div>
+<!-- Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead>
+<tr class="bg-teal-50/40 border-b border-slate-100 text-xs font-semibold text-slate-600">
+<th class="py-3 px-6">เวลา (Timestamp)</th>
+<th class="py-3 px-6">ช่องทางที่มา (Referrer / Origin)</th>
+<th class="py-3 px-6">หน้าที่เปิดดู (Section Viewed)</th>
+<th class="py-3 px-6">อุปกรณ์ &amp; เบราว์เซอร์</th>
+<th class="py-3 px-6 text-right">ตำแหน่งคร่าว ๆ</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-100 text-xs">
+<!-- Row 1 -->
+<tr class="hover:bg-teal-50/20 transition-colors">
+<td class="py-3.5 px-6 font-mono text-slate-600">
+<span class="font-semibold text-teal-700">3 นาทีที่แล้ว</span>
+<span class="block text-[10px] text-slate-400">14:42 น.</span>
+</td>
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 font-medium border border-teal-200/50">LinkedIn App</span>
+<span class="text-slate-500 text-[11px]">Recruiter Lead</span>
+</div>
+</td>
+<td class="py-3.5 px-6">
+<span class="font-medium text-slate-900">ทักษะ &amp; ผลงาน Front-end</span>
+</td>
+<td class="py-3.5 px-6 text-slate-600">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">smartphone</span>
+<span>iPhone 15 Pro • Safari iOS 18</span>
+</div>
+</td>
+<td class="py-3.5 px-6 text-right font-medium text-slate-600">
+                กรุงเทพมหานคร, ไทย
+              </td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-teal-50/20 transition-colors">
+<td class="py-3.5 px-6 font-mono text-slate-600">
+<span class="font-semibold text-slate-700">18 นาทีที่แล้ว</span>
+<span class="block text-[10px] text-slate-400">14:27 น.</span>
+</td>
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-700 font-medium border border-amber-200/50">Mahidol ICT</span>
+<span class="text-slate-500 text-[11px]">Campus WiFi</span>
+</div>
+</td>
+<td class="py-3.5 px-6">
+<span class="font-medium text-slate-900">ประวัติการศึกษา &amp; แนะนำตัว (About)</span>
+</td>
+<td class="py-3.5 px-6 text-slate-600">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">laptop_mac</span>
+<span>Windows 11 • Chrome 128</span>
+</div>
+</td>
+<td class="py-3.5 px-6 text-right font-medium text-slate-600">
+                ศาลายา, นครปฐม
+              </td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-teal-50/20 transition-colors">
+<td class="py-3.5 px-6 font-mono text-slate-600">
+<span class="font-semibold text-slate-700">45 นาทีที่แล้ว</span>
+<span class="block text-[10px] text-slate-400">14:00 น.</span>
+</td>
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 font-medium">Direct / PDF</span>
+<span class="text-slate-500 text-[11px]">Resume Link</span>
+</div>
+</td>
+<td class="py-3.5 px-6">
+<span class="font-medium text-slate-900">โปรเจกต์ Next.js &amp; Git Repositories</span>
+</td>
+<td class="py-3.5 px-6 text-slate-600">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">desktop_windows</span>
+<span>macOS Sequoia • Arc Browser</span>
+</div>
+</td>
+<td class="py-3.5 px-6 text-right font-medium text-slate-600">
+                สาทร / ยานนาวา, กทม.
+              </td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-teal-50/20 transition-colors">
+<td class="py-3.5 px-6 font-mono text-slate-600">
+<span class="font-semibold text-slate-700">1 ชม. ที่แล้ว</span>
+<span class="block text-[10px] text-slate-400">13:45 น.</span>
+</td>
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 font-medium border border-emerald-200/50">Google Search</span>
+<span class="text-slate-500 text-[11px]">Organic SEO</span>
+</div>
+</td>
+<td class="py-3.5 px-6">
+<span class="font-medium text-slate-900">หน้าแรก (Home Overview)</span>
+</td>
+<td class="py-3.5 px-6 text-slate-600">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">smartphone</span>
+<span>Galaxy S24 • Chrome Mobile</span>
+</div>
+</td>
+<td class="py-3.5 px-6 text-right font-medium text-slate-600">
+                บางซื่อ, นนทบุรี
+              </td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-teal-50/20 transition-colors">
+<td class="py-3.5 px-6 font-mono text-slate-600">
+<span class="font-semibold text-slate-700">2 ชม. ที่แล้ว</span>
+<span class="block text-[10px] text-slate-400">12:50 น.</span>
+</td>
+<td class="py-3.5 px-6">
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 rounded-md bg-teal-50 text-teal-800 font-medium border border-teal-200/50">LinkedIn App</span>
+<span class="text-slate-500 text-[11px]">Feed Mention</span>
+</div>
+</td>
+<td class="py-3.5 px-6">
+<span class="font-medium text-slate-900">ประสบการณ์ &amp; ข้อมูลการติดต่อ (Contact)</span>
+</td>
+<td class="py-3.5 px-6 text-slate-600">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-[16px] text-slate-400">laptop_mac</span>
+<span>macOS • Safari 17.5</span>
+</div>
+</td>
+<td class="py-3.5 px-6 text-right font-medium text-slate-600">
+                ปทุมวัน, กรุงเทพมหานคร
+              </td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination Note -->
+<div class="px-6 py-4 bg-teal-50/30 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+<span>ข้อมูลถูกจัดเก็บบนฐานข้อมูลแบบปลอดภัย (Anonymous Analytics)</span>
+<button class="font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1 transition-colors" type="button">
+<span>ดาวน์โหลดรายงานเป็น CSV</span>
+<span class="material-symbols-outlined text-[14px]">download</span>
+</button>
+</div>
+</div>
+</main>
+</body></html>

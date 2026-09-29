@@ -1,89 +1,90 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
-import { 
-  FaHtml5, FaCss3Alt, FaReact, FaNodeJs, FaGitAlt, FaGithub ,FaLaptopCode
-} from "react-icons/fa";
-import { SiJavascript, SiNextdotjs, SiMysql, SiVite } from "react-icons/si";
+import { FaLaptopCode } from "react-icons/fa";
 
 export default function SkillsSection() {
-  const skillGroups = [
+  const skillsData = [
     {
       title: "Front-end",
-      icon: <FaReact className="text-sky-500 text-3xl" />,
+      icon: "desktop_windows",
+      colorClass: "text-teal-600",
       skills: [
-        { name: "HTML", icon: <FaHtml5 className="text-orange-500" />, level: 80, color: "bg-orange-500" },
-        { name: "CSS", icon: <FaCss3Alt className="text-blue-500" />, level: 85, color: "bg-blue-500" },
-        { name: "JavaScript", icon: <SiJavascript className="text-yellow-500" />, level: 65, color: "bg-yellow-400" },
-      ],
+        { name: "HTML", percent: 80 },
+        { name: "CSS", percent: 85 },
+        { name: "JavaScript", percent: 65 },
+      ]
     },
     {
       title: "Back-end",
-      icon: <FaNodeJs className="text-green-600 text-3xl" />,
+      icon: "dns",
+      colorClass: "text-teal-700",
       skills: [
-        { name: "Node.js", icon: <FaNodeJs className="text-green-600" />, level: 50, color: "bg-green-500" },
-        { name: "MySQL", icon: <SiMysql className="text-blue-600" />, level: 75, color: "bg-blue-600" },
-      ],
+        { name: "Node.js", percent: 50 },
+        { name: "MySQL", percent: 75 },
+      ]
     },
     {
       title: "Framework",
-      icon: <SiNextdotjs className="text-gray-800 text-3xl" />,
+      icon: "widgets",
+      colorClass: "text-cyan-600",
       skills: [
-        { name: "React.js", icon: <FaReact className="text-sky-500" />, level: 80, color: "bg-sky-500" },
-        { name: "Next.js", icon: <SiNextdotjs className="text-gray-800" />, level: 80, color: "bg-gray-800" },
-        { name: "Vite", icon: <SiVite className="text-purple-500" />, level: 70, color: "bg-purple-500" },
-      ],
+        { name: "React.js", percent: 80 },
+        { name: "Next.js", percent: 80 },
+        { name: "Vite", percent: 70 },
+      ]
     },
     {
       title: "Version Control",
-      icon: <FaGitAlt className="text-orange-500 text-3xl" />,
+      icon: "fork_right",
+      colorClass: "text-teal-600",
       skills: [
-        { name: "Git", icon: <FaGitAlt className="text-orange-500" />, level: 70, color: "bg-orange-500" },
-        { name: "GitHub", icon: <FaGithub className="text-gray-800" />, level: 70, color: "bg-gray-800" },
-      ],
-    },
+        { name: "Git", percent: 70 },
+        { name: "GitHub", percent: 70 },
+      ]
+    }
   ];
 
   return (
-    <section className="flex flex-col items-center justify-center bg-white px-10 py-20">
-      <div className="max-w-5xl w-full">
-        <h2 className="text-3xl font-semibold text-gray-800 mb-10 border-b-4 border-blue-500 inline-flex pb-2 gap-3">
-        <FaLaptopCode className="text-blue-500" /> 
-        SKILLS
-        </h2>
+    <section className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft">
+      <div className="flex items-center gap-3 pb-6 border-b border-teal-50 mb-8">
+        <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80">
+          <FaLaptopCode className="text-[20px]" />
+        </div>
+        <div>
+          <h2 className="text-xl font-display font-bold text-slate-900">SKILLS</h2>
+          <p className="text-xs text-slate-400 font-mono">ทักษะและความสามารถ</p>
+        </div>
+      </div>
 
-        <div className="space-y-12">
-          {skillGroups.map((group, i) => (
-            <div key={i}>
-              {/* หัวข้อพร้อม icon */}
-              <h3 className="text-2xl font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                {group.icon} {group.title}
-              </h3>
-
-              <div className="space-y-6">
-                {group.skills.map((skill, idx) => (
-                  <div key={idx}>
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="flex items-center gap-2 text-lg font-semibold text-gray-700">
-                        <span className="text-2xl">{skill.icon}</span> {skill.name}
-                      </div>
-                      <span className="text-gray-600">{skill.level}%</span>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {skillsData.map((group, idx) => (
+          <div key={idx} className="bg-[#f8fbfb] rounded-xl p-5 border border-teal-100/70 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <span className={`material-symbols-outlined text-lg ${group.colorClass}`}>
+                  {group.icon}
+                </span>
+                <h3 className="font-display font-bold text-slate-800 text-base">{group.title}</h3>
+              </div>
+              <div className="space-y-4">
+                {group.skills.map((skill, sIdx) => (
+                  <div key={sIdx}>
+                    <div className="flex justify-between text-xs font-medium text-slate-700 mb-1">
+                      <span>{skill.name}</span>
+                      <span className={`font-mono font-semibold ${group.colorClass}`}>{skill.percent}%</span>
                     </div>
-                    <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden shadow-inner">
-                      <motion.div
-                        className={`h-4 rounded-full ${skill.color}`}
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${skill.level}%` }}
-                        transition={{ duration: 1.2, ease: "easeOut" }}
-                        viewport={{ once: true }}
-                      />
+                    <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-teal-500 to-cyan-500 rounded-full" 
+                        style={{ width: `${skill.percent}%` }}
+                      ></div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </section>
   );

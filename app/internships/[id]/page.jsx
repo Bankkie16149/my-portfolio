@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import { FaArrowLeft, FaCalendarAlt, FaBuilding } from 'react-icons/fa'
 import { useLanguage } from '@/app/context/LanguageContext'
+import { internshipsData } from '@/app/data/portfolio'
 
 export default function InternshipDetail() {
   const { id } = useParams()
@@ -14,22 +15,15 @@ export default function InternshipDetail() {
   const { language } = useLanguage()
 
   useEffect(() => {
-    const fetchInternship = async () => {
-      try {
-        const res = await fetch(`/api/internships/${id}`)
-        if (!res.ok) {
-          router.push('/')
-          return
-        }
-        const data = await res.json()
-        setInternship(data)
-      } catch (error) {
-        console.error('Error fetching internship:', error)
-      } finally {
-        setLoading(false)
+    if (id) {
+      const data = internshipsData.find(i => i.id === id || i.id.toString() === id);
+      if (!data) {
+        router.push('/');
+        return;
       }
+      setInternship(data);
+      setLoading(false);
     }
-    if (id) fetchInternship()
   }, [id, router])
 
   if (loading) {

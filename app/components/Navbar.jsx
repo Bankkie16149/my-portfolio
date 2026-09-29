@@ -1,126 +1,84 @@
 "use client";
 import React, { useState } from "react";
-import { RiAccountBox2Fill } from "react-icons/ri";
 import { FaBars, FaTimes } from "react-icons/fa";
 import { useLanguage } from "@/app/context/LanguageContext";
+import Link from 'next/link';
 
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
-
   return (
-    <nav className="bg-white dark:bg-black shadow-md sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo + Text */}
-          <div className="flex items-center space-x-2">
-            <RiAccountBox2Fill className="size-8 text-black dark:text-white" />
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white truncate">
-              MY PORTFOLIO
-            </h1>
-          </div>
+    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-teal-900/10 transition-all">
+      <div className="max-w-6xl mx-auto px-6 h-18 py-4 flex items-center justify-between">
+        
+        {/* Site Logo / Title */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <span className="w-8 h-8 rounded-lg bg-teal-600 text-white font-display font-extrabold flex items-center justify-center text-sm shadow-sm group-hover:bg-teal-700 transition">
+            TK
+          </span>
+          <span className="font-display font-bold text-lg tracking-tight text-slate-900 group-hover:text-teal-700 transition">
+            MY <span className="text-teal-600">PORTFOLIO</span>
+          </span>
+        </Link>
 
-          {/* Desktop Menu & Language Switch */}
-          <div className="hidden md:flex items-center gap-8">
-            <ul className="flex space-x-6">
-              <li>
-                <a
-                  href="/"
-                  className="text-gray-700 dark:text-gray-200 hover:text-blue-500 font-medium transition-colors"
-                >
-                  {language === 'th' ? "หน้าหลัก" : "Home"}
-                </a>
-              </li>
-            </ul>
-
-            {/* Language Switcher Group */}
-            <div 
-              className="flex items-center gap-3 cursor-pointer group" 
+        {/* Navigation & Controls */}
+        <div className="hidden md:flex items-center gap-6">
+          <nav className="flex items-center gap-1">
+            <Link href="/" className="px-4 py-1.5 text-sm font-semibold text-teal-700 bg-teal-50/90 rounded-full border border-teal-200/60 hover:bg-teal-100/70 transition">
+              {language === 'th' ? 'หน้าหลัก' : 'Home'}
+            </Link>
+          </nav>
+          
+          <div className="flex items-center gap-3 border-l border-teal-100 pl-6">
+            {/* Language Switch */}
+            <button 
               onClick={toggleLanguage}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-slate-50 transition text-sm font-semibold text-slate-600 border border-transparent hover:border-slate-200"
             >
-              <span
-                className={`text-sm font-bold transition-all duration-300 w-6 text-center ${
-                  language === "th" ? "text-gray-800 dark:text-gray-200" : "text-blue-600"
-                }`}
-              >
-                {language === "th" ? "TH" : "EN"}
-              </span>
-
-              <div
-                className={`relative w-12 h-6 rounded-full p-1 transition-colors duration-300 ease-in-out border border-gray-200 dark:border-gray-600 ${
-                  language === "th" ? "bg-gray-200 dark:bg-gray-700" : "bg-blue-400"
-                }`}
-              >
-                <div
-                  className={`w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${
-                    language === "en" ? "translate-x-6" : "translate-x-0"
-                  }`}
-                />
-              </div>
-            </div>
-            
-            {/* Admin Login Link */}
-            <a 
-              href="/admin/login" 
-              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-            >
-              Login for Admin
-            </a>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center gap-3">
-            {/* Mobile Language Switcher */}
-            <div 
-              className="flex items-center gap-2 cursor-pointer mr-1" 
-              onClick={toggleLanguage}
-            >
-              <span className={`text-xs font-bold w-5 text-center ${language === "th" ? "text-gray-800 dark:text-gray-200" : "text-blue-600"}`}>
-                {language === "th" ? "TH" : "EN"}
-              </span>
-              <div className={`relative w-10 h-5 rounded-full p-0.5 transition-colors duration-300 ease-in-out border border-gray-200 dark:border-gray-600 ${language === "th" ? "bg-gray-200 dark:bg-gray-700" : "bg-blue-400"}`}>
-                <div className={`w-3.5 h-3.5 bg-white rounded-full shadow-md transform transition-transform duration-300 ease-in-out ${language === "en" ? "translate-x-5" : "translate-x-0"}`} />
-              </div>
-            </div>
-
-            <button
-              onClick={toggleMenu}
-              className="text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline-none p-1.5 rounded-md hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
-            >
-              {isMenuOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
+              <span className="material-symbols-outlined text-[16px] text-teal-600">language</span>
+              <span>{language === 'th' ? 'TH' : 'EN'}</span>
             </button>
+            
+            {/* Login for Admin */}
+            <Link href="/admin/login" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-teal-200/80 text-xs font-medium text-slate-700 hover:text-teal-700 hover:border-teal-300 hover:bg-teal-50/50 transition shadow-sm bg-white">
+              <span className="material-symbols-outlined text-[16px] text-teal-600">lock</span>
+              <span>Login for Admin</span>
+            </Link>
           </div>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center gap-4">
+          <button 
+            onClick={toggleLanguage}
+            className="inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold text-slate-600"
+          >
+            <span className="material-symbols-outlined text-[14px] text-teal-600">language</span>
+            <span>{language === 'th' ? 'TH' : 'EN'}</span>
+          </button>
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-slate-600 focus:outline-none">
+            {isMenuOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
+          </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-zinc-900 border-t border-gray-100 dark:border-zinc-800 absolute w-full shadow-lg">
-          <div className="px-4 pt-2 pb-6 space-y-4">
-            <a
-              href="/"
-              onClick={() => setIsMenuOpen(false)}
-              className="block px-3 py-3 rounded-md text-base font-medium text-gray-700 dark:text-gray-200 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-zinc-800 transition-colors"
-            >
-              {language === 'th' ? "หน้าหลัก" : "Home"}
-            </a>
-            
-            <div className="pt-2 px-3 border-t border-gray-100 dark:border-zinc-800">
-              <a 
-                href="/admin/login" 
-                onClick={() => setIsMenuOpen(false)}
-                className="w-full flex justify-center px-4 py-3 text-base font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
-              >
-                Login for Admin
-              </a>
+        <div className="md:hidden bg-white border-t border-teal-900/10 absolute w-full shadow-lg">
+          <div className="px-6 py-4 space-y-4">
+            <Link href="/" onClick={() => setIsMenuOpen(false)} className="block px-4 py-2 text-sm font-semibold text-teal-700 bg-teal-50 rounded-lg">
+              {language === 'th' ? 'หน้าหลัก' : 'Home'}
+            </Link>
+            <div className="pt-2 border-t border-slate-100">
+              <Link href="/admin/login" onClick={() => setIsMenuOpen(false)} className="flex items-center justify-center gap-2 w-full px-4 py-2.5 text-sm font-medium text-teal-700 bg-white border border-teal-200 rounded-lg shadow-sm">
+                <span className="material-symbols-outlined text-[16px] text-teal-600">lock</span>
+                <span>Login for Admin</span>
+              </Link>
             </div>
           </div>
         </div>
       )}
-    </nav>
+    </header>
   );
 }

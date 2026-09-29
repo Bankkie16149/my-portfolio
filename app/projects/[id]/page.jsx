@@ -4,11 +4,11 @@ import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FaGithub, FaGlobe, FaArrowLeft, FaEdit, FaSave, FaTimes, FaFigma } from 'react-icons/fa'
+import { FaGithub, FaGlobe, FaArrowLeft, FaFigma } from 'react-icons/fa'
 import { useLanguage } from '@/app/context/LanguageContext'
-import { createClient } from '@/utils/supabase/client'
 import DetailLayout from '@/app/components/DetailLayout'
 import Navbar from '@/app/components/Navbar'
+import { projectsData } from '@/app/data/portfolio'
 
 export default function ProjectDetail() {
   const { id } = useParams()
@@ -17,98 +17,20 @@ export default function ProjectDetail() {
   const [loading, setLoading] = useState(true)
   const { language } = useLanguage()
 
-  const [isEditing, setIsEditing] = useState(false)
-  const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    imageUrl: '',
-    projectUrl: '',
-    githubUrl: '',
-    tags: ''
-  })
-  const [imageFile, setImageFile] = useState(null)
-  const [isSaving, setIsSaving] = useState(false)
-  const [isAdmin, setIsAdmin] = useState(false)
-
-  const fetchProject = async () => {
-    try {
-      const res = await fetch(`/api/projects/${id}`)
-      if (!res.ok) {
-        router.push('/')
-        return
-      }
-      const data = await res.json()
-      setProject(data)
-      setFormData({
-        title: data.title || '',
-        description: data.description || '',
-        imageUrl: data.imageUrl || '',
-        projectUrl: data.projectUrl || '',
-        githubUrl: data.githubUrl || '',
-        tags: data.tags ? data.tags.join(', ') : ''
-      })
-    } catch (error) {
-      console.error('Error fetching project:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
+  const isEditing = false;
+  const formData = {};
 
   useEffect(() => {
-    if (id) fetchProject()
-
-    const checkAdmin = async () => {
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (user && user.email === 'hoing11111@gmail.com') {
-        setIsAdmin(true)
+    if (id) {
+      const data = projectsData.find(p => p.id === id || p.id.toString() === id);
+      if (!data) {
+        router.push('/');
+        return;
       }
+      setProject(data);
+      setLoading(false);
     }
-    checkAdmin()
-  }, [id, router])
-
-  const handleSave = async () => {
-    setIsSaving(true)
-    try {
-      let finalImageUrl = formData.imageUrl;
-      if (imageFile) {
-        const uploadData = new FormData();
-        uploadData.append('image', imageFile);
-        const uploadRes = await fetch(`/api/upload`, {
-          method: 'POST',
-          body: uploadData
-        });
-        const uploadResult = await uploadRes.json();
-        if (uploadResult.imageUrl) {
-          finalImageUrl = uploadResult.imageUrl;
-        }
-      }
-
-      const tagsArray = formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag)
-
-      const res = await fetch(`/api/projects/${id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          imageUrl: finalImageUrl,
-          tags: tagsArray
-        })
-      })
-
-      if (res.ok) {
-        setIsEditing(false)
-        setImageFile(null)
-        await fetchProject()
-        alert(language === 'th' ? 'บันทึกข้อมูลเรียบร้อย!' : 'Saved successfully!')
-      }
-    } catch (error) {
-      console.error('Error saving:', error)
-      alert('เกิดข้อผิดพลาดในการบันทึก')
-    } finally {
-      setIsSaving(false)
-    }
-  }
+  }, [id, router]);
 
   if (loading) {
     return (
