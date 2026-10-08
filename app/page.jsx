@@ -213,11 +213,12 @@ export default function Home() {
                     title={project.title}
                     imageSrc={project.imageUrl || project.image}
                     images={project.images}
-                    description={project.description}
+                    description={language === 'th' ? (project.descriptionTh || project.description) : (project.descriptionEn || project.description)}
                     link={defaultLink}
                     buttonText={defaultButtonText}
                     type={type}
                     status={project.tags?.[1] || 'success'}
+                    multipleLinks={project.links}
                   />
                 );
               })}
