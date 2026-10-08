@@ -69,12 +69,12 @@ export default function Home() {
             <div className="lg:col-span-7 space-y-5">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-semibold shadow-2xs">
                 <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-                <span>{language === 'th' ? "Front-end Developer Portfolio" : "Front-end Developer Portfolio"}</span>
+                <span>{language === 'th' ? "ชั้นปีที่ 3" : "Year 3"}</span>
               </div>
               <div className="space-y-2">
                 <h2 className="text-3xl font-display font-semibold text-slate-800 flex items-center gap-2">
                   <span>{language === 'th' ? "สวัสดีครับ" : "Hello"}</span>
-                  <span className="text-2xl">👋</span>
+                 
                 </h2>
                 <h1 className="text-3xl md:text-4xl font-display font-bold text-slate-900 tracking-tight leading-tight">
                   {language === 'th' ? "ผมชื่อ" : "I'm"} <span className="text-teal-600">{language === 'th' ? profile.name : profile.nameEn}</span>
@@ -186,7 +186,7 @@ export default function Home() {
         <SkillsSection />
 
         {/* Two-column: โปรเจกต์ของฉัน & การฝึกงาน */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="space-y-12">
           
           {/* โปรเจกต์ของฉัน */}
           <section id="section-projects" className="bg-white rounded-2xl p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
@@ -200,7 +200,7 @@ export default function Home() {
               </div>
             </div>
             
-            <div className="flex-1 flex flex-col gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {projects.map((project) => {
                 const type = project.tags?.[0] || 'website';
                 let defaultLink = project.projectUrl || project.githubUrl || '#';
@@ -260,18 +260,20 @@ export default function Home() {
                 </div>
               </div>
 
-              {internships.map((internship) => (
+              <div className="mt-8 relative">
+                {internships.map((internship) => (
                 <InternshipSection 
                   key={internship.id}
                   id={internship.id}
-                  role={internship.role}
-                  company={internship.company}
-                  duration={`${internship.startDate} - ${internship.endDate}`}
-                  responsibilities={internship.description?.split('\n') || []}
+                  role={language === 'th' ? (internship.roleTh || internship.role) : (internship.roleEn || internship.role)}
+                  company={language === 'th' ? (internship.companyTh || internship.company) : (internship.companyEn || internship.company)}
+                  duration={language === 'th' ? `${internship.startDateTh || internship.startDate} - ${internship.endDateTh || internship.endDate}` : `${internship.startDateEn || internship.startDate} - ${internship.endDateEn || internship.endDate}`}
+                  responsibilities={language === 'th' ? (internship.descriptionTh || internship.description)?.split('\n') || [] : (internship.descriptionEn || internship.description)?.split('\n') || []}
                   techStack={[]}
                   logoSrc={internship.imageUrl}
                 />
               ))}
+              </div>
             </div>
           </section>
 

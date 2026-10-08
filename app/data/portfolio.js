@@ -13,16 +13,6 @@ export const profileData = {
 export const educationData = [
   {
     id: 1,
-    schoolTh: "โรงเรียนเทพศิรินทร์ นนทบุรี",
-    schoolEn: "Debsirin Nonthaburi School",
-    degreeTh: "แผนการเรียน ภาษาอังกฤษ – คณิตศาสตร์",
-    degreeEn: "English - Mathematics Program",
-    yearsTh: "2560 – 2566",
-    yearsEn: "2017 – 2023",
-    color: "purple"
-  },
-  {
-    id: 2,
     schoolTh: "มหาวิทยาลัยมหิดล",
     schoolEn: "Mahidol University",
     degreeTh: "คณะเทคโนโลยีสารสนเทศและการสื่อสาร — สาขาวิทยาการและเทคโนโลยีดิจิทัล",
@@ -30,6 +20,16 @@ export const educationData = [
     yearsTh: "2567 – ปัจจุบัน",
     yearsEn: "2024 – Present",
     color: "indigo"
+  },
+  {
+    id: 2,
+    schoolTh: "โรงเรียนเทพศิรินทร์ นนทบุรี",
+    schoolEn: "Debsirin Nonthaburi School",
+    degreeTh: "แผนการเรียน ภาษาอังกฤษ – คณิตศาสตร์",
+    degreeEn: "English - Mathematics Program",
+    yearsTh: "2560 – 2566",
+    yearsEn: "2017 – 2023",
+    color: "purple"
   }
 ];
 
@@ -50,7 +50,7 @@ export const projectsData = [
     title: "Software engineering (Booking room)",
     description: "โปรเจ็กต์นี้เกี่ยวกับงานภายในคลาสของผมครับ คือ การทำระบบการจัดการจองห้องประชุมและห้องเรียนภายในมหาวิทยาลัย เพื่อแก้ปัญหาการจองห้องที่ซับซ้อนและลดความผิดพลาดในการจัดการตารางเวลา โดยมีการใช้ Use Case Diagram และ Data Flow Diagram (DFD Level 0-2) เพื่อจำลองการไหลของข้อมูลและการทำงานของระบบ มีการจัดทำ Structure Chart เพื่อวางโครงสร้างโมดูลการทำงาน เช่น การจอง และยังมีการออกแบบระบบให้รองรับการทำงานผ่าน Web Application และมีการเชื่อมต่อฐานข้อมูล (เช่น Google Firebase)",
     imageUrl: "/Screenshot 2568-12-06 at 20.23.54.png",
-    images: ["/Screenshot 2568-12-06 at 20.23.54.png"],
+    images: ["/Screenshot 2568-12-06 at 20.23.54.png","/figma/Screenshot 2568-12-06 at 19.47.15.png","/figma/Screenshot 2568-12-06 at 19.52.36.png","/figma/Screenshot 2568-12-06 at 20.01.50.png","/figma/Screenshot 2568-12-06 at 20.09.38.png","/figma/Screenshot 2568-12-06 at 20.14.26.png","/figma/Screenshot 2568-12-06 at 20.21.40.png"],
     projectUrl: "https://www.figma.com/design/6BnLg0uEN9Jymy5dwv2y0K/library-systems?t=bcFUBj0hIgf7xvNF-0",
     githubUrl: "",
     tags: ["figma", "success"],
@@ -61,7 +61,7 @@ export const projectsData = [
     title: "Mobile application 'PetPoint'",
     description: "โปรเจ็กต์นี้เกี่ยวกับงานภายในคลาสของผมครับ คือ การออกแบบเว็บแอปพลิเคชัน ซึ่งมีต้นแบบเป็นธุรกิจ Line Man โดยในส่วนนี้คือการออกแบบ UX/UI ของเว็บก่อนนำไป implement ดีไซน์ที่ดูสบายตา ใช้งานง่าย ไม่ซับซ้อน พร้อมระบบจัดการหลังบ้านที่ชัดเจน เพื่อให้มั่นใจในประสิทธิภาพของ Flow การทำงานก่อนเริ่มเขียนโค้ดจริง",
     imageUrl: "/figma-petpoint/Screenshot 2569-09-29 at 12.57.41.png",
-    images: ["/figma-petpoint/Screenshot 2569-09-29 at 12.57.41.png"],
+    images: ["/figma-petpoint/Screenshot 2569-09-29 at 12.57.41.png","/figma-petpoint/All score.png","/figma-petpoint/Quiz.png","/figma-petpoint/Quiz Detail.png","/figma-petpoint/Take action Quiz.png","/figma-petpoint/Score after Quiz.png","/figma-petpoint/Foster.png","/figma-petpoint/Profile.png"],
     projectUrl: "https://github.com/PuthoPutho/PetPoint",
     githubUrl: "",
     tags: ["github", "success"],
@@ -72,11 +72,16 @@ export const projectsData = [
 export const internshipsData = [
   {
     id: "intern-1",
-    company: "บริษัท เอ็กซ์ซี จำกัด",
-    role: "IT Support Intern",
-    startDate: "20 พฤษภาคม 2569",
-    endDate: "31 กรกฎาคม 2569",
-    description: "พัฒนาระบบและแอปพลิเคชันภายในของกระทรวงฯ เพื่อเพิ่มประสิทธิภาพในการดำเนินงาน\nทำงานร่วมกับทีมผู้เชี่ยวชาญด้าน IT ในการจัดการระบบฐานข้อมูลและการรักษาความปลอดภัยของข้อมูล (Cybersecurity)\nเรียนรู้และประยุกต์ใช้เทคโนโลยีสมัยใหม่ในการแก้ปัญหาจริงระดับองค์กร",
+    companyTh: "บริษัท เอ็กซ์ซี จำกัด",
+    companyEn: "EXZY Co., Ltd.",
+    roleTh: "นักศึกษาฝึกงาน IT Support",
+    roleEn: "IT Support Intern",
+    startDateTh: "20 พฤษภาคม 2569",
+    endDateTh: "31 กรกฎาคม 2569",
+    startDateEn: "May 20, 2026",
+    endDateEn: "July 31, 2026",
+    descriptionTh: "สนับสนุนการติดตั้งและตั้งค่าระบบ Smart Office และ Smart Workplace เช่น ระบบ Attendance และ Co-Desk พร้อมทดสอบระบบก่อนนำไปใช้งานจริง\nร่วมปฏิบัติงาน On-site Support กับพี่เลี้ยง เพื่อช่วยติดตั้ง ตรวจสอบ และแก้ไขปัญหาเบื้องต้นของระบบและอุปกรณ์ ณ สถานที่ของลูกค้า\nเพัฒนาทักษะการแก้ไขปัญหาและการทำงานร่วมกับทีม ผ่านการเรียนรู้จากสถานการณ์จริงและการปฏิบัติงานทั้งภายในและนอกสถานที่",
+    descriptionEn: "Support the installation and configuration of Smart Office and Smart Workplace systems—such as attendance and desk-sharing (Co-Desk) systems—and conduct pre-deployment testing.\nWork alongside a mentor to provide on-site support, assisting with installation, system checks, and basic troubleshooting of systems and equipment at client sites.\nDevelop problem-solving and teamwork skills through real-world scenarios and practical experience in both on-site and off-site environments.",
     imageUrl: "/internship/logo exzy.jpg",
   }
 ];
