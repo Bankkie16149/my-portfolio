@@ -29,8 +29,8 @@ export default function SkillsSection() {
       colorClass: "text-cyan-600",
       skills: [
         { name: "React.js", percent: 80 },
-        { name: "Next.js", percent: 80 },
         { name: "Vite", percent: 70 },
+        { name: "Tailwind", percent: 65 },
       ]
     },
     {
