@@ -15,7 +15,7 @@ export default function Navbar() {
         {/* Site Logo / Title */}
         <Link href="/" className="flex items-center gap-2.5 group">
           <span className="w-8 h-8 rounded-lg bg-teal-600 text-white font-display font-extrabold flex items-center justify-center text-sm shadow-sm group-hover:bg-teal-700 transition">
-            TK
+            TT
           </span>
           <span className="font-display font-bold text-lg tracking-tight text-slate-900 group-hover:text-teal-700 transition">
             MY <span className="text-teal-600">PORTFOLIO</span>

@@ -7,7 +7,9 @@ export const profileData = {
   facultyEn: "Faculty of ICT",
   phone: "083-251-1456",
   email: "tanakorn.tip@student.mahidol.edu",
-  linkedin: "https://www.linkedin.com/in/tanakorn-tipwarreerattana-1a6053364"
+  linkedin: "https://www.linkedin.com/in/tanakorn-tipwarreerattana-1a6053364",
+  github: "https://github.com/Bankkie16149"
+
 };
 
 export const educationData = [

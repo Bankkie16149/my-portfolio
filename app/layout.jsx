@@ -15,7 +15,7 @@ const kanit = Kanit({
 });
 
 export const metadata = {
-  title: "TK MY PORTFOLIO",
+  title: "TT MY PORTFOLIO",
   description: "Tanakorn Tipwarreerattana - Front-end Developer Portfolio",
 };
 

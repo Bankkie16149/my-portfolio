@@ -7,7 +7,7 @@ import InternshipSection from '@/app/components/InternshipSection';
 import { useEffect } from "react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { profileData, projectsData, internshipsData, educationData } from "@/app/data/portfolio";
-import { FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
   const { language } = useLanguage();
@@ -141,6 +141,13 @@ export default function Home() {
                 <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                   <span className="text-sm font-medium text-slate-400">LinkedIn</span>
                   <a className="inline-flex items-center gap-1.5 text-base font-medium text-teal-600 hover:text-teal-700" href={profile.linkedin} rel="noopener noreferrer" target="_blank">
+                    <span>Tanakorn Tipwarreerattana</span>
+                    <span className="material-symbols-outlined text-[16px]">open_in_new</span>
+                  </a>
+                </div>
+                <div className="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span className="text-sm font-medium text-slate-400">Github</span>
+                  <a className="inline-flex items-center gap-1.5 text-base font-medium text-teal-600 hover:text-teal-700" href={profile.github} rel="noopener noreferrer" target="_blank">
                     <span>Tanakorn Tipwarreerattana</span>
                     <span className="material-symbols-outlined text-[16px]">open_in_new</span>
                   </a>
