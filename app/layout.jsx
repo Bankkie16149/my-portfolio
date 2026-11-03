@@ -73,6 +73,9 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
+  verification: {
+    google: "HZUb5gJ8irbx8BG3--7zJnXJmLW5wF1XM4RdWagFECk",
+  },
 };
 
 const jsonLd = {
@@ -110,6 +113,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="th">
       <head>
+        <meta name="google-site-verification" content="HZUb5gJ8irbx8BG3--7zJnXJmLW5wF1XM4RdWagFECk" />
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
