@@ -81,6 +81,23 @@ export const projectsData = [
     ],
     tags: ["github", "success"],
     order: 5
+  } ,
+  {
+    id: "project-4",
+    title: "Aomaoi - Sugarcane Farm Accounting System",
+    descriptionTh: "โปรเจ็กต์นี้เกี่ยวกับงานภายในคลาสของผมครับ คือระบบจัดการและบัญชีฟาร์มอ้อยครบวงจร พัฒนาขึ้นเพื่อรองรับสถาปัตยกรรมการจัดการข้อมูลฟาร์มยุคใหม่ ตัวระบบประกอบด้วยระบบบันทึกงาน ฟังก์ชันลงบัญชีรายรับ-รายจ่าย และโมดูลประเมินผลงาน (Performance Evaluation) โดยมีการควบคุมสิทธิ์การเข้าถึงข้อมูลแยกตาม 3 บทบาทหลัก (Super Admin, Admin, Worker) พร้อมโครงสร้างฐานข้อมูลที่ออกแบบมาเพื่อความถูกต้องแม่นยำทางบัญชีโดยเฉพาะ โดยมีการทำ Database Migration ด้วย Liquibase, การทำ Containerization ด้วย Multi-stage Docker, และการวางระบบ Automated E2E Testing ด้วย Cypress ที่มีระบบจัดการ Lifecycle ทำความสะอาดข้อมูลทดสอบในฐานข้อมูลอัตโนมัติ ทำให้ระบบมี Reliability สูงและสามารถส่งมอบงานได้อย่างต่อเนื่อง",
+    descriptionEn: "This project is part of my coursework. An end-to-end sugarcane farm management and accounting system developed to support modern farm data management architecture. The system consists of a task logging system, income-expense accounting functions, and a performance evaluation module. It features role-based access control (RBAC) across three primary roles (Super Admin, Admin, and Worker), along with a database structure specifically designed for accounting precision. Backed by Liquibase for database migration, multi-stage Docker for containerization, and Cypress for automated E2E testing with an automated database lifecycle management system to clean up test data, the system ensures high reliability and enables continuous delivery.",
+    imageUrl: "/figma-aomaoi/Dashboard 9.png",
+    images: ["/figma-aomaoi/Dashboard 8.png","/figma-aomaoi/History.png","/figma-aomaoi/History-1.png","/figma-aomaoi/Frame 1.png","/figma-aomaoi/Frame 2.png","/figma-aomaoi/Frame 3.png","/figma-aomaoi/Frame 4.png","/figma-aomaoi/Frame 5.png","/figma-aomaoi/Frame 6.png"],
+    projectUrl: "https://www.figma.com/design/k0dAeq8b5gQoGPCvkM7lS9/Untitled?t=2D7sK7CzG0iYDZLC-0",
+    githubUrl: "",
+    links: [
+      { url: "https://www.figma.com/design/kDj28o0xpoZvBY1sENi6J7/aoiaoi?node-id=312-2&t=te3cOzu79iALOnps-1", labelTh: "ดูดีไซน์บน Figma", labelEn: "View on Figma", type: "figma" } ,
+      { url: "https://github.com/MUDST-2026-aomaoi/aomaoi-frontend", labelTh: "ดูซอร์สโค้ดบน GitHub สำหรับ frontend", labelEn: "View on GitHub", type: "github" } ,
+      { url: "https://github.com/MUDST-2026-aomaoi/aomaoi-backend", labelTh: "ดูซอร์สโค้ดบน GitHub สำหรับ backend", labelEn: "View on GitHub", type: "github" }
+    ],
+    tags: ["figma", "in-progress"],
+    order: 6
   }
 ];
 
