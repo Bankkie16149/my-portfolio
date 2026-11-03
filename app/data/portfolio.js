@@ -49,6 +49,8 @@ export const projectsData = [
       { url: "https://github.com/Bankkie16149/Line-Girl", labelTh: "ดูซอร์สโค้ดบน GitHub", labelEn: "View on GitHub", type: "github" }
     ],
     tags: ["github", "success"],
+    courseTh: "การพัฒนาเว็บแอปพลิเคชัน",
+    courseEn: "Web Application Development",
     order: 1
   },
   {
@@ -63,6 +65,8 @@ export const projectsData = [
     links: [
       { url: "https://www.figma.com/design/6BnLg0uEN9Jymy5dwv2y0K/library-systems?t=bcFUBj0hIgf7xvNF-0", labelTh: "ดูดีไซน์บน Figma", labelEn: "View on Figma", type: "figma" }
     ],
+    courseTh: "วิศวกรรมซอฟต์แวร์",
+    courseEn: "Software Engineering",
     tags: ["figma", "success"],
     order: 2
   },
@@ -80,6 +84,8 @@ export const projectsData = [
       { url: "https://github.com/PuthoPutho/PetPoint", labelTh: "ดูซอร์สโค้ดบน GitHub", labelEn: "View on GitHub", type: "github" }
     ],
     tags: ["github", "success"],
+    courseTh: "การพัฒนาแอปพลิเคชัน",
+    courseEn: "Mobile Application Development",
     order: 5
   } ,
   {
@@ -97,6 +103,8 @@ export const projectsData = [
       { url: "https://github.com/MUDST-2026-aomaoi/aomaoi-backend", labelTh: "ดูซอร์สโค้ดบน GitHub สำหรับ backend", labelEn: "View on GitHub", type: "github" }
     ],
     tags: ["figma", "in-progress"],
+    courseTh: "DevOps และการพัฒนาแอปพลิเคชันที่นำไปใช้ได้จริง",
+    courseEn: "DevOps and Real-world Application Development",
     order: 6
   }
 ];

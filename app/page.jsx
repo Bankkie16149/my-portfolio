@@ -221,6 +221,7 @@ export default function Home() {
                     imageSrc={project.imageUrl || project.image}
                     images={project.images}
                     description={language === 'th' ? (project.descriptionTh || project.description) : (project.descriptionEn || project.description)}
+                    course={language === 'th' ? project.courseTh : project.courseEn}
                     link={defaultLink}
                     buttonText={defaultButtonText}
                     type={type}

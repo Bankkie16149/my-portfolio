@@ -5,7 +5,7 @@ import { FaGithub, FaGlobe, FaArrowRight, FaTimes, FaChevronLeft, FaChevronRight
 import Link from "next/link"; 
 import { useLanguage } from "@/app/context/LanguageContext";
 
-const ProjectCard = ({ id, title, imageSrc, images, description, link, buttonText, type, status, multipleLinks }) => {
+const ProjectCard = ({ id, title, imageSrc, images, description, course, link, buttonText, type, status, multipleLinks }) => {
   const isExternal = link ? link.startsWith("http") : false;
   const { language } = useLanguage();
   
@@ -65,6 +65,14 @@ const ProjectCard = ({ id, title, imageSrc, images, description, link, buttonTex
           ) : (
             <div className="w-full h-full flex items-center justify-center text-slate-400">
               No Image
+            </div>
+          )}
+
+          {course && (
+            <div className="absolute top-4 left-4 z-10">
+              <span className="px-3 py-1 text-xs font-semibold text-slate-700 bg-white/90 backdrop-blur-sm rounded-full shadow-sm border border-slate-200 dark:bg-slate-900/80 dark:text-slate-200 dark:border-slate-700">
+                {language === 'th' ? 'รายวิชา' : 'Course'}: {course}
+              </span>
             </div>
           )}
           
@@ -174,10 +182,15 @@ const ProjectCard = ({ id, title, imageSrc, images, description, link, buttonTex
 
             {/* Modal Body Details (Scrollable) */}
             <div className="p-6 md:p-8 overflow-y-auto custom-scrollbar flex-1">
-              <div className="flex items-center gap-3 mb-4">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
                 <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
                   {title}
                 </h2>
+                {course && (
+                  <span className="px-3 py-1 text-xs font-semibold text-slate-700 bg-slate-100 rounded-full border border-slate-200 dark:bg-slate-700 dark:text-slate-200 dark:border-slate-600">
+                    {language === 'th' ? 'รายวิชา' : 'Course'}: {course}
+                  </span>
+                )}
                 {status === 'success' && (
                   <span className="px-3 py-1 text-xs font-semibold text-teal-800 bg-teal-50 rounded-full border border-teal-100 dark:bg-teal-900/30 dark:text-teal-300 dark:border-teal-700">
                     {language === 'th' ? 'เสร็จสมบูรณ์' : 'Success'}
