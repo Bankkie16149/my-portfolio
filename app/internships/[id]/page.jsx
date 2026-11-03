@@ -37,17 +37,17 @@ export default function InternshipDetail() {
   if (!internship) return null
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 py-20 px-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 py-10 sm:py-20 px-4 sm:px-6">
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white mb-8 transition-colors"
+          className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white mb-6 sm:mb-8 transition-colors"
         >
           <FaArrowLeft />
           {language === 'th' ? 'กลับ' : 'Back'}
         </button>
 
-        <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl overflow-hidden p-8 md:p-12">
+        <div className="bg-white dark:bg-zinc-900 rounded-2xl shadow-xl overflow-hidden p-5 sm:p-8 md:p-12">
           
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-10 pb-10 border-b border-gray-100 dark:border-zinc-800">
             {internship.imageUrl ? (

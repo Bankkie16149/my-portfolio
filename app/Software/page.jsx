@@ -40,7 +40,7 @@ function Page() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 transition-colors duration-300">
       <Navbar />
-      <div className="pt-24 pb-16 space-y-24 md:space-y-32">
+      <div className="pt-12 sm:pt-24 pb-12 sm:pb-16 space-y-16 sm:space-y-24 md:space-y-32">
 
       {projectData && projectData.length > 0 ? (
         projectData.map((section, index) => (

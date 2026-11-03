@@ -31,20 +31,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#f8fcfb] dark:bg-slate-900 font-sans p-6">
+    <div className="flex min-h-screen items-center justify-center bg-[#f8fcfb] dark:bg-slate-900 font-sans p-4 sm:p-6">
       
       {/* Background Decor */}
       <div className="absolute top-10 left-10 w-80 h-80 bg-teal-100/50 dark:bg-teal-900/20 rounded-full blur-3xl pointer-events-none"></div>
       <div className="absolute bottom-10 right-10 w-60 h-60 bg-cyan-100/40 dark:bg-cyan-900/20 rounded-full blur-2xl pointer-events-none"></div>
 
-      <div className="relative z-10 p-8 md:p-10 bg-white dark:bg-slate-800 rounded-3xl shadow-sm border border-teal-900/10 dark:border-teal-500/10 text-center max-w-sm w-full">
+      <div className="relative z-10 p-6 sm:p-8 md:p-10 bg-white dark:bg-slate-800 rounded-2xl sm:rounded-3xl shadow-sm border border-teal-900/10 dark:border-teal-500/10 text-center max-w-sm w-full">
         
-        <div className="mx-auto w-14 h-14 rounded-2xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center border border-teal-100/80 dark:border-teal-800/50 mb-6">
-          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-teal-600 dark:text-teal-400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div className="mx-auto w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center border border-teal-100/80 dark:border-teal-800/50 mb-5 sm:mb-6">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" className="text-teal-600 dark:text-teal-400" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
         </div>
 
-        <h1 className="text-2xl font-bold mb-2 text-slate-900 dark:text-white">Admin Login</h1>
-        <p className="text-slate-500 text-sm mb-8">ลงชื่อเข้าใช้เพื่อจัดการระบบหลังบ้าน</p>
+        <h1 className="text-xl sm:text-2xl font-bold mb-1.5 sm:mb-2 text-slate-900 dark:text-white">Admin Login</h1>
+        <p className="text-slate-500 text-xs sm:text-sm mb-6 sm:mb-8">ลงชื่อเข้าใช้เพื่อจัดการระบบหลังบ้าน</p>
         
         {errorMsg && (
           <div className="mb-6 p-4 bg-red-50 text-red-600 border border-red-100 rounded-xl text-sm font-medium">

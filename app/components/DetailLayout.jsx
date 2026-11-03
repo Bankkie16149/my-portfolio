@@ -13,8 +13,8 @@ const DetailLayout = ({
   const isEven = index % 2 === 0;
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 mb-24 md:mb-32">
-      <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-12 lg:gap-16 items-center`}>
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 mb-12 sm:mb-20 md:mb-32">
+      <div className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-center`}>
         
         {/* ส่วนรูปภาพ (Image) */}
         <div className="w-full md:w-5/12 lg:w-2/5 relative group shrink-0">
@@ -53,13 +53,13 @@ const DetailLayout = ({
                   {subtitle}
                 </span>
               )}
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight tracking-tight mb-4">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-gray-900 dark:text-white leading-tight tracking-tight mb-3 sm:mb-4">
                 {title}
               </h2>
             </div>
             
             {/* เนื้อหาด้านในที่ถูกส่งเข้ามา (เช่น h3, p, buttons) */}
-            <div className="prose prose-lg dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
+            <div className="prose prose-base sm:prose-lg dark:prose-invert max-w-none text-gray-600 dark:text-gray-300">
               {children}
             </div>
           </div>

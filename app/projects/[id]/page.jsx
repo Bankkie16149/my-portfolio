@@ -45,7 +45,7 @@ export default function ProjectDetail() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 pt-12 pb-16 px-6 md:px-12 lg:px-20">
+      <div className="min-h-screen bg-gray-50 dark:bg-zinc-950 pt-6 sm:pt-12 pb-12 sm:pb-16 px-4 sm:px-6 md:px-12 lg:px-20">
       <div className="max-w-4xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <button 
