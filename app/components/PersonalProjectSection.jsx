@@ -25,7 +25,7 @@ export default function PersonalProjectSection() {
   if (!project) return null;
 
   const highlights = language === 'th' ? project.highlightsTh : project.highlightsEn;
-  const projectImage = project.image || "/fintrack/fintrack.jpg";
+  const projectImage = project.image || "/fintrack/fintrack-dashboard.jpg";
 
   return (
     <>
@@ -160,13 +160,7 @@ export default function PersonalProjectSection() {
                 <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
               </a>
 
-              <button
-                onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-50/70 hover:bg-teal-100/80 text-teal-800 border border-teal-200/70 rounded-xl text-xs sm:text-sm font-medium transition w-full sm:w-auto"
-              >
-                <span className="material-symbols-outlined text-[16px] text-teal-600">visibility</span>
-                <span>{language === 'th' ? "ดูภาพตัวอย่าง" : "View Preview"}</span>
-              </button>
+              
             </div>
 
           </div>
