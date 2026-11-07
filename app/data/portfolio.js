@@ -127,3 +127,73 @@ export const internshipsData = [
 ];
 
 export const skillsData = [];
+
+export const personalProjectData = {
+  id: "fintrack",
+  title: "FinTrack",
+  taglineTh: "เว็บบันทึกรายรับ-รายจ่าย พร้อมระบบพยากรณ์และวิเคราะห์สุขภาพทางการเงิน",
+  taglineEn: "Personal Finance & Expense Tracker with Predictive Analytics",
+  badgeTh: "โปรเจกต์ส่วนตัว",
+  badgeEn: "Personal Project",
+  descriptionTh: "เว็บแอปพลิเคชันบริหารจัดการการเงินและบันทึกรายรับ-รายจ่ายส่วนบุคคล พัฒนาในรูปแบบ Full-stack Application โดยมีจุดเด่นคือ Dashboard สรุปภาพรวมการเงินแบบเรียลไทม์ พร้อมโมดูลพยากรณ์ทางการเงิน (Predictive Forecast) และ Smart Insights ที่ช่วยวิเคราะห์สัดส่วนรายรับ-รายจ่าย ประเมินประสิทธิภาพการออม (Financial Efficiency) และคำนวณงบประมาณค่าใช้จ่ายที่แนะนำต่อวัน นอกจากนี้ยังมีเครื่องคำนวณโครงการไทยช่วยไทย (Co-pay Calculator 60/40) ระบบสมาชิกพร้อมระบบอัปโหลดสลิปโอนเงิน (Canvas Image Processing) การแจ้งเตือนในแอปและอีเมล และรองรับการติดตั้งใช้งานบนมือถือในรูปแบบ Progressive Web App (PWA)",
+  descriptionEn: "A full-stack personal finance and expense management web application designed to help users track cash flows and gain financial clarity. Features a real-time financial dashboard with predictive forecasting and smart insights to analyze income-to-expense ratios, evaluate savings efficiency, and calculate recommended daily spending limits. It also includes a Thai Chuy Thai co-pay calculator (60/40), user membership with slip verification via client-side canvas image compression, in-app and email notifications, and full Progressive Web App (PWA) support for mobile installation.",
+  projectUrl: "https://expensetracker-tan-delta.vercel.app",
+  hosting: {
+    frontend: "Vercel",
+    backend: "Render"
+  },
+  techStack: [
+    "React",
+    "Vite",
+    "Node.js",
+    "Express",
+    "PWA",
+    "Tailwind CSS",
+    "JWT Auth",
+    "REST API"
+  ],
+  features: [
+    {
+      icon: "dashboard",
+      titleTh: "Dashboard สรุปภาพรวมการเงิน",
+      titleEn: "Financial Overview Dashboard",
+      descTh: "แสดงยอดเงินคงเหลือสุทธิ (Total Balance), รายรับ-รายจ่ายประจำเดือน และกราฟวิเคราะห์สัดส่วนค่าใช้จ่ายตามหมวดหมู่",
+      descEn: "Real-time net balance, monthly income vs expenses, and category-based spending breakdown charts."
+    },
+    {
+      icon: "trending_up",
+      titleTh: "ระบบพยากรณ์ & Smart Insights",
+      titleEn: "Predictive Forecast & Insights",
+      descTh: "คำนวณคาดการณ์เงินออมสุทธิล่วงหน้า ประเมินดัชนีประสิทธิภาพทางการเงิน (Efficiency %) และคำนวณงบใช้จ่ายรายวัน",
+      descEn: "Forecasts expected savings, evaluates financial efficiency index, and provides daily spending limits."
+    },
+    {
+      icon: "receipt_long",
+      titleTh: "บันทึกและจัดการรายการ",
+      titleEn: "Transaction & Wallet Management",
+      descTh: "บันทึกรายรับ-รายจ่าย ระบุแหล่งเงิน (KBank, SCB, เงินสด) หมวดหมู่ วันที่ และระบบค้นหาประวัติย้อนหลัง",
+      descEn: "Log transactions with custom categories, payment sources (banks/cash), and historical search filtering."
+    },
+    {
+      icon: "calculate",
+      titleTh: "เครื่องคำนวณไทยช่วยไทย",
+      titleEn: "Co-pay Calculator (60/40)",
+      descTh: "เครื่องมือคำนวณสัดส่วนค่าใช้จ่ายตามสิทธิ์นโยบายร่วมจ่าย 60/40 (รัฐช่วยออกสูงสุด 200 บ./วัน) ช่วยวางแผนงบประมาณ",
+      descEn: "Calculates 60/40 co-pay discounts up to 200 THB/day to assist with daily budget planning."
+    },
+    {
+      icon: "verified_user",
+      titleTh: "ระบบสมาชิก & อัปโหลดสลิป",
+      titleEn: "Membership & Slip Processing",
+      descTh: "ระบบยืนยันตัวตนด้วย JWT พร้อมฟังก์ชันอัปโหลดและประมวลผลลดขนาดภาพสลิปบน Client-side ด้วย HTML5 Canvas",
+      descEn: "JWT authentication with client-side HTML5 canvas image compression for slip verification."
+    },
+    {
+      icon: "install_mobile",
+      titleTh: "รองรับ PWA & การแจ้งเตือน",
+      titleEn: "PWA & Notifications",
+      descTh: "ติดตั้งลงบนหน้าจอมือถือได้เสมือนแอป Native พร้อมศูนย์แจ้งเตือนภายในแอปและระบบส่งอีเมลสรุปยอด",
+      descEn: "Installable on mobile devices via PWA with an in-app notification center and email alerts."
+    }
+  ]
+};

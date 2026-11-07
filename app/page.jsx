@@ -4,6 +4,7 @@ import Navbar from "@/app/components/Navbar";
 import SkillsSection from "@/app/components/SkillsSection";
 import ProjectCard from "@/app/components/Projectcard";
 import InternshipSection from '@/app/components/InternshipSection';
+import PersonalProjectSection from '@/app/components/PersonalProjectSection';
 import { useEffect } from "react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { profileData, projectsData, internshipsData, educationData } from "@/app/data/portfolio";
@@ -28,6 +29,7 @@ export default function Home() {
           if (sectionId === 'section-education') sectionName = "ประวัติการศึกษา (Education)";
           if (sectionId === 'section-skills') sectionName = "ทักษะ & ผลงาน Front-end";
           if (sectionId === 'section-projects') sectionName = "โปรเจกต์ของฉัน (Projects)";
+          if (sectionId === 'section-personal-project') sectionName = "โปรเจกต์ส่วนตัว (Personal Project - FinTrack)";
           if (sectionId === 'section-internship') sectionName = "ประสบการณ์ & การฝึกงาน (Internship)";
 
           const visitorId = sessionStorage.getItem('visitorId');
@@ -282,6 +284,9 @@ export default function Home() {
               })}
             </div>
           </section>
+
+          {/* โปรเจกต์ส่วนตัว (Personal Project - FinTrack) */}
+          <PersonalProjectSection />
 
           {/* การฝึกงาน */}
           <section id="section-internship" className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
