@@ -25,6 +25,7 @@ export default function PersonalProjectSection() {
   if (!project) return null;
 
   const highlights = language === 'th' ? project.highlightsTh : project.highlightsEn;
+  const projectImage = project.image || "/fintrack/fintrack.jpg";
 
   return (
     <>
@@ -32,7 +33,7 @@ export default function PersonalProjectSection() {
         id="section-personal-project" 
         className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col"
       >
-        {/* Section Header (Consistent with Projects & Internship sections) */}
+        {/* Section Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 sm:pb-6 border-b border-teal-50 mb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80 shrink-0">
@@ -62,13 +63,14 @@ export default function PersonalProjectSection() {
           <div className="lg:col-span-5 flex flex-col">
             <div 
               onClick={() => setIsModalOpen(true)}
-              className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-[#f8fbfb] border border-teal-100/80 shadow-sm cursor-pointer group hover:border-teal-300 transition-all duration-300"
+              className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-[#f8fbfb] border border-teal-100/80 shadow-sm cursor-pointer group hover:border-teal-300 transition-all duration-300 flex items-center justify-center p-2"
             >
               <Image 
-                src={project.image || "/fintrack/fintrack.jpg"} 
+                src={projectImage} 
                 alt={project.title}
                 fill
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="object-contain p-1.5 group-hover:scale-[1.03] transition-transform duration-500"
+                priority
               />
 
               {/* Top Badges */}
@@ -85,16 +87,16 @@ export default function PersonalProjectSection() {
               </div>
 
               {/* Click to Expand Overlay */}
-              <div className="absolute inset-0 bg-slate-900/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-xs font-semibold text-slate-800 shadow-md">
+              <div className="absolute inset-0 bg-slate-900/15 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-xs font-semibold text-slate-800 shadow-md">
                   <span className="material-symbols-outlined text-[16px] text-teal-600">zoom_in</span>
-                  <span>{language === 'th' ? "คลิกเพื่อดูรูปขยาย" : "Click to view image"}</span>
+                  <span>{language === 'th' ? "คลิกดูภาพขยาย" : "Click to view image"}</span>
                 </span>
               </div>
             </div>
 
             <p className="text-[11px] text-slate-400 font-mono text-center mt-2">
-              {language === 'th' ? "ภาพตัวอย่างระบบ FinTrack (Responsive & PWA)" : "FinTrack system preview (Responsive & PWA)"}
+              {language === 'th' ? "ภาพหน้าเว็บจริง FinTrack (Financial Dashboard)" : "FinTrack actual web screen (Financial Dashboard)"}
             </p>
           </div>
 
@@ -111,7 +113,7 @@ export default function PersonalProjectSection() {
               </h3>
             </div>
 
-            {/* Description (Natural Tone) */}
+            {/* Description (Natural Student Tone) */}
             <p className="text-slate-600 text-xs sm:text-sm leading-relaxed bg-[#f7fcfb] p-3.5 sm:p-4 rounded-xl border border-teal-100/70">
               {language === 'th' ? project.descriptionTh : project.descriptionEn}
             </p>
@@ -184,9 +186,9 @@ export default function PersonalProjectSection() {
           {/* Modal Card */}
           <div 
             onClick={(e) => e.stopPropagation()} 
-            className="relative bg-white rounded-3xl w-full max-w-3xl max-h-[90vh] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 z-10 my-auto"
+            className="relative bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 z-10 my-auto"
           >
-            {/* Close Button */}
+            {/* Close Button Only */}
             <button 
               onClick={() => setIsModalOpen(false)}
               className="absolute top-3.5 right-3.5 z-30 w-9 h-9 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center backdrop-blur-md shadow-md transition-all active:scale-95"
@@ -195,23 +197,29 @@ export default function PersonalProjectSection() {
               <FaTimes className="text-sm" />
             </button>
 
-            {/* Modal Image */}
-            <div className="relative w-full h-56 sm:h-80 md:h-96 bg-[#f8fbfb] border-b border-slate-100">
+            {/* Modal Image Header */}
+            <div className="relative w-full aspect-[16/9] sm:aspect-[16/8.5] bg-[#f8fbfb] border-b border-slate-100 shrink-0 p-3 sm:p-5 flex items-center justify-center">
               <Image 
-                src={project.image || "/fintrack/fintrack.jpg"} 
+                src={projectImage} 
                 alt={project.title} 
                 fill 
-                className="object-contain p-4" 
+                className="object-contain p-2 sm:p-4" 
+                priority
               />
             </div>
 
             {/* Modal Body */}
             <div className="p-5 sm:p-7 space-y-4 overflow-y-auto">
-              <div className="flex items-center justify-between gap-2">
-                <h3 className="text-lg sm:text-xl font-bold text-slate-900">
-                  {project.title}
-                </h3>
-                <span className="px-3 py-1 bg-teal-50 text-teal-800 text-xs font-semibold rounded-full border border-teal-200/80">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                    {project.title}
+                  </h3>
+                  <p className="text-xs text-teal-700 font-medium mt-0.5">
+                    {language === 'th' ? project.taglineTh : project.taglineEn}
+                  </p>
+                </div>
+                <span className="self-start sm:self-auto px-3 py-1 bg-teal-50 text-teal-800 text-xs font-semibold rounded-full border border-teal-200/80">
                   Host on Render
                 </span>
               </div>
@@ -220,7 +228,14 @@ export default function PersonalProjectSection() {
                 {language === 'th' ? project.descriptionTh : project.descriptionEn}
               </p>
 
-              <div className="pt-2 flex justify-end">
+              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-100">
+                <div className="flex flex-wrap gap-1.5">
+                  {project.techStack.map((tech) => (
+                    <span key={tech} className="px-2 py-0.5 text-[11px] bg-slate-50 text-slate-600 rounded border border-slate-200">
+                      {tech}
+                    </span>
+                  ))}
+                </div>
                 <a
                   href={project.projectUrl}
                   target="_blank"
