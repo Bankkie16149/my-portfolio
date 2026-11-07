@@ -37,7 +37,7 @@ export default function PersonalProjectSection() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 sm:pb-6 border-b border-teal-50 mb-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80 shrink-0">
-              <span className="material-symbols-outlined text-[22px]">savings</span>
+              <span className="material-symbols-outlined text-[22px]">code</span>
             </div>
             <div>
               <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900">
@@ -72,19 +72,6 @@ export default function PersonalProjectSection() {
                 className="object-contain p-1.5 group-hover:scale-[1.03] transition-transform duration-500"
                 priority
               />
-
-              {/* Top Badges */}
-              <div className="absolute top-3 left-3 z-10">
-                <span className="px-2.5 py-1 text-[10px] sm:text-xs font-semibold text-slate-700 bg-white/95 backdrop-blur-md rounded-full shadow-xs border border-slate-200/80">
-                  Full-stack App
-                </span>
-              </div>
-              <div className="absolute top-3 right-3 z-10">
-                <span className="px-2.5 py-1 text-[10px] sm:text-xs font-semibold text-teal-800 bg-white/95 backdrop-blur-md rounded-full shadow-xs border border-teal-200/80">
-                  <span className="inline-block w-1.5 h-1.5 rounded-full bg-teal-500 mr-1.5 mb-px"></span>
-                  PWA Ready
-                </span>
-              </div>
 
               {/* Click to Expand Overlay */}
               <div className="absolute inset-0 bg-slate-900/15 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -160,7 +147,13 @@ export default function PersonalProjectSection() {
                 <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
               </a>
 
-              
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-50/70 hover:bg-teal-100/80 text-teal-800 border border-teal-200/70 rounded-xl text-xs sm:text-sm font-medium transition w-full sm:w-auto"
+              >
+                <span className="material-symbols-outlined text-[16px] text-teal-600">visibility</span>
+                <span>{language === 'th' ? "ดูภาพตัวอย่าง" : "View Preview"}</span>
+              </button>
             </div>
 
           </div>
