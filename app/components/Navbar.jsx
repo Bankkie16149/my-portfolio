@@ -67,12 +67,7 @@ export default function Navbar() {
             </button>
 
             {/* Primary Contact CTA */}
-            <a
-              href={`mailto:${profileData.email}`}
-              className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-[6px] border border-outline-strong/80 bg-surface-panel/80 text-on-surface text-sm font-medium hover:bg-slate-cta hover:text-on-primary hover:border-slate-cta transition-colors duration-150 whitespace-nowrap"
-            >
-              {language === "th" ? "ติดต่ออีเมล" : "Get in touch"}
-            </a>
+            
 
             {/* Subtle Admin Access */}
             <Link
@@ -142,13 +137,7 @@ export default function Navbar() {
                 </a>
               ))}
               <div className="pt-4 mt-1 flex flex-col sm:flex-row gap-2.5 border-t border-outline/70">
-                <a
-                  href={`mailto:${profileData.email}`}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="w-full sm:flex-1 py-3 px-4 rounded-[6px] bg-slate-cta text-on-primary text-sm font-medium text-center hover:opacity-90 transition-opacity"
-                >
-                  {language === "th" ? "ติดต่ออีเมล" : "Get in touch"}
-                </a>
+                
                 <Link
                   href="/admin/login"
                   onClick={() => setIsMenuOpen(false)}

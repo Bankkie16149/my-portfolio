@@ -421,38 +421,7 @@ export default function Home() {
 
           <div className="flex flex-col gap-5 sm:gap-6">
             {/* Open for Front-end Internship Status Bar (Left Teal Accent) */}
-            <Reveal delay={0.06}>
-              <div className="bg-surface-panel border border-outline border-l-4 border-l-primary rounded-[8px] p-4 sm:px-6 sm:py-4 shadow-[0_1px_3px_rgba(15,23,42,0.04)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-start sm:items-center gap-3 sm:gap-3.5">
-                  <span
-                    className="material-symbols-outlined text-[20px] text-primary mt-0.5 sm:mt-0 shrink-0"
-                    aria-hidden="true"
-                  >
-                    work_outline
-                  </span>
-                  <div>
-                    <p className="font-display text-sm sm:text-lg font-semibold text-on-surface">
-                      {language === "th"
-                        ? "พร้อมสำหรับการฝึกงาน / สหกิจศึกษา — ตำแหน่ง Front-end Developer"
-                        : "Available for Internship — Front-end Developer"}
-                    </p>
-                    <p className="text-xs sm:text-[15px] text-on-surface-body mt-0.5 leading-relaxed">
-                      {language === "th"
-                        ? "พร้อมนำทักษะการออกแบบและพัฒนาส่วนต่อประสาน (UI) ด้วย modern web framework มาประยุกต์ใช้ในการทำงานจริง พร้อมเรียนรู้และเติบโตไปร่วมกับทีมพัฒนาซอฟต์แวร์"
-                        : "Ready to apply UI design and modern web framework skills in a real-world environment, and eager to learn and grow with the software development team."}
-                    </p>
-                  </div>
-                </div>
-
-                <a
-                  href={`mailto:${profile.email}`}
-                  className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 sm:py-2 rounded-[6px] border border-outline-strong bg-surface text-on-surface text-sm font-medium hover:border-primary hover:text-primary transition-colors duration-150 shrink-0 w-full sm:w-auto"
-                >
-                  <span>{language === "th" ? "ส่งข้อความติดต่อ" : "Send Message"}</span>
-                  <span className="font-mono text-xs text-primary" aria-hidden="true">↗</span>
-                </a>
-              </div>
-            </Reveal>
+            
 
             {/* Experience Cards */}
             {internships.map((internship, idx) => (
