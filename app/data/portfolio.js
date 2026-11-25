@@ -100,9 +100,11 @@ export const projectsData = [
     links: [
       { url: "https://www.figma.com/design/kDj28o0xpoZvBY1sENi6J7/aoiaoi?node-id=312-2&t=te3cOzu79iALOnps-1", labelTh: "ดูดีไซน์บน Figma", labelEn: "View on Figma", type: "figma" } ,
       { url: "https://github.com/MUDST-2026-aomaoi/aomaoi-frontend", labelTh: "ดูซอร์สโค้ดบน GitHub สำหรับ frontend", labelEn: "View on GitHub", type: "github" } ,
-      { url: "https://github.com/MUDST-2026-aomaoi/aomaoi-backend", labelTh: "ดูซอร์สโค้ดบน GitHub สำหรับ backend", labelEn: "View on GitHub", type: "github" }
+      { url: "https://github.com/MUDST-2026-aomaoi/aomaoi-backend", labelTh: "ดูซอร์สโค้ดบน GitHub สำหรับ backend", labelEn: "View on GitHub", type: "github" } ,
+      { url: "https://aomaoi-frontend.vercel.app", labelTh: "ดูผลงานจริง", labelEn: "View Live", type: "live" }
     ],
-    tags: ["figma", "in-progress"],
+    tags: ["figma", "success"],
+    hostingTag: "Host on Render Free Tier",
     courseTh: "DevOps และการพัฒนาแอปพลิเคชันที่นำไปใช้ได้จริง",
     courseEn: "DevOps and Real-world Application Development",
     order: 6

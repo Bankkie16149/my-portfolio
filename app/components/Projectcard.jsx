@@ -12,6 +12,7 @@ const ProjectCard = ({
   link,
   type,
   status,
+  hostingTag,
   multipleLinks,
 }) => {
   const { language } = useLanguage();
@@ -23,7 +24,6 @@ const ProjectCard = ({
   const galleryImages =
     images && images.length > 0 ? images : imageSrc ? [imageSrc] : [];
 
-  // Open / close native <dialog> via showModal()
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -35,7 +35,6 @@ const ProjectCard = ({
     }
   }, [isModalOpen]);
 
-  // Fallback for browsers without native <dialog closedby="any"> support (e.g. Safari)
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
@@ -70,7 +69,6 @@ const ProjectCard = ({
     };
   }, []);
 
-  // Auto-advance gallery inside modal
   useEffect(() => {
     let interval;
     if (isModalOpen && galleryImages.length > 1) {
@@ -107,131 +105,141 @@ const ProjectCard = ({
 
   return (
     <>
-      <article className="pt-6 border-t border-outline flex flex-col justify-between gap-4 group">
-        <div className="flex flex-col gap-3">
-          {/* Top Metadata & Title */}
-          <div className="flex flex-col gap-1">
-            <div className="flex items-baseline justify-between gap-3">
-              <button
-                type="button"
-                onClick={() => setIsModalOpen(true)}
-                className="text-left font-display text-lg font-semibold tracking-[-0.01em] text-on-surface group-hover:text-primary transition-colors duration-150 cursor-pointer"
-              >
-                {title}
-              </button>
-              {status === "in-progress" && (
-                <span className="font-mono text-[11px] text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-[4px] shrink-0">
-                  {language === "th" ? "กำลังดำเนินการ" : "IN PROGRESS"}
-                </span>
-              )}
-            </div>
-            {course && (
-              <span className="font-mono text-[11px] uppercase tracking-wider text-on-surface-muted">
-                {course}
-              </span>
-            )}
-          </div>
-
-          {/* Minimal Hairline Image Preview */}
-          {imageSrc && (
-            <button
-              type="button"
-              onClick={() => setIsModalOpen(true)}
-              aria-label={`Preview ${title}`}
-              className="relative w-full aspect-[16/10] rounded-[8px] border border-outline bg-surface-subtle overflow-hidden cursor-pointer text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-            >
-              <Image
-                src={imageSrc}
-                alt={title}
-                fill
-                className="object-contain p-2 transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-              />
-            </button>
-          )}
-
-          {/* Description */}
-          <p className="text-[15px] leading-[1.65] text-on-surface-body line-clamp-3">
-            {description}
-          </p>
-        </div>
-
-        {/* Footer Actions */}
-        <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+      <article className="group bg-surface-panel border border-outline rounded-[8px] overflow-hidden shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:border-outline-strong hover:-translate-y-0.5 transition-[transform,border-color] duration-150 flex flex-col">
+        {/* Clean 16:10 Screenshot Area */}
+        {imageSrc && (
           <button
             type="button"
             onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-1 text-sm font-medium text-on-surface hover:text-primary border-b border-outline-strong hover:border-primary pb-0.5 transition-colors duration-150 cursor-pointer"
+            aria-label={`Preview ${title}`}
+            className="relative w-full aspect-[16/10] overflow-hidden border-b border-outline bg-surface-subtle cursor-pointer block text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
-            <span>{language === "th" ? "ดูรายละเอียด" : "Details"}</span>
-            {galleryImages.length > 1 && (
-              <span className="font-mono text-[11px] text-on-surface-muted">
-                ({galleryImages.length})
-              </span>
-            )}
+            <Image
+              src={imageSrc}
+              alt={title}
+              fill
+              className="object-contain p-2.5 transition-transform duration-300 ease-out group-hover:scale-[1.02]"
+            />
           </button>
+        )}
 
-          <div className="flex flex-wrap items-center gap-4">
-            {resolvedLinks.map((item, idx) => {
-              const shortLabel =
-                item.type === "github"
-                  ? resolvedLinks.filter((l) => l.type === "github").length > 1
-                    ? item.labelTh.includes("frontend")
-                      ? "Frontend"
-                      : item.labelTh.includes("backend")
-                        ? "Backend"
-                        : "GitHub"
-                    : "GitHub"
-                  : item.type === "figma"
-                    ? "Figma"
-                    : language === "th"
-                      ? item.labelTh
-                      : item.labelEn;
+        {/* Card Content */}
+        <div className="p-4 sm:p-6 flex-1 flex flex-col justify-between gap-4">
+          <div className="flex flex-col gap-2">
+            {/* Course Metadata & Status Pill */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="font-mono text-[11px] uppercase tracking-wider text-on-surface-muted truncate max-w-full">
+                {course || (language === "th" ? "โปรเจกต์รายวิชา" : "COURSEWORK")}
+              </span>
+              {status === "in-progress" ? (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] border border-outline bg-surface text-on-surface-body font-mono text-[11px] shrink-0">
+                  {language === "th" ? "กำลังดำเนินการ" : "In Progress"}
+                </span>
+              ) : (
+                <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] bg-accent-subtle text-primary font-mono text-[11px] shrink-0">
+                  {language === "th" ? "เสร็จสมบูรณ์" : "Completed"}
+                </span>
+              )}
+            </div>
 
-              return (
-                <a
-                  key={idx}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
-                >
-                  <span>{shortLabel}</span>
-                  <span className="font-mono text-xs" aria-hidden="true">↗</span>
-                </a>
-              );
-            })}
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="text-left font-display text-lg font-semibold tracking-[-0.01em] text-on-surface group-hover:text-primary transition-colors duration-150 cursor-pointer"
+            >
+              {title}
+            </button>
+
+            {hostingTag && (
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[4px] border border-primary/25 bg-accent-subtle text-primary font-mono text-[11px] font-medium">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary" aria-hidden="true"></span>
+                  <span>{hostingTag}</span>
+                </span>
+              </div>
+            )}
+
+            <p className="text-[15px] leading-[1.6] text-on-surface-body line-clamp-3">
+              {description}
+            </p>
+          </div>
+
+          {/* Footer Links */}
+          <div className="pt-3 border-t border-outline flex flex-wrap items-center justify-between gap-3">
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-1 text-sm font-medium text-on-surface-body hover:text-primary transition-colors duration-150 cursor-pointer"
+            >
+              <span>{language === "th" ? "ดูรายละเอียด" : "Details"}</span>
+              {galleryImages.length > 1 && (
+                <span className="font-mono text-[11px] text-on-surface-muted">
+                  ({galleryImages.length})
+                </span>
+              )}
+            </button>
+
+            <div className="flex flex-wrap items-center gap-3.5">
+              {resolvedLinks.map((item, idx) => {
+                const shortLabel =
+                  item.type === "github"
+                    ? resolvedLinks.filter((l) => l.type === "github").length > 1
+                      ? item.labelTh.includes("frontend")
+                        ? "Frontend"
+                        : item.labelTh.includes("backend")
+                          ? "Backend"
+                          : "GitHub"
+                      : "GitHub"
+                    : item.type === "figma"
+                      ? "Figma"
+                      : language === "th"
+                        ? item.labelTh
+                        : item.labelEn;
+
+                return (
+                  <a
+                    key={idx}
+                    href={item.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                  >
+                    <span>{shortLabel}</span>
+                    <span className="font-mono text-xs" aria-hidden="true">↗</span>
+                  </a>
+                );
+              })}
+            </div>
           </div>
         </div>
       </article>
 
-      {/* Native <dialog> Modal Popup (Centered on Screen, Light-Dismiss Enabled) */}
+      {/* Native <dialog> Modal Popup */}
       <dialog
         ref={dialogRef}
         closedby="any"
         aria-labelledby={titleId}
-        className="m-auto p-0 bg-transparent border-0 max-w-3xl w-[calc(100%-2rem)] max-h-[88vh] overflow-visible"
+        className="m-auto p-0 bg-transparent border-0 max-w-xl w-[calc(100%-2rem)] sm:w-[calc(100%-3rem)] max-h-[82dvh] overflow-visible"
       >
         {isModalOpen && (
-          <div className="relative bg-surface rounded-[12px] border border-outline w-full max-h-[88vh] flex flex-col overflow-hidden">
-            {/* Close 'X' Button Only */}
+          <div className="relative bg-surface-panel rounded-[12px] border border-outline w-full max-h-[82dvh] flex flex-col overflow-hidden">
             <button
               type="button"
               onClick={() => setIsModalOpen(false)}
               aria-label="Close modal"
               autoFocus
-              className="absolute top-3.5 right-3.5 z-30 w-9 h-9 rounded-full bg-on-surface/75 hover:bg-on-surface text-surface flex items-center justify-center transition-colors cursor-pointer"
+              className="absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full bg-on-surface/80 hover:bg-on-surface text-on-primary flex items-center justify-center transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[18px]">close</span>
+              <span className="material-symbols-outlined text-[16px]">close</span>
             </button>
 
-            {/* Gallery */}
             {galleryImages.length > 0 && (
-              <div className="relative w-full h-56 sm:h-80 bg-surface-subtle border-b border-outline shrink-0 group/gallery">
+              <div className="relative w-full h-44 sm:h-56 md:h-64 bg-surface-subtle border-b border-outline shrink-0">
                 <Image
                   src={galleryImages[currentImageIndex]}
                   alt={title}
                   fill
-                  className="object-contain p-3 sm:p-5"
+                  className="object-contain p-2.5 sm:p-4"
                 />
 
                 {galleryImages.length > 1 && (
@@ -240,19 +248,19 @@ const ProjectCard = ({
                       type="button"
                       onClick={prevImage}
                       aria-label="Previous image"
-                      className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-surface/90 hover:bg-surface border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
+                      className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-surface-panel/90 hover:bg-surface-panel border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[18px]">chevron_left</span>
+                      <span className="material-symbols-outlined text-[16px]">chevron_left</span>
                     </button>
                     <button
                       type="button"
                       onClick={nextImage}
                       aria-label="Next image"
-                      className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-surface/90 hover:bg-surface border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-surface-panel/90 hover:bg-surface-panel border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[18px]">chevron_right</span>
+                      <span className="material-symbols-outlined text-[16px]">chevron_right</span>
                     </button>
-                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-surface/90 px-2.5 py-1 rounded-full border border-outline">
+                    <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-surface-panel/95 px-2 py-1 rounded-full border border-outline">
                       {galleryImages.map((_, idx) => (
                         <button
                           key={idx}
@@ -275,37 +283,44 @@ const ProjectCard = ({
               </div>
             )}
 
-            {/* Modal Content */}
-            <div className="p-6 sm:p-8 overflow-y-auto space-y-4">
-              <div className="space-y-1">
-                {course && (
-                  <span className="font-mono text-[11px] uppercase tracking-wider text-primary">
-                    {course}
+            <div className="p-4 sm:p-5 md:p-6 overflow-y-auto space-y-3">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2">
+                <div className="space-y-0.5">
+                  {course && (
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-primary">
+                      {course}
+                    </span>
+                  )}
+                  <h3
+                    id={titleId}
+                    className="font-display text-base sm:text-lg md:text-xl font-semibold tracking-[-0.02em] text-on-surface"
+                  >
+                    {title}
+                  </h3>
+                </div>
+                {hostingTag && (
+                  <span className="self-start inline-flex items-center gap-1.5 px-2 py-0.5 rounded-[4px] border border-primary/25 bg-accent-subtle text-primary font-mono text-[10px] sm:text-[11px] font-medium shrink-0">
+                    <span className="w-1.5 h-1.5 rounded-full bg-primary" aria-hidden="true"></span>
+                    <span>{hostingTag}</span>
                   </span>
                 )}
-                <h3
-                  id={titleId}
-                  className="font-display text-xl sm:text-2xl font-semibold tracking-[-0.02em] text-on-surface"
-                >
-                  {title}
-                </h3>
               </div>
 
-              <p className="text-[15px] leading-[1.7] text-on-surface-body whitespace-pre-line">
+              <p className="text-xs sm:text-sm leading-relaxed text-on-surface-body whitespace-pre-line">
                 {description}
               </p>
 
               {resolvedLinks.length > 0 && (
-                <div className="pt-4 border-t border-outline flex flex-wrap items-center gap-3">
+                <div className="pt-3 border-t border-outline flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2">
                   {resolvedLinks.map((item, idx) => (
                     <a
                       key={idx}
                       href={item.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-2 px-4 py-2 rounded-[6px] text-sm font-medium transition-colors duration-150 ${
+                      className={`inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-[6px] text-xs sm:text-sm font-medium transition-colors duration-150 ${
                         idx === 0
-                          ? "bg-on-surface text-surface hover:bg-primary"
+                          ? "bg-slate-cta text-on-primary hover:bg-primary"
                           : "border border-outline-strong text-on-surface hover:border-primary hover:text-primary"
                       }`}
                     >

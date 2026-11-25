@@ -118,16 +118,16 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="th" className="scroll-smooth">
+    <html lang="th" className={`${jakarta.variable} ${kanit.variable} ${sourceCodePro.variable} scroll-smooth`}>
       <head>
         <meta name="google-site-verification" content="HZUb5gJ8irbx8BG3--7zJnXJmLW5wF1XM4RdWagFECk" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300..500,0&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${jakarta.variable} ${kanit.variable} ${sourceCodePro.variable} font-sans antialiased bg-white text-[#09090b] selection:bg-[#f0fdfa] selection:text-[#0f766e]`}>
+      <body className="font-sans antialiased bg-surface text-on-surface selection:bg-accent-subtle selection:text-primary">
         <LanguageProvider>
           <VisitorTracker />
           {children}
