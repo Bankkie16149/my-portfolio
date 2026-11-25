@@ -1,27 +1,59 @@
 @import "tailwindcss";
 
-
-
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #09090b;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-kanit);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Swiss Editorial Portfolio Tokens */
+  --color-primary: #0f766e;
+  --color-on-primary: #ffffff;
+  --color-accent: #0d9488;
+  --color-accent-subtle: #f0fdfa;
+  --color-surface: #ffffff;
+  --color-surface-subtle: #fafaf9;
+  --color-on-surface: #09090b;
+  --color-on-surface-body: #52525b;
+  --color-on-surface-muted: #71717a;
+  --color-outline: #e4e4e7;
+  --color-outline-strong: #d4d4d8;
+
+  /* Typography */
+  --font-sans: var(--font-jakarta), var(--font-kanit), sans-serif;
+  --font-display: var(--font-jakarta), var(--font-kanit), sans-serif;
+  --font-mono: var(--font-mono-code), ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), sans-serif;
+  font-family: var(--font-sans);
+}
+
+.material-symbols-outlined {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1 !important;
+  box-sizing: content-box;
+  overflow: hidden;
+  white-space: nowrap;
+  direction: ltr;
+  vertical-align: middle;
+}
+
+/* Native <dialog> modal scroll containment & backdrop styling */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(9, 9, 11, 0.55);
+  backdrop-filter: blur(4px);
 }

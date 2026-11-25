@@ -3,346 +3,529 @@ import Image from "next/image";
 import Navbar from "@/app/components/Navbar";
 import SkillsSection from "@/app/components/SkillsSection";
 import ProjectCard from "@/app/components/Projectcard";
-import InternshipSection from '@/app/components/InternshipSection';
-import PersonalProjectSection from '@/app/components/PersonalProjectSection';
-import { useEffect } from "react";
+import InternshipSection from "@/app/components/InternshipSection";
+import PersonalProjectSection from "@/app/components/PersonalProjectSection";
+import { useEffect, useState } from "react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { profileData, projectsData, internshipsData, educationData } from "@/app/data/portfolio";
-import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Home() {
   const { language } = useLanguage();
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
   const profile = profileData;
   const educations = educationData || [];
   const projects = projectsData || [];
   const internships = internshipsData || [];
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          let sectionName = "หน้าแรก (Home Overview)";
-          
-          if (sectionId === 'section-hero') sectionName = "หน้าแรก (Home Overview)";
-          if (sectionId === 'section-about') sectionName = "ประวัติการศึกษา & แนะนำตัว (About)";
-          if (sectionId === 'section-education') sectionName = "ประวัติการศึกษา (Education)";
-          if (sectionId === 'section-skills') sectionName = "ทักษะ & ผลงาน Front-end";
-          if (sectionId === 'section-projects') sectionName = "โปรเจกต์ของฉัน (Projects)";
-          if (sectionId === 'section-personal-project') sectionName = "โปรเจกต์ส่วนตัว (Personal Project - FinTrack)";
-          if (sectionId === 'section-internship') sectionName = "ประสบการณ์ & การฝึกงาน (Internship)";
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const sectionId = entry.target.id;
+            let sectionName = "หน้าแรก (Home Overview)";
 
-          const visitorId = sessionStorage.getItem('visitorId');
-          if (visitorId) {
-            fetch('/api/visitors', {
-              method: 'PATCH',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id: visitorId, sectionViewed: sectionName })
-            }).catch(e => console.log(e));
+            if (sectionId === "section-hero") sectionName = "หน้าแรก (Home Overview)";
+            if (sectionId === "section-about") sectionName = "ประวัติการศึกษา & แนะนำตัว (About)";
+            if (sectionId === "section-education") sectionName = "ประวัติการศึกษา (Education)";
+            if (sectionId === "section-skills") sectionName = "ทักษะ & ผลงาน Front-end";
+            if (sectionId === "section-projects") sectionName = "โปรเจกต์ของฉัน (Projects)";
+            if (sectionId === "section-personal-project") sectionName = "โปรเจกต์ส่วนตัว (Personal Project - FinTrack)";
+            if (sectionId === "section-internship") sectionName = "ประสบการณ์ & การฝึกงาน (Internship)";
+
+            const visitorId = sessionStorage.getItem("visitorId");
+            if (visitorId) {
+              fetch("/api/visitors", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ id: visitorId, sectionViewed: sectionName }),
+              }).catch((e) => console.log(e));
+            }
           }
-        }
-      });
-    }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+        });
+      },
+      { threshold: 0.35 }
+    );
 
-    setTimeout(() => {
-      document.querySelectorAll('section[id^="section-"]').forEach(section => {
+    const timer = setTimeout(() => {
+      document.querySelectorAll('section[id^="section-"]').forEach((section) => {
         observer.observe(section);
       });
-    }, 1000); // Give DOM time to render
+    }, 1000);
 
-    return () => observer.disconnect();
+    return () => {
+      clearTimeout(timer);
+      observer.disconnect();
+    };
   }, []);
 
+  const handleCopyEmail = () => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(profile.email).catch(() => {});
+    }
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2000);
+  };
 
   return (
-    <div className="bg-[#f4fbf9] min-h-screen text-slate-800 font-sans selection:bg-teal-500/30">
+    <div id="top" className="min-h-screen bg-surface text-on-surface flex flex-col">
       <Navbar />
 
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-12 space-y-8 sm:space-y-12">
-        
-        {/* HERO SECTION */}
-        <section id="section-hero" className="bg-white rounded-2xl p-5 sm:p-8 md:p-12 border border-teal-900/10 shadow-card-soft relative overflow-hidden">
-          {/* Decorative Teal/Cyan soft blur glow */}
-          <div className="absolute -right-16 -top-16 w-80 h-80 bg-teal-100/70 rounded-full blur-3xl pointer-events-none opacity-60"></div>
-          <div className="absolute -left-10 -bottom-10 w-60 h-60 bg-cyan-100/50 rounded-full blur-2xl pointer-events-none opacity-40"></div>
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-10 items-center relative z-10">
-            {/* Right on Desktop, Top on Mobile: Profile Image */}
-            <div className="order-1 lg:order-2 lg:col-span-5 flex justify-center lg:justify-end">
-              <div className="relative group">
-                <div className="absolute -inset-1 bg-gradient-to-tr from-teal-500 to-cyan-400 rounded-3xl blur-md opacity-30 group-hover:opacity-45 transition duration-300"></div>
-                <div className="relative w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80 rounded-2xl overflow-hidden bg-white border-4 border-white shadow-xl">
-                  <Image alt="Profile" className="w-full h-full object-cover object-top hover:scale-105 transition duration-500" src="/20241009_083423_368.JPG" fill priority />
-                </div>
+      <main className="flex-1">
+        {/* 1. HERO SECTION (Editorial & Asymmetric) */}
+        <section
+          id="section-hero"
+          className="max-w-5xl mx-auto px-6 md:px-8 py-14 md:py-24"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+            
+            {/* Right on Desktop, Top on Mobile: Profile Portrait */}
+            <div className="order-1 lg:order-2 lg:col-span-4 flex flex-col gap-2">
+              <div className="relative w-52 sm:w-64 lg:w-full aspect-[3/4] rounded-[8px] border border-outline overflow-hidden bg-surface-subtle">
+                <Image
+                  src="/20241009_083423_368.JPG"
+                  alt="Portrait of Tanakorn Tipwarreerattana"
+                  fill
+                  priority
+                  className="object-cover object-top"
+                />
+              </div>
+              <div className="w-52 sm:w-64 lg:w-full flex items-center justify-between text-on-surface-muted pt-1">
+                <span className="font-mono text-[11px] uppercase">
+                  {language === "th" ? "ชั้นปีที่ 3 • D.S.T." : "YEAR 3 • B.SC. D.S.T."}
+                </span>
+                <span className="font-mono text-[11px] uppercase">MAHIDOL ICT</span>
               </div>
             </div>
 
-            {/* Left on Desktop, Below Image on Mobile: Headings and Intro */}
-            <div className="order-2 lg:order-1 lg:col-span-7 space-y-4 sm:space-y-5">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-50 border border-teal-200/80 text-teal-800 text-xs font-semibold shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
-                <span>{language === 'th' ? "ชั้นปีที่ 3" : "Year 3"}</span>
-              </div>
-              <div className="space-y-1.5 sm:space-y-2">
-                <h2 className="text-2xl sm:text-3xl font-display font-semibold text-slate-800 flex items-center gap-2">
-                  <span>{language === 'th' ? "สวัสดีครับ" : "Hello"}</span>
-                </h2>
-                <h1 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-900 tracking-tight leading-tight">
-                  {language === 'th' ? "ผมชื่อ" : "I'm"} <span className="text-teal-600">{language === 'th' ? profile.name : profile.nameEn}</span>
-                </h1>
-              </div>
-              <p className="text-slate-600 text-sm sm:text-base md:text-lg leading-relaxed font-normal bg-[#f7fcfb] p-4 sm:p-5 rounded-2xl border border-teal-100/70">
-                {language === 'th' ? profile.bio : profile.bioEn}
+            {/* Left on Desktop, Below Portrait on Mobile: Statement & Intro */}
+            <div className="order-2 lg:order-1 lg:col-span-8 flex flex-col gap-5 sm:gap-6">
+              <span className="font-mono text-xs font-medium text-primary uppercase tracking-wider">
+                {language === "th"
+                  ? "นักพัฒนา Front-end & UI Designer — กรุงเทพฯ"
+                  : "Front-end Developer & UI Designer — Bangkok, TH"}
+              </span>
+
+              <h1 className="font-display text-3xl sm:text-4xl md:text-[50px] font-bold tracking-[-0.025em] leading-[1.15] text-on-surface text-balance">
+                {language === "th" ? (
+                  <>
+                    สวัสดีครับ ผม{" "}
+                    <span className="text-primary">{profile.name}</span>
+                  </>
+                ) : (
+                  "Front-end Developer crafting precise, high-performance web applications."
+                )}
+              </h1>
+
+              <p className="text-base sm:text-[17px] leading-[1.7] text-on-surface-body max-w-2xl text-pretty">
+                {language === "th" ? profile.bio : profile.bioEn}
               </p>
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 pt-2">
-                <a className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-sm font-semibold shadow-sm hover:shadow-teal-glow transition duration-200 w-full sm:w-auto" href={profile.linkedin} rel="noopener noreferrer" target="_blank">
-                  <span>LinkedIn Profile</span>
-                  <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+
+              {/* Direct Inline Action Links */}
+              <div className="flex flex-wrap items-center gap-6 pt-2">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="inline-flex items-center gap-1 text-sm font-medium text-on-surface hover:text-primary border-b border-outline-strong hover:border-primary pb-0.5 transition-colors duration-150"
+                >
+                  <span>{language === "th" ? "ติดต่ออีเมล" : "Email"}</span>
+                  <span className="font-mono text-xs text-primary" aria-hidden="true">↗</span>
                 </a>
-                <a className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-teal-50/70 text-teal-800 border border-teal-200/70 rounded-xl text-sm font-medium hover:bg-teal-100/80 transition w-full sm:w-auto" href={`mailto:${profile.email}`}>
-                  <span className="material-symbols-outlined text-[18px] text-teal-600">mail</span>
-                  <span>ติดต่ออีเมล</span>
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-on-surface hover:text-primary border-b border-outline-strong hover:border-primary pb-0.5 transition-colors duration-150"
+                >
+                  <span>LinkedIn</span>
+                  <span className="font-mono text-xs text-primary" aria-hidden="true">↗</span>
+                </a>
+                <a
+                  href={profile.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 text-sm font-medium text-on-surface hover:text-primary border-b border-outline-strong hover:border-primary pb-0.5 transition-colors duration-150"
+                >
+                  <span>GitHub</span>
+                  <span className="font-mono text-xs text-primary" aria-hidden="true">↗</span>
                 </a>
               </div>
             </div>
+
           </div>
         </section>
 
-        {/* Two-column Section: About Me & Education */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
-          
-          {/* เกี่ยวกับฉัน */}
-          <section id="section-about" className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 pb-4 sm:pb-6 border-b border-teal-50">
-                <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80 shrink-0">
-                  <span className="material-symbols-outlined text-[22px]">person</span>
-                </div>
-                <div>
-                  <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900">{language === 'th' ? "เกี่ยวกับฉัน" : "About Me"}</h2>
-                  <p className="text-xs text-slate-400 font-mono">Personal Information</p>
-                </div>
-              </div>
-              {/* Desktop & Tablet Layout (Original Clean Rows) */}
-              <div className="hidden sm:block divide-y divide-teal-50/70 mt-3 sm:mt-4">
-                <div className="py-3.5 flex items-center justify-between gap-1">
-                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "ชื่อ" : "Name"}</span>
-                  <span className="text-base font-semibold text-slate-800">{language === 'th' ? profile.name : profile.nameEn}</span>
-                </div>
-                <div className="py-3.5 flex items-center justify-between gap-1">
-                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "คณะ" : "Faculty"}</span>
-                  <span className="text-base font-medium text-slate-800 text-right max-w-[70%]">{language === 'th' ? profile.faculty : profile.facultyEn}</span>
-                </div>
-                <div className="py-3.5 flex items-center justify-between gap-1">
-                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "เบอร์โทร" : "Phone"}</span>
-                  <a className="text-base font-mono font-medium text-teal-600 hover:text-teal-700 hover:underline" href={`tel:${profile.phone}`}>{profile.phone}</a>
-                </div>
-                <div className="py-3.5 flex items-center justify-between gap-1">
-                  <span className="text-sm font-medium text-slate-400">{language === 'th' ? "อีเมล" : "Email"}</span>
-                  <a className="text-sm md:text-base font-medium text-teal-600 hover:text-teal-700 hover:underline truncate text-right" href={`mailto:${profile.email}`}>{profile.email}</a>
-                </div>
-                <div className="py-3.5 flex items-center justify-between gap-1">
-                  <span className="text-sm font-medium text-slate-400">LinkedIn</span>
-                  <a className="inline-flex items-center gap-1.5 text-base font-medium text-teal-600 hover:text-teal-700 truncate" href={profile.linkedin} rel="noopener noreferrer" target="_blank">
-                    <span className="truncate">Tanakorn Tipwarreerattana</span>
-                    <span className="material-symbols-outlined text-[15px] shrink-0">open_in_new</span>
-                  </a>
-                </div>
-                <div className="py-3.5 flex items-center justify-between gap-1">
-                  <span className="text-sm font-medium text-slate-400">Github</span>
-                  <a className="inline-flex items-center gap-1.5 text-base font-medium text-teal-600 hover:text-teal-700 truncate" href={profile.github} rel="noopener noreferrer" target="_blank">
-                    <span className="truncate">Tanakorn Tipwarreerattana</span>
-                    <span className="material-symbols-outlined text-[15px] shrink-0">open_in_new</span>
-                  </a>
-                </div>
+        {/* HAIRLINE DIVIDER */}
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <hr className="border-t border-outline" />
+        </div>
+
+        {/* 2. ABOUT ME & EDUCATION (Clean Two-Column Editorial Grid) */}
+        <div className="max-w-5xl mx-auto px-6 md:px-8 py-16 md:py-24">
+          <div className="mb-8 md:mb-10">
+            <span className="font-mono text-xs font-medium text-on-surface-muted uppercase tracking-wider">
+              01 / BACKGROUND
+            </span>
+            <h2 className="font-display text-2xl sm:text-[32px] font-semibold tracking-[-0.02em] leading-tight text-on-surface mt-1">
+              {language === "th" ? "เกี่ยวกับฉันและการศึกษา" : "About & Education"}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+            
+            {/* Left Column: About Me */}
+            <section id="section-about" className="flex flex-col gap-4">
+              <div className="pb-2 border-b border-outline flex items-baseline justify-between gap-2">
+                <h3 className="font-mono text-xs font-semibold text-on-surface uppercase tracking-wider">
+                  {language === "th" ? "ข้อมูลส่วนตัว" : "Personal Information"}
+                </h3>
+                <span className="font-mono text-[11px] text-on-surface-muted">PROFILE</span>
               </div>
 
-              {/* Mobile Only Layout (< sm) - Clean, Compact & Touch-Friendly */}
-              <div className="sm:hidden space-y-2.5 mt-4">
-                {/* 1. Name */}
-                <div className="bg-[#f7fcfb] p-3 rounded-xl border border-teal-100/70 flex items-center justify-between gap-2">
-                  <span className="text-xs text-slate-400 font-medium">{language === 'th' ? "ชื่อ-นามสกุล" : "Name"}</span>
-                  <span className="text-xs font-bold text-slate-900">{language === 'th' ? profile.name : profile.nameEn}</span>
+              <dl className="divide-y divide-outline">
+                <div className="py-3 flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-on-surface-muted shrink-0">
+                    {language === "th" ? "ชื่อ" : "Name"}
+                  </dt>
+                  <dd className="text-sm sm:text-[15px] font-medium text-on-surface text-right">
+                    {language === "th" ? profile.name : profile.nameEn}
+                  </dd>
                 </div>
+                <div className="py-3 flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-on-surface-muted shrink-0">
+                    {language === "th" ? "คณะ" : "Faculty"}
+                  </dt>
+                  <dd className="text-sm sm:text-[15px] text-on-surface-body text-right">
+                    {language === "th" ? profile.faculty : profile.facultyEn}
+                  </dd>
+                </div>
+                <div className="py-3 flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-on-surface-muted shrink-0">
+                    {language === "th" ? "เบอร์โทร" : "Phone"}
+                  </dt>
+                  <dd className="text-right">
+                    <a
+                      href={`tel:${profile.phone}`}
+                      className="font-mono text-sm text-on-surface hover:text-primary transition-colors tabular-nums"
+                    >
+                      {profile.phone}
+                    </a>
+                  </dd>
+                </div>
+                <div className="py-3 flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-on-surface-muted shrink-0">
+                    {language === "th" ? "อีเมล" : "Email"}
+                  </dt>
+                  <dd className="text-right min-w-0">
+                    <a
+                      href={`mailto:${profile.email}`}
+                      className="text-sm text-primary hover:underline truncate block"
+                    >
+                      {profile.email}
+                    </a>
+                  </dd>
+                </div>
+                <div className="py-3 flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-on-surface-muted shrink-0">LinkedIn</dt>
+                  <dd className="text-right">
+                    <a
+                      href={profile.linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                    >
+                      <span>Tanakorn Tipwarreerattana</span>
+                      <span className="font-mono text-xs" aria-hidden="true">↗</span>
+                    </a>
+                  </dd>
+                </div>
+                <div className="py-3 flex items-baseline justify-between gap-4">
+                  <dt className="text-sm text-on-surface-muted shrink-0">GitHub</dt>
+                  <dd className="text-right">
+                    <a
+                      href={profile.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                    >
+                      <span>Bankkie16149</span>
+                      <span className="font-mono text-xs" aria-hidden="true">↗</span>
+                    </a>
+                  </dd>
+                </div>
+              </dl>
+            </section>
 
-                {/* 2. Faculty */}
-                <div className="bg-[#f7fcfb] p-3 rounded-xl border border-teal-100/70">
-                  <span className="text-xs text-slate-400 font-medium block mb-1">{language === 'th' ? "คณะวิชา" : "Faculty"}</span>
-                  <span className="text-xs font-semibold text-slate-800 leading-snug">{language === 'th' ? profile.faculty : profile.facultyEn}</span>
-                </div>
-
-                {/* 3. Phone & Email (2 Columns) */}
-                <div className="grid grid-cols-2 gap-2">
-                  <a href={`tel:${profile.phone}`} className="bg-[#f7fcfb] p-2.5 rounded-xl border border-teal-100/70 flex flex-col justify-center active:bg-teal-50 transition-colors">
-                    <span className="text-[10px] text-slate-400 font-medium">{language === 'th' ? "เบอร์โทรศัพท์" : "Phone"}</span>
-                    <span className="text-xs font-mono font-bold text-teal-600 truncate mt-0.5">{profile.phone}</span>
-                  </a>
-                  <a href={`mailto:${profile.email}`} className="bg-[#f7fcfb] p-2.5 rounded-xl border border-teal-100/70 flex flex-col justify-center active:bg-teal-50 transition-colors">
-                    <span className="text-[10px] text-slate-400 font-medium">{language === 'th' ? "อีเมล" : "Email"}</span>
-                    <span className="text-xs font-medium text-teal-600 truncate mt-0.5" title={profile.email}>{profile.email}</span>
-                  </a>
-                </div>
-
-                {/* 4. Social Links (2 Columns Buttons) */}
-                <div className="grid grid-cols-2 gap-2 pt-1">
-                  <a 
-                    href={profile.linkedin} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-white border border-teal-200/80 text-xs font-semibold text-[#0a66c2] shadow-2xs active:bg-slate-50 transition-all"
-                  >
-                    <FaLinkedin className="text-sm shrink-0" />
-                    <span>LinkedIn</span>
-                  </a>
-                  <a 
-                    href={profile.github} 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-white border border-teal-200/80 text-xs font-semibold text-slate-800 shadow-2xs active:bg-slate-50 transition-all"
-                  >
-                    <FaGithub className="text-sm shrink-0" />
-                    <span>GitHub</span>
-                  </a>
-                </div>
+            {/* Right Column: Education */}
+            <section id="section-education" className="flex flex-col gap-4">
+              <div className="pb-2 border-b border-outline flex items-baseline justify-between gap-2">
+                <h3 className="font-mono text-xs font-semibold text-on-surface uppercase tracking-wider">
+                  {language === "th" ? "ประวัติการศึกษา" : "Education"}
+                </h3>
+                <span className="font-mono text-[11px] text-on-surface-muted">ACADEMIC</span>
               </div>
-            </div>
-          </section>
 
-          {/* การศึกษา */}
-          <section id="section-education" className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col justify-between">
-            <div>
-              <div className="flex items-center gap-3 pb-4 sm:pb-6 border-b border-teal-50">
-                <div className="w-10 h-10 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center border border-cyan-100/80 shrink-0">
-                  <span className="material-symbols-outlined text-[22px]">school</span>
-                </div>
-                <div>
-                  <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900">{language === 'th' ? "การศึกษา" : "Education"}</h2>
-                  <p className="text-xs text-slate-400 font-mono">Education History</p>
-                </div>
-              </div>
-              <div className="mt-6 sm:mt-8 relative pl-5 sm:pl-6 border-l-2 border-teal-200/80 space-y-6 sm:space-y-8">
+              <div className="divide-y divide-outline">
                 {educations.map((edu, idx) => (
-                  <div key={edu.id} className="relative">
-                    <span className={`absolute -left-[27px] sm:-left-[31px] top-1 w-3.5 h-3.5 rounded-full ring-4 ring-white shadow-sm ${idx === 0 ? 'bg-teal-600' : 'bg-slate-300'}`}></span>
-                    <div className="bg-[#f7fcfb] p-3.5 sm:p-4 rounded-xl border border-teal-100/70">
-                      <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-mono font-medium mb-1.5 ${idx === 0 ? 'bg-teal-100/80 text-teal-800' : 'bg-slate-100 text-slate-700'}`}>
-                        {language === 'th' ? edu.yearsTh : edu.yearsEn}
+                  <div
+                    key={edu.id}
+                    className={`${idx === 0 ? "pb-5" : "py-5"} flex flex-col gap-1.5`}
+                  >
+                    <div className="flex flex-wrap items-baseline justify-between gap-2">
+                      <h4 className="font-display text-lg font-semibold text-on-surface">
+                        {language === "th" ? edu.schoolTh : edu.schoolEn}
+                      </h4>
+                      <span
+                        className={`font-mono text-xs tabular-nums ${
+                          idx === 0 ? "text-primary font-medium" : "text-on-surface-muted"
+                        }`}
+                      >
+                        {language === "th" ? edu.yearsTh : edu.yearsEn}
                       </span>
-                      <h3 className="text-sm sm:text-base font-bold text-slate-900">
-                        {language === 'th' ? edu.schoolTh : edu.schoolEn}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-                        {language === 'th' ? edu.degreeTh : edu.degreeEn}
-                      </p>
                     </div>
+                    <p className="text-[15px] leading-relaxed text-on-surface-body">
+                      {language === "th" ? edu.degreeTh : edu.degreeEn}
+                    </p>
                   </div>
                 ))}
               </div>
-            </div>
-          </section>
+            </section>
+
+          </div>
         </div>
 
+        {/* HAIRLINE DIVIDER */}
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <hr className="border-t border-outline" />
+        </div>
+
+        {/* 3. SKILLS SECTION */}
         <SkillsSection />
 
-        {/* Two-column: โปรเจกต์ของฉัน & การฝึกงาน */}
-        <div className="space-y-8 sm:space-y-12">
-          
-          {/* โปรเจกต์ของฉัน */}
-          <section id="section-projects" className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
-            <div className="flex items-center gap-3 pb-4 sm:pb-6 border-b border-teal-50 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80 shrink-0">
-                <span className="material-symbols-outlined text-[22px]">folder_special</span>
-              </div>
-              <div>
-                <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900">{language === 'th' ? "โปรเจกต์ของฉัน" : "My Projects"}</h2>
-                <p className="text-xs text-slate-400 font-mono">My Projects</p>
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-              {projects.map((project) => {
-                const type = project.tags?.[0] || 'website';
-                let defaultLink = project.projectUrl || project.githubUrl || '#';
-                let defaultButtonText = type === 'github' ? "View on GitHub" : (language === 'th' ? "เยี่ยมชมเว็บไซต์" : "Visit Website");
-                
-                return (
-                  <ProjectCard
-                    key={project.id}
-                    id={project.id}
-                    title={project.title}
-                    imageSrc={project.imageUrl || project.image}
-                    images={project.images}
-                    description={language === 'th' ? (project.descriptionTh || project.description) : (project.descriptionEn || project.description)}
-                    course={language === 'th' ? project.courseTh : project.courseEn}
-                    link={defaultLink}
-                    buttonText={defaultButtonText}
-                    type={type}
-                    status={project.tags?.[1] || 'success'}
-                    multipleLinks={project.links}
-                  />
-                );
-              })}
-            </div>
-          </section>
-
-          {/* โปรเจกต์ส่วนตัว (Personal Project - FinTrack) */}
-          <PersonalProjectSection />
-
-          {/* การฝึกงาน */}
-          <section id="section-internship" className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col">
-            <div className="flex items-center gap-3 pb-4 sm:pb-6 border-b border-teal-50 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80 shrink-0">
-                <span className="material-symbols-outlined text-[22px]">work_outline</span>
-              </div>
-              <div>
-                <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900">{language === 'th' ? "การฝึกงาน" : "Internship"}</h2>
-                <p className="text-xs text-slate-400 font-mono">Internship & Cooperative Education</p>
-              </div>
-            </div>
-            
-            <div className="flex-1 flex flex-col gap-6">
-              {/* Ready for internship banner */}
-              <div className="p-4 sm:p-6 rounded-xl bg-gradient-to-br from-teal-50/70 to-cyan-50/50 border border-teal-100">
-                <div className="space-y-2 sm:space-y-3">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-100/90 text-teal-800 text-xs font-semibold">
-                    <span className="w-2 h-2 rounded-full bg-teal-600 animate-pulse"></span>
-                    <span>{language === 'th' ? "พร้อมสำหรับการฝึกงาน / สหกิจศึกษา" : "Available for Internship"}</span>
-                  </div>
-                  <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-                    {language === 'th' ? "สนใจร่วมฝึกงานในตำแหน่ง Front-end Developer" : "Looking for Front-end Developer Internship"}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    {language === 'th' ? "พร้อมนำทักษะการออกแบบและพัฒนาส่วนต่อประสาน (UI) ด้วย modern web framework มาประยุกต์ใช้ในการทำงานจริง พร้อมเรียนรู้และเติบโตไปร่วมกับทีมพัฒนาซอฟต์แวร์" : "Ready to apply UI design and modern web framework skills in a real-world environment, and eager to learn and grow with the software development team."}
-                  </p>
-                </div>
-                <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-t border-teal-100/80 mt-4">
-                  <span className="text-xs font-medium text-slate-500">{language === 'th' ? "ติดต่อได้ทางอีเมลและโทรศัพท์" : "Contact via email or phone"}</span>
-                  <a className="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-teal-600 text-white rounded-xl text-xs font-semibold hover:bg-teal-700 transition shadow-sm w-full sm:w-auto" href={`mailto:${profile.email}`}>
-                    <span className="material-symbols-outlined text-[16px]">send</span>
-                    <span>{language === 'th' ? "ส่งข้อความติดต่อ" : "Send Message"}</span>
-                  </a>
-                </div>
-              </div>
-
-              <div className="mt-4 sm:mt-8 relative">
-                {internships.map((internship) => (
-                <InternshipSection 
-                  key={internship.id}
-                  id={internship.id}
-                  role={language === 'th' ? (internship.roleTh || internship.role) : (internship.roleEn || internship.role)}
-                  company={language === 'th' ? (internship.companyTh || internship.company) : (internship.companyEn || internship.company)}
-                  duration={language === 'th' ? `${internship.startDateTh || internship.startDate} - ${internship.endDateTh || internship.endDate}` : `${internship.startDateEn || internship.startDate} - ${internship.endDateEn || internship.endDate}`}
-                  responsibilities={language === 'th' ? (internship.descriptionTh || internship.description)?.split('\n') || [] : (internship.descriptionEn || internship.description)?.split('\n') || []}
-                  techStack={[]}
-                  logoSrc={internship.imageUrl}
-                />
-              ))}
-              </div>
-            </div>
-          </section>
-
+        {/* HAIRLINE DIVIDER */}
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <hr className="border-t border-outline" />
         </div>
+
+        {/* 4. MY PROJECTS (Academic & Engineering Projects) */}
+        <section
+          id="section-projects"
+          className="max-w-5xl mx-auto px-6 md:px-8 py-16 md:py-24"
+        >
+          <div className="flex items-baseline justify-between gap-4 mb-8 md:mb-10">
+            <div className="flex flex-col gap-1">
+              <span className="font-mono text-xs font-medium text-on-surface-muted uppercase tracking-wider">
+                03 / SELECTED WORK
+              </span>
+              <h2 className="font-display text-2xl sm:text-[32px] font-semibold tracking-[-0.02em] leading-tight text-on-surface">
+                {language === "th" ? "โปรเจกต์ของฉัน" : "Academic & Engineering Projects"}
+              </h2>
+            </div>
+
+            <a
+              href={profile.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:inline-flex items-center gap-1 text-sm font-medium text-on-surface-body hover:text-primary transition-colors duration-150 shrink-0"
+            >
+              <span>{language === "th" ? "ดู GitHub ทั้งหมด" : "All repositories"}</span>
+              <span className="font-mono text-xs" aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12">
+            {projects.map((project) => {
+              const type = project.tags?.[0] || "website";
+              const defaultLink = project.projectUrl || project.githubUrl || "#";
+
+              return (
+                <ProjectCard
+                  key={project.id}
+                  id={project.id}
+                  title={project.title}
+                  imageSrc={project.imageUrl || project.image}
+                  images={project.images}
+                  description={
+                    language === "th"
+                      ? project.descriptionTh || project.description
+                      : project.descriptionEn || project.description
+                  }
+                  course={language === "th" ? project.courseTh : project.courseEn}
+                  link={defaultLink}
+                  type={type}
+                  status={project.tags?.[1] || "success"}
+                  multipleLinks={project.links}
+                />
+              );
+            })}
+          </div>
+        </section>
+
+        {/* HAIRLINE DIVIDER */}
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <hr className="border-t border-outline" />
+        </div>
+
+        {/* 5. PERSONAL PROJECT (FinTrack — Placed directly before Internship) */}
+        <PersonalProjectSection />
+
+        {/* HAIRLINE DIVIDER */}
+        <div className="max-w-5xl mx-auto px-6 md:px-8">
+          <hr className="border-t border-outline" />
+        </div>
+
+        {/* 6. INTERNSHIP SECTION */}
+        <section
+          id="section-internship"
+          className="max-w-5xl mx-auto px-6 md:px-8 py-16 md:py-24"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 md:mb-10">
+            <div className="flex flex-col gap-1">
+              <span className="font-mono text-xs font-medium text-on-surface-muted uppercase tracking-wider">
+                05 / EXPERIENCE
+              </span>
+              <h2 className="font-display text-2xl sm:text-[32px] font-semibold tracking-[-0.02em] leading-tight text-on-surface">
+                {language === "th" ? "ประสบการณ์และการฝึกงาน" : "Internship & Experience"}
+              </h2>
+            </div>
+
+            <span className="inline-flex items-center gap-2 font-mono text-xs font-medium text-primary uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary" aria-hidden="true"></span>
+              <span>
+                {language === "th"
+                  ? "พร้อมสำหรับการฝึกงาน / สหกิจศึกษา"
+                  : "OPEN FOR FRONT-END INTERNSHIP"}
+              </span>
+            </span>
+          </div>
+
+          {/* Subtle Editorial Availability Note */}
+          <div className="pb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <p className="text-[15px] leading-[1.65] text-on-surface-body max-w-2xl">
+              {language === "th"
+                ? "สนใจร่วมฝึกงานในตำแหน่ง Front-end Developer พร้อมนำทักษะการออกแบบและพัฒนา UI ด้วย Modern Web Framework มาประยุกต์ใช้ในการทำงานจริง"
+                : "Looking for Front-end Developer internships to apply modern UI engineering and web framework skills in collaborative production teams."}
+            </p>
+            <a
+              href={`mailto:${profile.email}`}
+              className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-[6px] border border-outline-strong bg-surface text-on-surface text-sm font-medium hover:border-primary hover:text-primary transition-colors duration-150 shrink-0 self-start sm:self-auto"
+            >
+              <span>{language === "th" ? "ส่งข้อความติดต่อ" : "Send Message"}</span>
+              <span className="font-mono text-xs" aria-hidden="true">↗</span>
+            </a>
+          </div>
+
+          <div className="space-y-8">
+            {internships.map((internship) => (
+              <InternshipSection
+                key={internship.id}
+                role={
+                  language === "th"
+                    ? internship.roleTh || internship.role
+                    : internship.roleEn || internship.role
+                }
+                company={
+                  language === "th"
+                    ? internship.companyTh || internship.company
+                    : internship.companyEn || internship.company
+                }
+                duration={
+                  language === "th"
+                    ? `${internship.startDateTh || internship.startDate} – ${internship.endDateTh || internship.endDate}`
+                    : `${internship.startDateEn || internship.startDate} – ${internship.endDateEn || internship.endDate}`
+                }
+                responsibilities={
+                  (language === "th"
+                    ? internship.descriptionTh || internship.description
+                    : internship.descriptionEn || internship.description
+                  )?.split("\n") || []
+                }
+                logoSrc={internship.imageUrl}
+              />
+            ))}
+          </div>
+        </section>
       </main>
+
+      {/* 7. MINIMAL EDITORIAL FOOTER */}
+      <footer className="border-t border-outline bg-surface">
+        <div className="max-w-5xl mx-auto px-6 md:px-8 py-14 md:py-16">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b border-outline">
+            <div className="flex flex-col gap-2 max-w-lg">
+              <span className="font-mono text-xs font-medium text-primary uppercase tracking-wider">
+                {language === "th"
+                  ? "เปิดรับโอกาสฝึกงานและร่วมงาน"
+                  : "OPEN FOR FRONT-END INTERNSHIP & CO-OP"}
+              </span>
+              <h2 className="font-display text-2xl sm:text-[32px] font-semibold tracking-[-0.02em] text-on-surface">
+                {language === "th"
+                  ? "มาร่วมสร้างผลงานไปด้วยกัน"
+                  : "Let's build something together."}
+              </h2>
+              <p className="text-[15px] leading-relaxed text-on-surface-body">
+                {language === "th"
+                  ? "ติดต่อสอบถามหรือพูดคุยเรื่องตำแหน่งฝึกงาน Front-end Developer และโปรเจกต์ด้านเว็บแอปพลิเคชันได้ตลอดเวลาครับ"
+                  : "Available for Front-end Developer internships, collaborative engineering teams, and modern web interface projects."}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={handleCopyEmail}
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[6px] border border-outline-strong bg-surface text-on-surface text-sm font-medium hover:border-primary hover:text-primary transition-colors duration-150 cursor-pointer"
+              >
+                <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
+                  {copiedEmail ? "check" : "content_copy"}
+                </span>
+                <span>
+                  {copiedEmail
+                    ? language === "th"
+                      ? "คัดลอกอีเมลแล้ว"
+                      : "Copied to clipboard"
+                    : profile.email}
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div className="pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-1">
+              <span className="font-mono text-[11px] text-on-surface-muted">
+                © 2026 Tanakorn Tipwarreerattana
+              </span>
+              <span className="font-mono text-[11px] text-on-surface-muted">
+                Built with Next.js &amp; Tailwind CSS
+              </span>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-6">
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-[11px] text-on-surface-body hover:text-primary transition-colors duration-150"
+              >
+                LinkedIn ↗
+              </a>
+              <a
+                href={profile.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-[11px] text-on-surface-body hover:text-primary transition-colors duration-150"
+              >
+                GitHub ↗
+              </a>
+              <a
+                href={`tel:${profile.phone}`}
+                className="font-mono text-[11px] text-on-surface-body hover:text-primary transition-colors duration-150 tabular-nums"
+              >
+                {profile.phone}
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

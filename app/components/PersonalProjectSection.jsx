@@ -1,7 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useId } from "react";
 import Image from "next/image";
-import { FaTimes } from "react-icons/fa";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { personalProjectData } from "@/app/data/portfolio";
 
@@ -9,216 +8,254 @@ export default function PersonalProjectSection() {
   const { language } = useLanguage();
   const project = personalProjectData;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const dialogRef = useRef(null);
+  const titleId = useId();
 
-  // Prevent background scrolling when modal is open
   useEffect(() => {
-    if (isModalOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    if (isModalOpen && !dialog.open) {
+      dialog.showModal();
+    } else if (!isModalOpen && dialog.open) {
+      dialog.close();
     }
-    return () => {
-      document.body.style.overflow = "auto";
-    };
   }, [isModalOpen]);
+
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const handleClose = () => setIsModalOpen(false);
+    dialog.addEventListener("close", handleClose);
+
+    let cleanupPointer = () => {};
+    if (typeof HTMLDialogElement !== "undefined" && !("closedBy" in HTMLDialogElement.prototype)) {
+      const isOutside = (e) => {
+        const r = dialog.getBoundingClientRect();
+        return e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom;
+      };
+      let pressedOutside = false;
+      const onPointerDown = (e) => {
+        pressedOutside = isOutside(e);
+      };
+      const onPointerUp = (e) => {
+        if (pressedOutside && isOutside(e)) dialog.close();
+      };
+      dialog.addEventListener("pointerdown", onPointerDown);
+      dialog.addEventListener("pointerup", onPointerUp);
+      cleanupPointer = () => {
+        dialog.removeEventListener("pointerdown", onPointerDown);
+        dialog.removeEventListener("pointerup", onPointerUp);
+      };
+    }
+
+    return () => {
+      dialog.removeEventListener("close", handleClose);
+      cleanupPointer();
+    };
+  }, []);
 
   if (!project) return null;
 
-  const highlights = language === 'th' ? project.highlightsTh : project.highlightsEn;
+  const highlights = language === "th" ? project.highlightsTh : project.highlightsEn;
   const projectImage = project.image || "/fintrack/fintrack-dashboard.jpg";
 
   return (
     <>
-      <section 
-        id="section-personal-project" 
-        className="bg-white rounded-2xl p-5 sm:p-8 border border-teal-900/10 shadow-card-soft flex flex-col"
+      <section
+        id="section-personal-project"
+        className="max-w-5xl mx-auto px-6 md:px-8 py-16 md:py-24"
       >
-        {/* Section Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 sm:pb-6 border-b border-teal-50 mb-6">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-100/80 shrink-0">
-              <span className="material-symbols-outlined text-[22px]">code</span>
-            </div>
-            <div>
-              <h2 className="text-lg sm:text-xl font-display font-bold text-slate-900">
-                {language === 'th' ? "โปรเจกต์ส่วนตัว" : "Personal Project"}
-              </h2>
-              <p className="text-xs text-slate-400 font-mono">Personal Project</p>
-            </div>
-          </div>
-
-          {/* Clean Host on Render Badge */}
-          <div className="self-start sm:self-auto flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#f7fcfb] text-slate-700 text-xs font-semibold rounded-full border border-teal-200/80 shadow-2xs">
-              <span className="w-2 h-2 rounded-full bg-teal-500"></span>
-              <span>Host on Render (Backend)</span>
+        {/* Section Index Header */}
+        <div className="flex items-baseline justify-between gap-4 mb-8 md:mb-10">
+          <div className="flex flex-col gap-1">
+            <span className="font-mono text-xs font-medium text-on-surface-muted uppercase tracking-wider">
+              {language === "th" ? "04 / โปรเจกต์ส่วนตัว" : "04 / PERSONAL PROJECT"}
             </span>
+            <h2 className="font-display text-2xl sm:text-[32px] font-semibold tracking-[-0.02em] leading-tight text-on-surface">
+              {language === "th" ? "โปรเจกต์ส่วนตัว" : "Personal Project"}
+            </h2>
           </div>
+          <span className="hidden sm:inline-block font-mono text-xs text-on-surface-muted uppercase tracking-wider">
+            PRODUCTION WEB APP
+          </span>
         </div>
 
-        {/* Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+        {/* 50/50 Editorial Split */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Project Screenshot Preview */}
-          <div className="lg:col-span-5 flex flex-col">
-            <div 
+          {/* Left 50%: Minimal Browser Mockup with Hover Zoom */}
+          <div className="lg:col-span-6">
+            <button
+              type="button"
               onClick={() => setIsModalOpen(true)}
-              className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden bg-[#f8fbfb] border border-teal-100/80 shadow-sm cursor-pointer group hover:border-teal-300 transition-all duration-300 flex items-center justify-center p-2"
+              aria-label={`Zoom ${project.title} screenshot`}
+              className="group w-full text-left rounded-[8px] border border-outline bg-surface-subtle overflow-hidden block cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
-              <Image 
-                src={projectImage} 
-                alt={project.title}
-                fill
-                className="object-contain p-1.5 group-hover:scale-[1.03] transition-transform duration-500"
-                priority
-              />
-
-              {/* Click to Expand Overlay */}
-              <div className="absolute inset-0 bg-slate-900/15 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/95 backdrop-blur-md text-xs font-semibold text-slate-800 shadow-md">
-                  <span className="material-symbols-outlined text-[16px] text-teal-600">zoom_in</span>
-                  <span>{language === 'th' ? "คลิกดูภาพขยาย" : "Click to view image"}</span>
+              {/* Minimal Browser Top Bar */}
+              <div className="px-4 py-2.5 border-b border-outline bg-surface flex items-center justify-between gap-2">
+                <div className="flex items-center gap-1.5" aria-hidden="true">
+                  <span className="w-2 h-2 rounded-full border border-outline-strong"></span>
+                  <span className="w-2 h-2 rounded-full border border-outline-strong"></span>
+                  <span className="w-2 h-2 rounded-full border border-outline-strong"></span>
+                </div>
+                <span className="font-mono text-[11px] text-on-surface-muted truncate">
+                  expensetracker-tan-delta.vercel.app
+                </span>
+                <span
+                  className="material-symbols-outlined text-[16px] text-on-surface-muted group-hover:text-primary transition-colors duration-150 shrink-0"
+                  aria-hidden="true"
+                >
+                  zoom_in
                 </span>
               </div>
-            </div>
 
-            <p className="text-[11px] text-slate-400 font-mono text-center mt-2">
-              {language === 'th' ? "ภาพหน้าเว็บจริง FinTrack (Financial Dashboard)" : "FinTrack actual web screen (Financial Dashboard)"}
-            </p>
+              {/* Clean Unobstructed Screenshot */}
+              <div className="relative w-full aspect-[16/9] overflow-hidden bg-surface">
+                <Image
+                  src={projectImage}
+                  alt={project.title}
+                  fill
+                  className="object-contain p-1.5 transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+                  priority
+                />
+              </div>
+            </button>
           </div>
 
-          {/* Right Column: Project Details & Features */}
-          <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
-            
-            {/* Title & Tagline */}
-            <div>
-              <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-teal-50 text-teal-800 text-xs font-medium mb-2 border border-teal-100">
-                <span>{language === 'th' ? project.taglineTh : project.taglineEn}</span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-display font-bold text-slate-900 tracking-tight">
-                {project.title}
-              </h3>
+          {/* Right 50%: Project Narrative & Architecture */}
+          <div className="lg:col-span-6 flex flex-col gap-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="font-mono text-xs text-on-surface-muted">
+                Personal Full-Stack Project
+              </span>
+              <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] border border-primary/25 bg-accent-subtle text-primary font-mono text-[11px] font-medium">
+                Backend: Hosted on Render
+              </span>
             </div>
 
-            {/* Description (Natural Student Tone) */}
-            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed bg-[#f7fcfb] p-3.5 sm:p-4 rounded-xl border border-teal-100/70">
-              {language === 'th' ? project.descriptionTh : project.descriptionEn}
+            <h3 className="font-display text-2xl sm:text-[28px] font-semibold tracking-[-0.02em] leading-snug text-on-surface">
+              {project.title}
+            </h3>
+
+            <p className="text-[15px] leading-[1.65] text-on-surface-body">
+              {language === "th" ? project.descriptionTh : project.descriptionEn}
             </p>
 
-            {/* Highlights List */}
-            <div className="space-y-2 pt-1">
-              <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider font-mono">
-                {language === 'th' ? "จุดเด่นและการทำงานของระบบ" : "Key Highlights"}
-              </h4>
-              <ul className="space-y-1.5">
-                {highlights.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    <span className="material-symbols-outlined text-[16px] text-teal-600 shrink-0 mt-0.5">check_circle</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Tech Stack Pills */}
-            <div className="pt-2 border-t border-teal-50">
-              <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
-                <span className="text-xs font-semibold text-slate-400 mr-1">Tech Stack:</span>
-                {project.techStack.map((tech) => (
+            {/* Clean Check-list Highlights */}
+            <ul className="space-y-2 py-1">
+              {highlights.map((item, idx) => (
+                <li key={idx} className="flex items-start gap-2.5 text-[15px] leading-[1.6] text-on-surface-body">
                   <span
-                    key={tech}
-                    className="px-2.5 py-0.5 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 border border-slate-200/80"
+                    className="material-symbols-outlined text-[18px] text-primary mt-0.5 shrink-0"
+                    aria-hidden="true"
                   >
-                    {tech}
+                    check
                   </span>
-                ))}
-              </div>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            {/* Minimalist Monospace Tech Tags */}
+            <div className="flex flex-wrap items-center gap-1.5 pt-1">
+              {project.techStack.map((tech) => (
+                <span
+                  key={tech}
+                  className="inline-flex items-center px-2 py-0.5 rounded-[4px] border border-outline bg-surface text-on-surface-body font-mono text-[11px] font-medium"
+                >
+                  {tech}
+                </span>
+              ))}
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+            {/* Direct Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-2">
               <a
                 href={project.projectUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-sm hover:shadow-teal-glow transition duration-200 w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[6px] bg-on-surface text-surface text-sm font-medium hover:bg-primary transition-colors duration-150"
               >
-                <span>{language === 'th' ? "เยี่ยมชมเว็บไซต์" : "Visit Website"}</span>
-                <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                <span>{language === "th" ? "เยี่ยมชมเว็บไซต์จริง" : "Visit Live Web App"}</span>
+                <span className="font-mono text-xs" aria-hidden="true">↗</span>
               </a>
 
               <button
+                type="button"
                 onClick={() => setIsModalOpen(true)}
-                className="inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-teal-50/70 hover:bg-teal-100/80 text-teal-800 border border-teal-200/70 rounded-xl text-xs sm:text-sm font-medium transition w-full sm:w-auto"
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-[6px] border border-outline-strong bg-surface text-on-surface text-sm font-medium hover:border-primary hover:text-primary transition-colors duration-150 cursor-pointer"
               >
-                <span className="material-symbols-outlined text-[16px] text-teal-600">visibility</span>
-                <span>{language === 'th' ? "ดูภาพตัวอย่าง" : "View Preview"}</span>
+                <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
+                  visibility
+                </span>
+                <span>{language === "th" ? "ดูภาพขยาย" : "View Screenshot"}</span>
               </button>
             </div>
-
           </div>
 
         </div>
       </section>
 
-      {/* Centered Modal (Consistent with ProjectCard modal) */}
-      {isModalOpen && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto"
-          onClick={() => setIsModalOpen(false)}
-        >
-          {/* Backdrop */}
-          <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"></div>
-          
-          {/* Modal Card */}
-          <div 
-            onClick={(e) => e.stopPropagation()} 
-            className="relative bg-white rounded-3xl w-full max-w-4xl max-h-[90vh] shadow-2xl flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-200 border border-slate-100 z-10 my-auto"
-          >
-            {/* Close Button Only */}
-            <button 
+      {/* Native <dialog> Lightbox Modal */}
+      <dialog
+        ref={dialogRef}
+        closedby="any"
+        aria-labelledby={titleId}
+        className="m-auto p-0 bg-transparent border-0 max-w-4xl w-[calc(100%-2rem)] max-h-[90vh] overflow-visible"
+      >
+        {isModalOpen && (
+          <div className="relative bg-surface rounded-[12px] border border-outline w-full max-h-[90vh] flex flex-col overflow-hidden">
+            {/* Close 'X' Button Only */}
+            <button
+              type="button"
               onClick={() => setIsModalOpen(false)}
-              className="absolute top-3.5 right-3.5 z-30 w-9 h-9 rounded-full bg-slate-900/60 hover:bg-slate-900 text-white flex items-center justify-center backdrop-blur-md shadow-md transition-all active:scale-95"
               aria-label="Close modal"
+              autoFocus
+              className="absolute top-3.5 right-3.5 z-30 w-9 h-9 rounded-full bg-on-surface/75 hover:bg-on-surface text-surface flex items-center justify-center transition-colors cursor-pointer"
             >
-              <FaTimes className="text-sm" />
+              <span className="material-symbols-outlined text-[18px]">close</span>
             </button>
 
-            {/* Modal Image Header */}
-            <div className="relative w-full aspect-[16/9] sm:aspect-[16/8.5] bg-[#f8fbfb] border-b border-slate-100 shrink-0 p-3 sm:p-5 flex items-center justify-center">
-              <Image 
-                src={projectImage} 
-                alt={project.title} 
-                fill 
-                className="object-contain p-2 sm:p-4" 
+            {/* Full Screenshot */}
+            <div className="relative w-full aspect-[16/9] sm:aspect-[16/8.5] bg-surface-subtle border-b border-outline shrink-0">
+              <Image
+                src={projectImage}
+                alt={project.title}
+                fill
+                className="object-contain p-3 sm:p-5"
                 priority
               />
             </div>
 
-            {/* Modal Body */}
-            <div className="p-5 sm:p-7 space-y-4 overflow-y-auto">
+            {/* Modal Footer Info */}
+            <div className="p-6 sm:p-8 overflow-y-auto space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                  <h3 className="text-lg sm:text-xl font-bold text-slate-900">
+                  <h3 id={titleId} className="font-display text-lg sm:text-xl font-semibold text-on-surface">
                     {project.title}
                   </h3>
-                  <p className="text-xs text-teal-700 font-medium mt-0.5">
-                    {language === 'th' ? project.taglineTh : project.taglineEn}
+                  <p className="text-xs text-primary font-mono mt-0.5">
+                    {language === "th" ? project.taglineTh : project.taglineEn}
                   </p>
                 </div>
-                <span className="self-start sm:self-auto px-3 py-1 bg-teal-50 text-teal-800 text-xs font-semibold rounded-full border border-teal-200/80">
-                  Host on Render
+                <span className="self-start sm:self-auto px-2.5 py-0.5 rounded-[4px] border border-primary/25 bg-accent-subtle text-primary font-mono text-[11px] font-medium">
+                  Backend: Hosted on Render
                 </span>
               </div>
 
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed bg-[#f7fcfb] p-4 rounded-xl border border-teal-100/70">
-                {language === 'th' ? project.descriptionTh : project.descriptionEn}
+              <p className="text-[15px] leading-[1.65] text-on-surface-body">
+                {language === "th" ? project.descriptionTh : project.descriptionEn}
               </p>
 
-              <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-t border-slate-100">
+              <div className="pt-4 border-t border-outline flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap gap-1.5">
                   {project.techStack.map((tech) => (
-                    <span key={tech} className="px-2 py-0.5 text-[11px] bg-slate-50 text-slate-600 rounded border border-slate-200">
+                    <span
+                      key={tech}
+                      className="px-2 py-0.5 rounded-[4px] border border-outline bg-surface text-on-surface-muted font-mono text-[11px]"
+                    >
                       {tech}
                     </span>
                   ))}
@@ -227,17 +264,16 @@ export default function PersonalProjectSection() {
                   href={project.projectUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs sm:text-sm font-semibold shadow-sm transition"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-[6px] bg-on-surface text-surface text-sm font-medium hover:bg-primary transition-colors duration-150"
                 >
-                  <span>{language === 'th' ? "เยี่ยมชมเว็บไซต์" : "Visit Website"}</span>
-                  <span className="material-symbols-outlined text-[16px]">arrow_outward</span>
+                  <span>{language === "th" ? "เยี่ยมชมเว็บไซต์จริง" : "Visit Live Web App"}</span>
+                  <span className="font-mono text-xs" aria-hidden="true">↗</span>
                 </a>
               </div>
             </div>
-
           </div>
-        </div>
-      )}
+        )}
+      </dialog>
     </>
   );
 }

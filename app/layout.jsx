@@ -1,4 +1,4 @@
-import { Plus_Jakarta_Sans, Kanit } from "next/font/google";
+import { Plus_Jakarta_Sans, Kanit, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from "@/app/context/LanguageContext"; 
 import VisitorTracker from "@/app/components/VisitorTracker";
@@ -6,12 +6,19 @@ import VisitorTracker from "@/app/components/VisitorTracker";
 const jakarta = Plus_Jakarta_Sans({
   variable: "--font-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 });
 
 const kanit = Kanit({
   variable: "--font-kanit",
   subsets: ["latin", "thai"],
   weight: ["300", "400", "500", "600", "700"],
+});
+
+const sourceCodePro = Source_Code_Pro({
+  variable: "--font-mono-code",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
 });
 
 export const metadata = {
@@ -111,16 +118,16 @@ const jsonLd = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="th">
+    <html lang="th" className="scroll-smooth">
       <head>
         <meta name="google-site-verification" content="HZUb5gJ8irbx8BG3--7zJnXJmLW5wF1XM4RdWagFECk" />
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@300,0&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${jakarta.variable} ${kanit.variable} font-sans antialiased`}>
+      <body className={`${jakarta.variable} ${kanit.variable} ${sourceCodePro.variable} font-sans antialiased bg-white text-[#09090b] selection:bg-[#f0fdfa] selection:text-[#0f766e]`}>
         <LanguageProvider>
           <VisitorTracker />
           {children}

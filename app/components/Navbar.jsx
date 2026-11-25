@@ -1,96 +1,150 @@
 "use client";
 import React, { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import Link from "next/link";
 import { useLanguage } from "@/app/context/LanguageContext";
-import Link from 'next/link';
+import { profileData } from "@/app/data/portfolio";
 
 export default function Navbar() {
   const { language, toggleLanguage } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const navItems = [
+    { href: "/#section-about", th: "เกี่ยวกับฉัน", en: "About" },
+    { href: "/#section-skills", th: "ทักษะ", en: "Skills" },
+    { href: "/#section-projects", th: "โปรเจกต์", en: "Projects" },
+    { href: "/#section-personal-project", th: "โปรเจกต์ส่วนตัว", en: "Personal" },
+    { href: "/#section-internship", th: "การฝึกงาน", en: "Internship" },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-teal-900/10 transition-all">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 sm:h-18 py-3 sm:py-4 flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-surface/95 backdrop-blur-sm border-b border-outline">
+      <div className="max-w-5xl mx-auto px-6 md:px-8 h-16 flex items-center justify-between gap-4">
         
-        {/* Site Logo / Title */}
-        <Link href="/" className="flex items-center gap-2 sm:gap-2.5 group">
-          <span className="w-8 h-8 rounded-lg bg-teal-600 text-white font-display font-extrabold flex items-center justify-center text-sm shadow-sm group-hover:bg-teal-700 transition">
-            TT
-          </span>
-          <span className="font-display font-bold text-base sm:text-lg tracking-tight text-slate-900 group-hover:text-teal-700 transition">
-            MY <span className="text-teal-600">PORTFOLIO</span>
+        {/* Brand Logo */}
+        <Link
+          href="/#section-hero"
+          className="inline-flex items-center gap-2.5 text-on-surface hover:text-primary transition-colors duration-150"
+        >
+          <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" aria-hidden="true"></span>
+          <span className="font-mono text-xs font-medium tracking-wider uppercase">
+            TT / TANAKORN
           </span>
         </Link>
 
-        {/* Navigation & Controls (Desktop & Tablet) */}
-        <div className="hidden md:flex items-center gap-4 lg:gap-6">
-          <nav className="flex items-center gap-1">
-            <Link href="/" className="px-3.5 lg:px-4 py-1.5 text-sm font-semibold text-teal-700 bg-teal-50/90 rounded-full border border-teal-200/60 hover:bg-teal-100/70 transition">
-              {language === 'th' ? 'หน้าหลัก' : 'Home'}
-            </Link>
+        {/* Desktop Navigation & Actions */}
+        <div className="hidden md:flex items-center gap-6">
+          <nav aria-label="Main navigation">
+            <ul className="flex items-center gap-5 lg:gap-6">
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <a
+                    href={item.href}
+                    className="text-sm font-medium text-on-surface-body hover:text-primary transition-colors duration-150"
+                  >
+                    {language === "th" ? item.th : item.en}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
-          
-          <div className="flex items-center gap-2.5 lg:gap-3 border-l border-teal-100 pl-4 lg:pl-6">
-            {/* Language Switch */}
-            <button 
+
+          <div className="flex items-center gap-2.5 pl-4 border-l border-outline">
+            {/* Language Toggle */}
+            <button
+              type="button"
               onClick={toggleLanguage}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-slate-50 transition text-sm font-semibold text-slate-600 border border-transparent hover:border-slate-200"
+              aria-label="Toggle language between English and Thai"
+              className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-[4px] border border-outline bg-surface font-mono text-[11px] font-medium text-on-surface-muted hover:border-outline-strong transition-colors duration-150 cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[16px] text-teal-600">language</span>
-              <span>{language === 'th' ? 'TH' : 'EN'}</span>
+              <span className={language === "en" ? "text-on-surface font-semibold" : "text-on-surface-muted"}>
+                EN
+              </span>
+              <span className="text-outline-strong">/</span>
+              <span className={language === "th" ? "text-on-surface font-semibold" : "text-on-surface-muted"}>
+                TH
+              </span>
             </button>
-            
-            {/* Login for Admin */}
-            <Link href="/admin/login" className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full border border-teal-200/80 text-xs font-medium text-slate-700 hover:text-teal-700 hover:border-teal-300 hover:bg-teal-50/50 transition shadow-sm bg-white">
-              <span className="material-symbols-outlined text-[16px] text-teal-600">lock</span>
-              <span>Login for Admin</span>
+
+            {/* Primary Contact CTA */}
+            <a
+              href={`mailto:${profileData.email}`}
+              className="inline-flex items-center justify-center px-3.5 py-1.5 rounded-[6px] border border-outline-strong bg-surface text-on-surface text-sm font-medium hover:border-primary hover:text-primary transition-colors duration-150"
+            >
+              {language === "th" ? "ติดต่ออีเมล" : "Get in touch"}
+            </a>
+
+            {/* Subtle Admin Access */}
+            <Link
+              href="/admin/login"
+              aria-label="Admin Login"
+              title="Admin Login"
+              className="inline-flex items-center justify-center w-8 h-8 rounded-[6px] border border-outline text-on-surface-muted hover:border-outline-strong hover:text-on-surface transition-colors duration-150"
+            >
+              <span className="material-symbols-outlined text-[16px]">lock</span>
             </Link>
           </div>
         </div>
 
-        {/* Mobile Menu Button & Quick Actions */}
-        <div className="md:hidden flex items-center gap-2">
-          <button 
+        {/* Mobile Controls */}
+        <div className="flex md:hidden items-center gap-2">
+          <button
+            type="button"
             onClick={toggleLanguage}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-full text-xs font-semibold text-slate-700 bg-teal-50/70 border border-teal-200/60 active:scale-95 transition"
             aria-label="Toggle language"
+            className="inline-flex items-center gap-1 px-2.5 h-10 rounded-[4px] border border-outline bg-surface font-mono text-[11px] font-medium text-on-surface-muted"
           >
-            <span className="material-symbols-outlined text-[15px] text-teal-600">language</span>
-            <span>{language === 'th' ? 'TH' : 'EN'}</span>
+            <span className={language === "en" ? "text-on-surface font-semibold" : ""}>EN</span>
+            <span className="text-outline-strong">/</span>
+            <span className={language === "th" ? "text-on-surface font-semibold" : ""}>TH</span>
           </button>
-          <button 
-            onClick={() => setIsMenuOpen(!isMenuOpen)} 
-            className="p-2 text-slate-600 hover:text-slate-900 rounded-lg hover:bg-slate-100 transition focus:outline-none"
+
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle navigation menu"
+            aria-expanded={isMenuOpen}
+            className="inline-flex items-center justify-center w-10 h-10 rounded-[6px] border border-outline text-on-surface hover:border-outline-strong transition-colors duration-150"
           >
-            {isMenuOpen ? <FaTimes className="h-5 w-5" /> : <FaBars className="h-5 w-5" />}
+            <span className="material-symbols-outlined text-[20px]">
+              {isMenuOpen ? "close" : "menu"}
+            </span>
           </button>
         </div>
       </div>
 
-      {/* Mobile Dropdown Menu */}
+      {/* Mobile Dropdown Navigation */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-md border-t border-teal-900/10 absolute top-full left-0 w-full shadow-xl animate-in slide-in-from-top-2 duration-200">
-          <div className="px-5 py-4 space-y-3">
-            <Link 
-              href="/" 
-              onClick={() => setIsMenuOpen(false)} 
-              className="flex items-center justify-between px-4 py-3 text-sm font-semibold text-teal-800 bg-teal-50/80 rounded-xl border border-teal-100"
-            >
-              <span>{language === 'th' ? 'หน้าหลัก' : 'Home'}</span>
-              <span className="material-symbols-outlined text-[18px] text-teal-600">home</span>
-            </Link>
-            <div className="pt-2 border-t border-slate-100">
-              <Link 
-                href="/admin/login" 
-                onClick={() => setIsMenuOpen(false)} 
-                className="flex items-center justify-center gap-2 w-full px-4 py-3 text-sm font-medium text-slate-700 bg-white border border-teal-200/80 rounded-xl shadow-xs hover:bg-teal-50/50 transition"
+        <div className="md:hidden bg-surface border-t border-outline">
+          <nav aria-label="Mobile navigation" className="max-w-5xl mx-auto px-6 py-4 flex flex-col divide-y divide-outline">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={() => setIsMenuOpen(false)}
+                className="py-3 text-sm font-medium text-on-surface-body hover:text-primary transition-colors flex items-center justify-between"
               >
-                <span className="material-symbols-outlined text-[18px] text-teal-600">lock</span>
-                <span>Login for Admin</span>
+                <span>{language === "th" ? item.th : item.en}</span>
+                <span className="font-mono text-xs text-on-surface-muted">↗</span>
+              </a>
+            ))}
+            <div className="pt-4 mt-1 flex flex-col gap-2.5 border-t border-outline">
+              <a
+                href={`mailto:${profileData.email}`}
+                onClick={() => setIsMenuOpen(false)}
+                className="w-full py-2.5 px-4 rounded-[6px] bg-on-surface text-surface text-sm font-medium text-center hover:bg-primary transition-colors"
+              >
+                {language === "th" ? "ติดต่ออีเมล" : "Get in touch"}
+              </a>
+              <Link
+                href="/admin/login"
+                onClick={() => setIsMenuOpen(false)}
+                className="w-full py-2.5 px-4 rounded-[6px] border border-outline text-on-surface-muted text-sm font-medium text-center hover:border-outline-strong hover:text-on-surface transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <span className="material-symbols-outlined text-[16px]">lock</span>
+                <span>Admin Login</span>
               </Link>
             </div>
-          </div>
+          </nav>
         </div>
       )}
     </header>
