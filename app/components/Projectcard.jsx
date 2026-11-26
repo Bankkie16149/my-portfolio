@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef, useId } from "react";
 import Image from "next/image";
+import { MdClose, MdChevronLeft, MdChevronRight } from "react-icons/md";
 import { useLanguage } from "@/app/context/LanguageContext";
 
 const ProjectCard = ({
@@ -230,7 +231,7 @@ const ProjectCard = ({
               autoFocus
               className="absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full bg-on-surface/80 hover:bg-on-surface text-on-primary flex items-center justify-center transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[16px]">close</span>
+              <MdClose className="text-[16px]" aria-hidden="true" />
             </button>
 
             {galleryImages.length > 0 && (
@@ -250,7 +251,7 @@ const ProjectCard = ({
                       aria-label="Previous image"
                       className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-surface-panel/90 hover:bg-surface-panel border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[16px]">chevron_left</span>
+                      <MdChevronLeft className="text-[18px]" aria-hidden="true" />
                     </button>
                     <button
                       type="button"
@@ -258,7 +259,7 @@ const ProjectCard = ({
                       aria-label="Next image"
                       className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-surface-panel/90 hover:bg-surface-panel border border-outline text-on-surface flex items-center justify-center transition-colors cursor-pointer"
                     >
-                      <span className="material-symbols-outlined text-[16px]">chevron_right</span>
+                      <MdChevronRight className="text-[18px]" aria-hidden="true" />
                     </button>
                     <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 flex items-center gap-1.5 bg-surface-panel/95 px-2 py-1 rounded-full border border-outline">
                       {galleryImages.map((_, idx) => (

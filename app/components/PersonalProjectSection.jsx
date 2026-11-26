@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef, useId } from "react";
 import Image from "next/image";
+import { MdZoomIn, MdCheckCircleOutline, MdVisibility, MdClose } from "react-icons/md";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { personalProjectData } from "@/app/data/portfolio";
 import { Reveal } from "@/app/components/MotionPrimitives";
@@ -100,12 +101,10 @@ export default function PersonalProjectSection() {
                   <span className="font-mono text-[11px] text-on-obsidian-muted truncate min-w-0 flex-1 text-center">
                     expensetracker-tan-delta.vercel.app
                   </span>
-                  <span
-                    className="material-symbols-outlined text-[16px] text-on-obsidian-muted group-hover:text-teal-bright transition-colors duration-150 shrink-0"
+                  <MdZoomIn
+                    className="text-[16px] text-on-obsidian-muted group-hover:text-teal-bright transition-colors duration-150 shrink-0"
                     aria-hidden="true"
-                  >
-                    zoom_in
-                  </span>
+                  />
                 </div>
 
                 {/* Clean Unobstructed Screenshot */}
@@ -143,12 +142,10 @@ export default function PersonalProjectSection() {
               <ul className="space-y-2 py-1">
                 {highlights.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-2.5 text-[15px] leading-[1.6] text-on-obsidian">
-                    <span
-                      className="material-symbols-outlined text-[18px] text-teal-bright mt-0.5 shrink-0"
+                    <MdCheckCircleOutline
+                      className="text-[18px] text-teal-bright mt-0.5 shrink-0"
                       aria-hidden="true"
-                    >
-                      check_circle
-                    </span>
+                    />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -181,9 +178,7 @@ export default function PersonalProjectSection() {
                   onClick={() => setIsModalOpen(true)}
                   className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-[6px] border border-obsidian-border bg-obsidian-surface text-on-obsidian text-sm font-medium hover:border-teal-bright hover:text-teal-bright transition-colors duration-150 cursor-pointer w-full sm:w-auto"
                 >
-                  <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
-                    visibility
-                  </span>
+                  <MdVisibility className="text-[16px]" aria-hidden="true" />
                   <span>{language === "th" ? "ดูภาพขยาย" : "View Screenshot"}</span>
                 </button>
               </div>
@@ -209,7 +204,7 @@ export default function PersonalProjectSection() {
               autoFocus
               className="absolute top-2.5 right-2.5 z-30 w-8 h-8 rounded-full bg-obsidian-surface/90 hover:bg-teal-bright hover:text-on-teal-bright text-on-obsidian border border-obsidian-border flex items-center justify-center transition-colors cursor-pointer"
             >
-              <span className="material-symbols-outlined text-[16px]">close</span>
+              <MdClose className="text-[16px]" aria-hidden="true" />
             </button>
 
             <div className="relative w-full h-44 sm:h-56 md:h-64 bg-obsidian-surface border-b border-obsidian-border shrink-0">

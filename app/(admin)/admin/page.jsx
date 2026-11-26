@@ -1,6 +1,17 @@
 "use client";
 import { useState, useEffect } from 'react';
 import { createClient } from '@/utils/supabase/client';
+import {
+  MdGroups,
+  MdTrendingUp,
+  MdPersonOutline,
+  MdToday,
+  MdStarOutline,
+  MdRefresh,
+  MdDownload,
+  MdSmartphone,
+  MdDesktopWindows,
+} from 'react-icons/md';
 
 export default function AdminDashboard() {
   const [logs, setLogs] = useState([]);
@@ -112,13 +123,13 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-medium text-slate-500">ผู้เข้าชมทั้งหมด (Total)</span>
             <div className="w-9 h-9 rounded-xl bg-teal-50 text-teal-700 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[20px]">groups</span>
+              <MdGroups className="text-[20px]" aria-hidden="true" />
             </div>
           </div>
           <div className="flex items-baseline justify-between">
             <span className="text-2xl sm:text-3xl font-display font-bold text-slate-900">{totalVisits}</span>
             <span className="inline-flex items-center gap-0.5 text-xs font-semibold text-teal-700 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200/50">
-              <span className="material-symbols-outlined text-[14px]">trending_up</span> Active
+              <MdTrendingUp className="text-[14px]" aria-hidden="true" /> Active
             </span>
           </div>
         </div>
@@ -128,7 +139,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-medium text-slate-500">ผู้เข้าชมไม่ซ้ำ (Unique)</span>
             <div className="w-9 h-9 rounded-xl bg-cyan-50 text-cyan-700 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[20px]">person_outline</span>
+              <MdPersonOutline className="text-[20px]" aria-hidden="true" />
             </div>
           </div>
           <div className="flex items-baseline justify-between">
@@ -144,7 +155,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-medium text-slate-500">เข้าชมวันนี้</span>
             <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[20px]">today</span>
+              <MdToday className="text-[20px]" aria-hidden="true" />
             </div>
           </div>
           <div className="flex items-baseline justify-between">
@@ -160,7 +171,7 @@ export default function AdminDashboard() {
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-medium text-slate-500">ส่วนที่คนสนใจมากที่สุด</span>
             <div className="w-9 h-9 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
-              <span className="material-symbols-outlined text-[20px]">star_outline</span>
+              <MdStarOutline className="text-[20px]" aria-hidden="true" />
             </div>
           </div>
           <div className="flex items-baseline justify-between">
@@ -257,7 +268,7 @@ export default function AdminDashboard() {
         <div className="px-4 sm:px-6 py-4 sm:py-5 border-b border-teal-50 flex items-center justify-between">
           <h2 className="text-base sm:text-lg font-bold text-slate-900">บันทึกการเข้าชมล่าสุด (Recent Logs)</h2>
           <button onClick={fetchLogs} className="inline-flex items-center gap-1.5 text-xs font-semibold text-teal-600 hover:text-teal-700 bg-teal-50 px-3 py-1.5 rounded-lg transition-colors">
-            <span className="material-symbols-outlined text-[14px]">refresh</span>
+            <MdRefresh className="text-[14px]" aria-hidden="true" />
             รีเฟรชข้อมูล
           </button>
         </div>
@@ -298,7 +309,7 @@ export default function AdminDashboard() {
                   else timeAgo = Math.floor(diff/86400) + ' วันที่แล้ว';
 
                   const isMobile = log.device === 'Mobile' || log.os === 'Android' || log.os === 'iOS';
-                  const deviceIcon = isMobile ? 'smartphone' : 'desktop_windows';
+                  const DeviceIcon = isMobile ? MdSmartphone : MdDesktopWindows;
 
                   return (
                     <tr key={log.id} className="hover:bg-teal-50/20 transition-colors">
@@ -318,7 +329,7 @@ export default function AdminDashboard() {
                       </td>
                       <td className="py-3.5 px-4 sm:px-6 text-slate-600">
                         <div className="flex items-center gap-1.5">
-                          <span className="material-symbols-outlined text-[16px] text-slate-400">{deviceIcon}</span>
+                          <DeviceIcon className="text-[16px] text-slate-400" aria-hidden="true" />
                           <span>{log.os || 'Unknown'} • {log.browser || 'Unknown'}</span>
                         </div>
                       </td>
@@ -338,7 +349,7 @@ export default function AdminDashboard() {
           <span>ข้อมูลถูกจัดเก็บบนฐานข้อมูลแบบปลอดภัย (Anonymous Analytics)</span>
           <button className="font-semibold text-teal-700 hover:text-teal-800 flex items-center gap-1 transition-colors self-end sm:self-auto" type="button">
             <span>ดาวน์โหลดรายงานเป็น CSV</span>
-            <span className="material-symbols-outlined text-[14px]">download</span>
+            <MdDownload className="text-[14px]" aria-hidden="true" />
           </button>
         </div>
       </div>

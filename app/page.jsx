@@ -6,6 +6,7 @@ import ProjectCard from "@/app/components/Projectcard";
 import InternshipSection from "@/app/components/InternshipSection";
 import PersonalProjectSection from "@/app/components/PersonalProjectSection";
 import { MotionRoot, Reveal, StaggerGroup, StaggerItem } from "@/app/components/MotionPrimitives";
+import { MdArrowForward, MdPersonOutline, MdSchool, MdCheck, MdContentCopy } from "react-icons/md";
 import { useEffect, useState } from "react";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { profileData, projectsData, internshipsData, educationData } from "@/app/data/portfolio";
@@ -146,9 +147,7 @@ export default function Home() {
                         className="col-span-2 sm:col-span-1 inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-[6px] bg-slate-cta text-on-primary text-sm font-medium hover:bg-primary transition-colors duration-150"
                       >
                         <span>{language === "th" ? "ติดต่ออีเมล" : "Contact Email"}</span>
-                        <span className="material-symbols-outlined text-[16px]" aria-hidden="true">
-                          arrow_forward
-                        </span>
+                        <MdArrowForward className="text-[16px]" aria-hidden="true" />
                       </a>
 
                       <a
@@ -211,9 +210,7 @@ export default function Home() {
                 >
               <div className="flex items-center justify-between pb-3 border-b border-outline">
                 <div className="flex items-center gap-2">
-                  <span className="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">
-                    person
-                  </span>
+                  <MdPersonOutline className="text-[18px] text-primary" aria-hidden="true" />
                   <h2 className="font-display text-base sm:text-lg font-semibold text-on-surface">
                     {language === "th" ? "เกี่ยวกับฉัน" : "About Me"}
                   </h2>
@@ -299,9 +296,7 @@ export default function Home() {
                 >
                   <div className="flex items-center justify-between pb-3 border-b border-outline">
                     <div className="flex items-center gap-2">
-                      <span className="material-symbols-outlined text-[18px] text-primary" aria-hidden="true">
-                        school
-                      </span>
+                      <MdSchool className="text-[18px] text-primary" aria-hidden="true" />
                       <h2 className="font-display text-base sm:text-lg font-semibold text-on-surface">
                         {language === "th" ? "การศึกษา" : "Education"}
                       </h2>
@@ -481,9 +476,11 @@ export default function Home() {
                   onClick={handleCopyEmail}
                   className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-[6px] bg-slate-cta text-on-primary text-xs sm:text-sm font-medium hover:bg-primary transition-colors duration-150 cursor-pointer w-full sm:w-auto max-w-full"
                 >
-                  <span className="material-symbols-outlined text-[16px] shrink-0" aria-hidden="true">
-                    {copiedEmail ? "check" : "content_copy"}
-                  </span>
+                  {copiedEmail ? (
+                    <MdCheck className="text-[16px] shrink-0" aria-hidden="true" />
+                  ) : (
+                    <MdContentCopy className="text-[16px] shrink-0" aria-hidden="true" />
+                  )}
                   <span className="truncate">
                     {copiedEmail
                       ? language === "th"

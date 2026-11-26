@@ -45,18 +45,6 @@ body {
   font-family: var(--font-sans);
 }
 
-.material-symbols-outlined {
-  display: inline-block;
-  width: 1em;
-  height: 1em;
-  line-height: 1 !important;
-  box-sizing: content-box;
-  overflow: hidden;
-  white-space: nowrap;
-  direction: ltr;
-  vertical-align: middle;
-}
-
 /* Subtle 28px Architectural Grid for Hero */
 .hero-grid-bg {
   background-image:

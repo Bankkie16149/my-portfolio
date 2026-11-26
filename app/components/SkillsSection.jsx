@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { MdDesktopWindows, MdDns, MdWidgets, MdCallSplit } from "react-icons/md";
 import { useLanguage } from "@/app/context/LanguageContext";
 import { Reveal, StaggerGroup, StaggerItem, SkillBar } from "@/app/components/MotionPrimitives";
 
@@ -9,7 +10,7 @@ export default function SkillsSection() {
   const skillsGroups = [
     {
       title: "Front-end",
-      icon: "desktop_windows",
+      Icon: MdDesktopWindows,
       skills: [
         { name: "HTML", percent: 80 },
         { name: "CSS", percent: 85 },
@@ -18,7 +19,7 @@ export default function SkillsSection() {
     },
     {
       title: "Back-end",
-      icon: "dns",
+      Icon: MdDns,
       skills: [
         { name: "Node.js", percent: 50 },
         { name: "MySQL", percent: 75 },
@@ -26,7 +27,7 @@ export default function SkillsSection() {
     },
     {
       title: "Framework",
-      icon: "widgets",
+      Icon: MdWidgets,
       skills: [
         { name: "React.js", percent: 80 },
         { name: "Vite", percent: 70 },
@@ -35,7 +36,7 @@ export default function SkillsSection() {
     },
     {
       title: "Version Control",
-      icon: "fork_right",
+      Icon: MdCallSplit,
       skills: [
         { name: "Git", percent: 70 },
         { name: "GitHub", percent: 70 },
@@ -65,39 +66,37 @@ export default function SkillsSection() {
       </Reveal>
 
       <StaggerGroup className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
-        {skillsGroups.map((group, gIdx) => (
-          <StaggerItem key={group.title} className="h-full">
-            <div className="h-full bg-surface-panel border border-outline rounded-[8px] p-4 sm:p-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:border-outline-strong transition-colors duration-200 flex flex-col gap-4">
-              <div className="flex items-center gap-2 pb-3 border-b border-outline">
-                <span
-                  className="material-symbols-outlined text-[18px] text-primary"
-                  aria-hidden="true"
-                >
-                  {group.icon}
-                </span>
-                <h3 className="font-mono text-xs font-semibold text-on-surface uppercase tracking-wider">
-                  {group.title}
-                </h3>
-              </div>
+        {skillsGroups.map((group, gIdx) => {
+          const GroupIcon = group.Icon;
+          return (
+            <StaggerItem key={group.title} className="h-full">
+              <div className="h-full bg-surface-panel border border-outline rounded-[8px] p-4 sm:p-5 shadow-[0_1px_3px_rgba(15,23,42,0.04)] hover:border-outline-strong transition-colors duration-200 flex flex-col gap-4">
+                <div className="flex items-center gap-2 pb-3 border-b border-outline">
+                  <GroupIcon className="text-[18px] text-primary shrink-0" aria-hidden="true" />
+                  <h3 className="font-mono text-xs font-semibold text-on-surface uppercase tracking-wider">
+                    {group.title}
+                  </h3>
+                </div>
 
-              <div className="space-y-3.5">
-                {group.skills.map((skill, sIdx) => (
-                  <div key={skill.name} className="space-y-1.5">
-                    <div className="flex items-center justify-between gap-2">
-                      <span className="text-sm font-medium text-on-surface">
-                        {skill.name}
-                      </span>
-                      <span className="font-mono text-[11px] text-on-surface-muted tabular-nums shrink-0">
-                        {skill.percent}%
-                      </span>
+                <div className="space-y-3.5">
+                  {group.skills.map((skill, sIdx) => (
+                    <div key={skill.name} className="space-y-1.5">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-sm font-medium text-on-surface">
+                          {skill.name}
+                        </span>
+                        <span className="font-mono text-[11px] text-on-surface-muted tabular-nums shrink-0">
+                          {skill.percent}%
+                        </span>
+                      </div>
+                      <SkillBar percent={skill.percent} delay={gIdx * 0.06 + sIdx * 0.05} />
                     </div>
-                    <SkillBar percent={skill.percent} delay={gIdx * 0.06 + sIdx * 0.05} />
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          </StaggerItem>
-        ))}
+            </StaggerItem>
+          );
+        })}
       </StaggerGroup>
     </section>
   );

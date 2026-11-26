@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { MdArrowBack } from 'react-icons/md'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/utils/supabase/client'
 
@@ -62,7 +63,7 @@ export default function AdminClientLayout({ user, children }) {
               href="/" 
               className="inline-flex items-center gap-1 px-2.5 sm:px-3.5 py-1.5 text-xs font-semibold text-teal-900 bg-teal-50/80 hover:bg-teal-100 hover:text-teal-950 rounded-lg transition-colors border border-teal-200/60"
             >
-              <span className="material-symbols-outlined text-[16px] text-teal-700">arrow_back</span>
+              <MdArrowBack className="text-[16px] text-teal-700" aria-hidden="true" />
               <span className="hidden sm:inline">กลับสู่หน้าหลัก</span>
             </Link>
             

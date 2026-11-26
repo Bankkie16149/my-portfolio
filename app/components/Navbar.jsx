@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
+import { MdLockOutline, MdMenu, MdClose } from "react-icons/md";
 import { useLanguage } from "@/app/context/LanguageContext";
-import { profileData } from "@/app/data/portfolio";
 import { SMOOTH_EASE } from "@/app/components/MotionPrimitives";
 
 export default function Navbar() {
@@ -76,7 +76,7 @@ export default function Navbar() {
               title="Admin Login"
               className="inline-flex items-center justify-center w-8 h-8 rounded-[6px] border border-outline/80 bg-surface-panel/70 text-on-surface-muted hover:border-outline-strong hover:text-on-surface transition-colors duration-150"
             >
-              <span className="material-symbols-outlined text-[16px]">lock</span>
+              <MdLockOutline className="text-[16px]" aria-hidden="true" />
             </Link>
           </div>
         </div>
@@ -101,9 +101,11 @@ export default function Navbar() {
             aria-expanded={isMenuOpen}
             className="inline-flex items-center justify-center w-11 h-11 rounded-[6px] border border-outline/80 bg-surface-panel/70 text-on-surface hover:border-outline-strong transition-colors duration-150"
           >
-            <span className="material-symbols-outlined text-[20px]">
-              {isMenuOpen ? "close" : "menu"}
-            </span>
+            {isMenuOpen ? (
+              <MdClose className="text-[20px]" aria-hidden="true" />
+            ) : (
+              <MdMenu className="text-[20px]" aria-hidden="true" />
+            )}
           </button>
         </div>
       </div>
@@ -143,7 +145,7 @@ export default function Navbar() {
                   onClick={() => setIsMenuOpen(false)}
                   className="w-full sm:w-auto py-3 px-4 rounded-[6px] border border-outline text-on-surface-muted text-sm font-medium text-center hover:border-outline-strong hover:text-on-surface transition-colors inline-flex items-center justify-center gap-2"
                 >
-                  <span className="material-symbols-outlined text-[16px]">lock</span>
+                  <MdLockOutline className="text-[16px]" aria-hidden="true" />
                   <span>Admin Login</span>
                 </Link>
               </div>

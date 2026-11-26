@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { MdBusiness } from "react-icons/md";
 
 const InternshipSection = ({ role, company, duration, responsibilities, logoSrc }) => {
   return (
@@ -18,7 +19,7 @@ const InternshipSection = ({ role, company, duration, responsibilities, logoSrc 
             </div>
           ) : (
             <div className="w-11 h-11 shrink-0 rounded-[6px] border border-outline bg-surface-subtle flex items-center justify-center text-primary">
-              <span className="material-symbols-outlined text-[20px]">business</span>
+              <MdBusiness className="text-[20px]" aria-hidden="true" />
             </div>
           )}
           <div className="min-w-0">
